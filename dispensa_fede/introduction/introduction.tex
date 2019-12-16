@@ -1,0 +1,136 @@
+\section{Lezione 1}
+
+\subsection{Introduzione}
+Gli ambiti più importanti nei quali vengono applicate tecniche di machine learning nella vita reale sono:
+\begin{itemize}
+	\item Finanza
+	\item Sanità
+	\item Agricoltura
+	\item e-commerce
+	\item Social
+	\item Chatbot
+	\item Sensoristica (come i veicoli a guida autonoma)
+\end{itemize}
+
+Vista la grande mole di dati la necessità è capire come trattare i dati.
+\textbf{L'obiettivo del Machine Learning è sviluppare metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo facendo.}
+
+Tipicamente si divide in tre macro categorie.
+\begin{itemize}
+	\item Apprendimento supervisionato o predittivo: qualcuno ha gia catalogato ad esempio delle immagini o dei dati e noi prendendo questi modelli dovremmo essere in grado di predire.
+	\item Apprendimento descrittivo: ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
+	\item Apprendimento rinforzato: E' quello più utile in questa epoca: funziona sui premi.
+\end{itemize}
+
+In questo corso ci concentreremo sui primi due tipi di apprendimento.
+
+\textit{L'apprendimento supervisionato} si divide a sua volta:
+\begin{itemize}
+	\item Classificazione: quando sono quantità discrete da dividere
+	\item Regressione: con una data lettura cerco di prevedere dei dati.
+\end{itemize}
+
+\textit{L'apprendimento non supervisionato} si divide a sua volta:
+\begin{itemize}
+	\item Clustering: Vuol dire mettere ordine nelle istanze che ci vengono presentate.
+	\item Associativa: Scopre pattern che descrivono bene caratteristiche associate ad un certo fenomeno.
+\end{itemize}
+
+Per alcuni compiti la correlazione va benissimo, in alcuni casi però addirittura ci danneggia. Se provassi a vedere la correlazione tra il numero di omicidi in america e il numero di fondi investiti sulla ricerca scientifica vedrei che statisticamente sono strettamente correlate. Questo è ovviamente un no-sense.
+
+\textbf{Paradosso di Simpson:} Se uso solo i dati senza modello no c'è alcun modo di scoprire la verità
+
+
+\subsection{Data Types}
+
+Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura dei dati che abbiamo a disposizione (\textbf{dataset}), c'è un fenomeno che si chiama \textbf{churn}, quando non siamo soddisfatti di un servizio ci affidiamo al competitor.
+
+Ci possono essere valori missing in un dataset e possono mancare per diversi motivi.
+
+Le colonne sono chiamate \textbf{Attributi.}
+
+Le righe sono chiamate \textbf{Istanze.}
+
+A volte ci sono anche attributi duplicati che possiamo tranquillamente buttare fuori.
+Ogni attributo è caratterizzato dal fatto di avere un tipo. Conoscerlo è fondamentale per trattare i dati.
+Gli attributi si dividono in due grandi gruppi:
+\begin{itemize}
+	\item Categorici:
+	\begin{itemize}
+		\item Nominali: ad esempio il colore degli occhi.
+		\item Ordinali: ad esempio possono essere i giudizi.
+	\end{itemize}
+	\item Numerici:
+	\begin{itemize}
+		\item Intervallo: ammettono operazioni di somma e sottrazione. 
+		\item Ratio: possiamo applicare tutte le operazioni logico/matematiche.
+	\end{itemize}
+\end{itemize}
+
+Dall'alto al basso il livello gerarchico sale e le proprietà aumentano.
+
+Si possono anche dividere in attributi \textit{discreti} che possono essere:
+\begin{itemize}
+	\item Categorici
+	\item Numerici
+	\item Binari: sono i più particolari da trattare, e hanno una serie di proprietà strane.
+\end{itemize}
+Oppure possono essere \textit{Continui.}
+
+\subsection{Data exploration}
+
+Dobbiamo però anche sapere come esplorare i dati. Per farlo facciamo cose molto elementari.
+Per farlo si usano tutti gli strumenti a nostra disposizione.
+
+Il concetto di \textbf{quantile} è trovare il numero di osservazione che ci indica quanti attributi sono più piccoli di un dato valore.
+Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama \textbf{Mediana} che è quello che ha esattamente minori di lui la metà dei dati.
+
+\[mean = \frac{1}{n}\sum_{i=1}^{n}x_i\]
+
+La media non è un buon modo di visualizzare i dati perché dice poco ma quanto meno dice qualcosa. Siccome la media è basata su singole osservazioni si possono vedere le presenze di outliar, ossia di elementi troppo discordanti dalla media e che si presenta poche volte. Sono quindi elementi che è necessario trattare per vedere la provenienza.
+
+Per prevenire questo si usa la \textbf{media trimmed} in cui si buttano via il valore più piccolo e il valore più grande. Se si trova un grosso scostamento probabilmente è presente un outlier.
+
+Si puù definire anche il range anche se di solito si usa la varianza:
+\[var = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})^{2}\]
+
+Di solito si usa la deviazione standard che ha lo stesso ordine di grandezza dei dati:
+
+\[ std = \sqrt{var} \]
+
+Si usa anche il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
+Se ho a che fare con coppie di attributi allora è naturale parlare di \textbf{covarianza} ossia la varianza calcolata su due attributi diversi:
+
+\[cov(X,Y) = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})(y_{i} - \bar{y})\]
+
+Di solito si fanno scalature perché sennò le covarianze vengono troppo sbagliate. Per ovviare uso la \textbf{correlazione di Pearson} che può prendere valori $[-1,1]$
+\[ corr(x,y) = \frac{cov(x,y)}{\sqrt{var(x)var(y)}}\]
+
+Possono organizzare i dati in istogrammi in cui posso usare una ampiezza fissa o variabile (bin). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi.
+
+Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi.
+
+\subsection{Missing replacement}
+
+E' un problema enorme di per sè. Le operazioni più elementari sono le seguenti. In alcuni valori degli attributi un valore non è registrato. Ci possono esser tante ragioni: ad esempio un attributo non è sempre stato osservabile (penso all'ambito clinico), o ad esempio un attributo prima non veniva considerato rilevante.
+
+Il primo nmetodo è il \textbf{Record removal} che è molto drastico come metodo perché comunque sia vengono eliminati dei valori che sarebbero potuti essere molto importanti.
+
+Il secondo metodo è quello di \textbf{imputazione manuale}: è fatta da umani e tramite osservazioni ci si chiede se sia possibile inserirlo, è tremendamente difficile dal punto di vista computazionale.
+
+Il terzo metodo è quello della \textbf{global constant}: ossia metto un numero là chiamato place holder con un valore costante, non troppo efficiente.
+
+Il quarto metodo è quello di \textbf{rimpiazzarlo con la moda}, anche questo però è fortemente criticabile.
+Se gli attributi sono continui si fa la stessa cosa ma con la media.
+
+Il quinto metodo è \textbf{Conditional mean replacement} ossia bisogna rimpiazzare con la media solo se è presente un altro determinato attributo.
+
+Il sesto metodo è quello del \textbf{most probable} ossia di prendere un modello e sostituire il valore.
+
+E' molto difficile dare il confine tra l'esplorazione dei dati e la modellizzazione dei dati.
+
+\subsection{Data Preprocessing}
+
+Tutti questi processi impattano fortemente tutta l'analisi che farò dopo.
+\section{Lezione 2}
+Da fare
