@@ -40,7 +40,7 @@ A confermare questa visione in cui il modello per una certa trattazione dati è 
 \textbf{Paradosso di Simpson:} Se uso solo i dati senza modello no c'è alcun modo di scoprire la verità.
 
 
-\subsection{Data Types}
+\subsection{Data types}
 
 Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura intrinseca dei dati che abbiamo a disposizione, di solito essi sono organizzati in strutture che chiamiamo \textbf{dataset}. Per le analisi con le tecniche di Machine Learning esse non sono altro che tabelle fatte da righe e da colonne.
 
@@ -175,9 +175,35 @@ Di seguito proponiamo un rapido elenco dei grafici più utili e descriviamone le
 
 \subsubsection{Visualization}
 
-Possono organizzare i dati in istogrammi in cui posso usare una ampiezza fissa o variabile (bin). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi.
+Possono organizzare i dati in istogrammi caratterizzati dalla presenza di bin: essi indicano la larghezza in cui i dati sono organizzati. A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi come mostrato in figura.
 
-Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.35 \linewidth]{introduction/pict/istogramma_quant.png}
+	\caption{Differenza tra due istogrammi fatti sulla stessa distribuzione di dati ma con numero di bin diversi.}
+\end{figure}
+
+
+Si possono allo stesso modo creare istogrammi per dati qualitativi. La differenza rispetto agli istogrammi sui dati quantitativi è quella per cui ogni bin corrisponde ad una categoria diversa.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{introduction/pict/istogramma_qual.png}
+	\caption{Istogramma di dati qualitativi.}
+\end{figure}
+
+In questo caso la linea blu disegnata sopra è una linea cumulativa, ossia rappresenta dove si trova il livello sommando tutti i dati che man mano incontro, per come è costruita ovviamente dovrà finire sul valore $100\%$
+
+
+Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi. Rispetto agli istogrammi questo è decisamente più utilizzato perché permette di estrarre decisamente più informazioni. In particolare proponiamo un grafico in cui sono esplicitate le informazioni ottenibili:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.4 \linewidth]{introduction/pict/box_plot.png}
+	\caption{Informazioni ottenibili da un box plot.}
+\end{figure}
+
 
 \subsection{Missing replacement}
 
