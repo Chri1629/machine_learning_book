@@ -4,7 +4,7 @@
 \renewcommand{\footrulewidth}{0.25pt}
 
 
-\section{Dati}
+\section{Introduzione}
 Gli ambiti più importanti nei quali vengono applicate tecniche di machine learning nella vita reale sono diversi, in particolare si usano in:
 finanza, sanità, agricoltura, e-commerce, social, chatbot, sensoristica (come i veicoli a guida autonoma).
 
@@ -64,116 +64,44 @@ In particolare gli attributi si dividono in due grandi gruppi:
 \end{itemize}
 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[height=0.5 \linewidth]{introduction/pict/attributi.png}
-	\caption{Distinzione degli attributi con le relative proprietà}
-\end{figure}
 Dall'alto al basso il livello gerarchico sale e le proprietà aumentano.
 
-C'è un'ulteriore divisione che può essere fatta ed è quella in:
 Si possono anche dividere in attributi \textit{discreti} che possono essere:
 \begin{itemize}
-	\item Discreti (in cui la serie dei valori è finita o una infinità numerabile), che a loro volta si suddividono in:
-	\begin{itemize}
-		\item Categorici
-		\item Numerici
-		\item Binari: sono i più particolari da trattare, e hanno una serie di proprietà strane.
-	\end{itemize}
-	\item Continui, i cui valori sono numeri reali.
+	\item Categorici
+	\item Numerici
+	\item Binari: sono i più particolari da trattare, e hanno una serie di proprietà strane.
 \end{itemize}
+Oppure possono essere \textit{Continui.}
 
 \subsection{Data exploration}
 
-Dobbiamo però anche sapere come esplorare i dati in modo intelligente usando tutti i nostri strumenti a nostra disposizione. Diamo ora un elenco degli strumenti statistici più utili che ci permetton di avere un'analisi completa dei dati.
+Dobbiamo però anche sapere come esplorare i dati. Per farlo facciamo cose molto elementari.
+Per farlo si usano tutti gli strumenti a nostra disposizione.
 
-\subsubsection{Definizioni}
-\begin{defn}
-	Si definisce \textbf{quantile} $\alpha$ il valore $q_{\alpha}$ che divide la popolazione in due parti proporzionali rispettivamente ad $\alpha$ e a $(1 - \alpha)$ e caratterizzate da valori rispettivamente minori e maggiori di $q_{\alpha}$
-\end{defn}
+Il concetto di \textbf{quantile} è trovare il numero di osservazione che ci indica quanti attributi sono più piccoli di un dato valore.
+Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama \textbf{Mediana} che è quello che ha esattamente minori di lui la metà dei dati.
 
-Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama \textbf{mediana} che è quello che ha esattamente minori di lui  metà dei dati.
+\[mean = \frac{1}{n}\sum_{i=1}^{n}x_i\]
 
-\begin{defn}
-	Si definisce \textbf{media} il seguente valore:
-	\[mean = \frac{1}{n}\sum_{i=1}^{n}x_i\]
-\end{defn}
+La media non è un buon modo di visualizzare i dati perché dice poco ma quanto meno dice qualcosa. Siccome la media è basata su singole osservazioni si possono vedere le presenze di outliar, ossia di elementi troppo discordanti dalla media e che si presenta poche volte. Sono quindi elementi che è necessario trattare per vedere la provenienza.
 
+Per prevenire questo si usa la \textbf{media trimmed} in cui si buttano via il valore più piccolo e il valore più grande. Se si trova un grosso scostamento probabilmente è presente un outlier.
 
-La media non è un buon modo di visualizzare i dati perché dice poco riguardo alla loro distribuzione. Siccome la media è basata su singole osservazioni è fortemente soggetta a variazioni quando si hanno valori fortemente discostati dalla distribuzione dei dati.
-Tali valori si chiamano \textit{outlier} e sono particolarmente interessanti da trattare.
+Si puù definire anche il range anche se di solito si usa la varianza:
+\[var = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})^{2}\]
 
-Per ovviare a questo problema si è soliti usare  la \textbf{media trimmed} in cui si buttano via il valore più piccolo e il valore più grande. 
-\begin{defn}
-	Si definisce \textbf{media trimmed} il seguente valore:
-	\[mean_{trimmed} = \frac{1}{n}\sum_{i=1}^{n}x_i  \qquad x_{i} = x - \max{x}- \min{x}\]
-\end{defn}
+Di solito si usa la deviazione standard che ha lo stesso ordine di grandezza dei dati:
 
-Se si trova un grosso scostamento tra la media e la media trimmed probabilmente si ha la presenza di almeno un outlier.
+\[ std = \sqrt{var} \]
 
-\begin{defn}
-	Si definisce \textbf{range} il seguente valore:
-	\[ range = \max{x}- \min{x}\]
-\end{defn}
+Si usa anche il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
+Se ho a che fare con coppie di attributi allora è naturale parlare di \textbf{covarianza} ossia la varianza calcolata su due attributi diversi:
 
-Esso serve a quantificare la dispersione dei dati, ovviamente questo valore può essere fuorviante qualora i valori siano concentrati in una stretta banda di valori. Per ovviare a questo problema si usa la varianza.
+\[cov(X,Y) = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})(y_{i} - \bar{y})\]
 
-\begin{defn}
-	Si definisce \textbf{varianza} il seguente valore:
-	\[ var =  \sigma^{2} =\frac{1}{n - 1 }\sum_{i = 1}^{n} (x_{i} - \bar{x})^{2}\]	
-\end{defn}
-
-E' preferibile però usare la deviazione standard in quanto per come è definita risulta essere della stessa unità di misura dei dati.
-\begin{defn}
-	Si definisce \textbf{deviazione standard} il seguente valore:
-	\[ std = \sigma =  \sqrt{\sigma^{2}} \]
-\end{defn}
-
-Essendo queste due grandezze definite a partire dalla media esse soffrono dello stesso problema: sono fortemente condizionate dagli outlier, con lo stesso metodo precedente si definiscono quindi altre due grandezze in grado di ovviare a questo problema.
-
-\begin{defn}
-	Si definisce \textbf{deviazione media assoluta} il seguente valore:
-	\[ AAD =  \frac{1}{n}\sum_{i=1}^{n}|x_i- mean|\]
-\end{defn}
-
-\begin{defn}
-	Si definisce \textbf{deviazione mediana assoluta} il seguente valore:
-	\[ MAD = mediana(x_{1}-mean, x_{2}-mean, ..., x_{n0}-mean )\]
-\end{defn}
-
-E' utile anche definire il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
-
-\begin{defn}
-	Si definisce \textbf{deviazione mediana assoluta} il seguente valore:
-	\[ IQR = q_{75\%} - q_{25\%}\]
-\end{defn}
-
-Ci sono anche diverse grandezze utili da definire nei casi in cui si ha a che fare con copppie di attributi, in tal caso:
-
-\begin{defn}
-	Si definisce \textbf{covarianza} il seguente valore:
-\[cov(X,Y) = \frac{1}{m -1}\sum_{i = 1}^{m} (x_{i} - \bar{x})(y_{i} - \bar{y})\]
-\end{defn}
-
-Per come è costruita questa matrice è necessariamente quadrata, e il suo valore $ij ^{th}$ rappresenta la covarianza tra il valore $i^{th}$ dell'attributo x e il valore $j^{th}$ dell'attributo y.
-
-Un'ulteriore misura dell'associazione tra le coppie di attributi quantitativi che non dipende dalla varianza di ciascun attributo è la seguente:
-
-\begin{defn}
-	Si definisce \textbf{correlazione di Pearson} il seguente valore:
-	\[ corr(x,y) = \frac{cov(x,y)}{\sqrt{var(x)var(y)}}\]
-\end{defn} 
-Per come è definita si ha ovviamente che: $cov(x,y) \in [-1,1]$.
-
-E' molto utile visualizzare i dati quando bisogna lavorarci, questo fondamentalmente per due motivi:
-\begin{itemize}
-	\item Ci permette di trovare pattern tra le variabili che valori puntuali non ci permetterebbero di trovare.
-	\item Ci permette di visualizzare i risultati di una lavorazione fatta sui dati.
-\end{itemize}
-
-Di seguito proponiamo un rapido elenco dei grafici più utili e descriviamone le varie caratteristiche.
-
-\subsubsection{Visualization}
+Di solito si fanno scalature perché sennò le covarianze vengono troppo sbagliate. Per ovviare uso la \textbf{correlazione di Pearson} che può prendere valori $[-1,1]$
+\[ corr(x,y) = \frac{cov(x,y)}{\sqrt{var(x)var(y)}}\]
 
 Possono organizzare i dati in istogrammi in cui posso usare una ampiezza fissa o variabile (bin). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi.
 

@@ -18,13 +18,25 @@
 \author{Federico Luzzi \\ Christian Uccheddu}
 \date{}
 
+\theoremstyle{plain}
+\newtheorem{thm}{Teorema}[section]
+\newtheorem{cor}[thm]{Corollario}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposizione}
+\theoremstyle{definition}
+\newtheorem{defn}{Definizione}[section]
+
+\theoremstyle{remark}
+\newtheorem{oss}{Osservazione}
 \begin{document}
 \maketitle
+
+\tableofcontents
 	
 \input{introduction/introduction.tex}
-\input{classification/classification.tex}
-\input{clustering/clustering.tex}
-\input{Association/association.tex}
+%\input{classification/classification.tex}
+%\input{clustering/clustering.tex}
+%\input{Association/association.tex}
 
 
 
