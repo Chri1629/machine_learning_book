@@ -224,18 +224,84 @@ Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di se
 	
 	\item \textbf{Global constant:} consiste nel sostituire tutti i missing values con un valore costante chiamato \textit{place holder.} Tale metodo non è molto efficiente perché un valore costante non può essere rappresentativo di una distribuzione.
 	
-	\item \textbf{Manual inputation:} consiste nel sostituire manualmente i missing values tramite delle osservazioni. Lo svantaggio è che è tremendamente svantaggioso dal punto di vista computazionale.
+	\item \textbf{Manual imputation:} consiste nel sostituire manualmente i missing values tramite delle osservazioni. Lo svantaggio è che è tremendamente svantaggioso dal punto di vista computazionale.
 	\item  \textbf{Moda replacement:} consiste nel rimpiazzare tutti i missing values con la moda di quel dato attributo, valgono le stesse considerazioni fatte per il metodo della global constant. Qualora gli attributi fossero continui si effettuerebbe la stessa cosa ma sostituendo la media.
 	\item \textbf{Conditional mean replacement:} consiste nel rimpiazzare tutti i missing values con la media a condizione del fatto che sia presente un'ulteriore condizione posta su un secondo attributo. E' un po' più efficace degli altri elementi ma presenta anch'esso delle criticità.
 	
-	\item \textbf{Most probable:} consiste nel prendere un modello e sostituire quel valore.
+	\item \textbf{Most probable:} consiste nell'eseguire una regressione sul nostro dataset utilizzando un altro attributo. In questo caso è possibile usare deei modelli di regressione anche molto complessi ed è possibile lavorare anche con dati qualitativi.
 \end{itemize}
 
 E' ora chiaro che il confine tra l'esplorazione dati e la modellizzazione degli stessi è molto sottile.
 
 \subsection{Data Preprocessing}
 
-Tutti questi processi impattano fortemente tutta l'analisi che farò dopo.
+Il preprocessing è un'area dell'analisi dati che consiste nel \textbf{rendere i dati più fruibile per una analisi dati.}
+
+\subsubsection{Aggregation}
+\textit{L'aggregazione consiste nel combinare due o più record in un unico oggetto.}
+Ci sono diversi vantaggi ottenibili nell'aggregare i dati, in particolare ne elenchiamo alcuni:
+
+\begin{itemize}
+	\item Dataset più piccoli: durante un'analisi dati abbiamo bisogno di usare il minor quantitativo di memoria e di tempo, l'aggregazione in particolare diminuisce il tempo di esecuzione di un algoritmo.
+	\item Cambiamento di scopo: ci permette di avere una visione più ampia dei dati qualora cambiassimo lo scopo della nostra nalisi in corso d'opera.
+	\item Varianza ridotta: gli attributi calcolati su record aggregati sono più stabili rispetto a quelli associati ai records nativi, questo per un effetto statistico.
+\end{itemize}
 
 
+\subsubsection{Sampling}
+In molti casi avere una quantità enorme di dati può essere deleterio dal punto di vista computazionale, questo perché bisognerebbe usare algoritmi più semplificati in modo che la computazione possa essere svolta su un maggior numero di dati. Ciò che dobbiamo preferire è invece usare un algoritmo migliore su un dataset ridotto. Per questo entra in gioco il concetto di \textbf{campionamento.}
 
+Il problema diventa quindi: \textit{quando un campione è rappresentativo?}
+
+\begin{defn}
+	Un campione si dice \textbf{rappresentativo} quando ha approssimativamente le stesse proprietà del dataset di partenza.
+
+\end{defn}
+
+Dobbiamo quindi trovare uno schema che ci permetta di scegliere \textit{con grande probabilità} dei campioni rappresentativi. In questo caso il problema si riduce a trovare le appropriate:
+\begin{itemize}
+	\item Dimensioni del campione.
+	\item Tecniche di campionamento.
+\end{itemize}
+Esistono moltissime tecniche di campionamento ma di seguito  mostreremo solo le più basilari:
+
+\begin{itemize}
+	\item \textbf{Simple Random Sampling:} Ogni record del dataset ha la stessa probabilità di essere incluso nel campione. Tale record può essere rimosso o meno dal dataset di partenza. Quando i campioni sono molto piccoli rispetto al dataset di partenza la rimozione o meno genera due campioni che sono molto simili.
+	
+	Questo metodo fallisce quando il datset consiste di attributi qualitativi in modo che i possibili valori che possono avere hanno frequenze fortemente diverse.
+	
+	\item \textbf{Stratified Sampling:} Vengono presi record in modo che all'interno del campione vengano rispettate le proporzioni tra gli attributi presenti nel dataset di partenza.
+\end{itemize}
+
+Una volta scelta la tecnica di campionamento dobbiamo occuparci di scegliere la grandezza del campione. Ovviamente tenere un campione di grande ampiezza aumenta la probabilità che un campione sia rappresentativo, di contro elimina la maggior parte dei vantaggi computazionali di avere un campionamento. Avere un campione troppo piccolo invece manda in contro al rischio di eliminare pattern potenzialmente importanti o addirittura di mantenere pattern erronei. La giusta dimensione del campionamento va scelta in base al nostro dataset di riferimento effettuando delle prove.
+
+\subsubsection{Dimensionality reduction}
+
+In diversi casici capiterà di analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
+
+\begin{itemize}
+	\item Molti algoritmi lavorano se la dimensionalità è minore.
+	\item L'interpretabilità del modello implementato aumenta perché dipende da un numero minore di attributi.
+	\item La rappresentazione grafica dei dati è facilitata.
+	\item L'ammontare di tempo e memoria diminuisce drasticamente.
+\end{itemize}
+
+Contrariamente a ciò che ci si aspetterebbe \textit{avere una dimensionalità maggiore dei dati non implica un aumento delle performance.}
+Mostriamo questo dato con il sgeuente grafico.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.35 \linewidth]{introduction/pict/performance.png}
+	\caption{Andamento delle performance di un algoritmo in funzione della dimensionalità del dataset.}
+\end{figure}
+
+Molte delle tecniche usate per ridurre le dimensionalità sfruttano tecniche prese dall'algebra lineare per proiettare i dati da uno spazio dimensionale maggiore ad uno spazio dimensionale minore.
+
+La \textbf{Principal Component Analysis (PCA)} trova nuovi attributi in modo che:
+\begin{itemize}
+	\item Siano \textit{combinazione lineari} degli attributi di partenza.
+	\item Siano \textit{mutualmente ortogonali.}
+	\item Catturino il \textit{massimo ammontare di variabilità} nei dati.
+\end{itemize}
+
+In particolare la \textbf{Singular Value Decomposition (SVD)} è una tecnica di algebra lineare correlata alla PCA ed è largamente usata per ridurre la dimensionalità dei dataset.
