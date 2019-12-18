@@ -305,3 +305,69 @@ La \textbf{Principal Component Analysis (PCA)} trova nuovi attributi in modo che
 \end{itemize}
 
 In particolare la \textbf{Singular Value Decomposition (SVD)} è una tecnica di algebra lineare correlata alla PCA ed è largamente usata per ridurre la dimensionalità dei dataset.
+
+\begin{defn}
+	Si chiama \textbf{binarizzazione} la tecnica di trasformazione di attributi continui e categorici in uno o più attributi binari
+\end{defn}
+Per farlo associamo $k$ possibili valori a $k$ valori interi nell'intervallo $[0, k-1]$. Successivamente trasformiamo questi k interi in un numero binario, come sappiamo il numero di cifre necessarie per rappresentare un numero intero son le sguenti:
+\[s = [\log_{2}k]\] 
+ In questo caso è necessario introdurre un attributo binario per ogni attributo categorico con cui il dato può manifestarsi. Ovviamente si è più interessati ai casi in cui si manifesta il valore 1 perché indica la presenza di tale attributo.
+ 
+ Quando invece abbiamo a che fare con attributi durante un'analisi di classificazione o di associazione ricorrdiamo alla tecninca di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
+
+ La discritezzazione può essere:
+ 
+ \begin{itemize}
+ 	\item \textbf{Supervisionata.}
+ 	\item \textbf{Non-supervisionata.}
+ \end{itemize}
+La \textit{discritezzizazione supervisionata} utilizza ulteriori informazioni (attributi di classe) per discretizzare gli attributi. Questa tecninca divide i punti in modo che qualche misura di \textit{purità} sia massimizzata. La misura di purità più spesso applicata è l'\textbf{entropia.}
+ 	
+ 	\[e_{i} = - \sum_{k = 1}^{K}p_{ki}\log_{2}p_{ki}\]
+ 	
+Per come è costruita si ha che:
+\begin{itemize}
+	\item Se contiene solo record di una data classe $\implies e_{i} = 0$, massima purità. 
+	\item Se contiene egualmente spesso tutte le class $\implies e_{i} = \max$, minima purità. 
+\end{itemize}
+
+La discretizzazione supervisionata basata sull'entropia permette di trovare i punti di divisione degli attributi \textit{continui} tali che l'entropia totale sia minimizzata.
+
+\begin{defn}
+	Si definisce entropia totale la seguente espressione:
+	\[ E = \sum_{i = 1}^{n}w_{i}e_{i}\] 
+	In cui:
+	\[w_{i} = \frac{m_{i}}{m}\]
+	E le variabili sono così definite: \begin{itemize}
+		\item $n$: numero di intervalli.
+		\item $m$: numero di record.
+		\item $m_{i}$: numero di record nell'intervallo i-esimo.
+	\end{itemize}
+\end{defn}
+
+
+ 	
+La \textit{discretizzazione non-supervisionata} non utilizza alcuna informazione eccetto il valore dell'attributo continuo da discretizzare. Possono essere a loro volta divisi in due categorie:
+ 	\begin{itemize}
+ 		\item \textbf{equal width unsupervised discretization:}  gli intervalli in cui viene discretizzati hanno tutti la stessa ampiezza
+ 		\item  \textbf{equal frequency unsupervised discretization:} gli intervalli in cui viene discretizzato hanno approssimativamente la stessa frequenza.
+ 	\end{itemize}
+ 
+ 
+ Può succedere però che gli attributi categorici abbiano troppi valori. Se gli attributi  in questione sono ordinali allora si applicano le tecniche viste in precedenza, se invece sono nominali allora bisogna trovare un altro approccio. In questo caso possiamo infatti raggruppare i valori solo se il raggruppamento si traduce in un miglioramento nelle performance di classificazione o nel raggiungimento di qualche obiettivo del trattamento dati. 
+\subsubsection{Variable transformation}
+
+\begin{defn}
+Una trasformazione di variabile sè una trasformazione che è applicata a tutti i valori di quella variabile.
+\end{defn}
+
+Ci sono due tipi di trasformazione di variabile:
+\begin{itemize}
+	\item \textbf{Funzioni semplici}: una semplice funzione matematica è applicata a tutti i valori di una variabile individualmente. Bisogna stare attenti all'ordine in cui la applichiamo e soprattutto a come si comporta la funzione per valori negativi e vicini allo 0.
+	\item \textbf{Standardizzazione:} trasforma tutto il dataset in modo che acquisiscano una particolare proprietà.
+	\[Z = \frac{x - \mu}{\sigma}\]
+	E' molto importante perché il nuovo dataset avrà $\mu = 0$ e $\sigma = 1$ per come l'ho costruito. In questo modo la somma di diversi attributi continui permette ad uno o a pochi attributi di prendere grandi valori e di dominare il nuovo attributo somma. E' molto utile quindi perché fa saltare immediatamente all'occhio la presenza di outlier.
+	
+	In questo caso la media è sostituita dalla mediana, e la deviazione standard è sostituita dalla AAD che ricordiamo essere definita come:
+	\[\sigma_{x} = \frac{1}{m} \sum_{i = 1}^{m}|x_{i}- \mu|\]
+\end{itemize}
