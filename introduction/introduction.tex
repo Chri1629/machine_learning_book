@@ -207,22 +207,31 @@ Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafic
 
 \subsection{Missing replacement}
 
-E' un problema enorme di per sè. Le operazioni più elementari sono le seguenti. In alcuni valori degli attributi un valore non è registrato. Ci possono esser tante ragioni: ad esempio un attributo non è sempre stato osservabile (penso all'ambito clinico), o ad esempio un attributo prima non veniva considerato rilevante.
+E' il problema che si occupa di studiare come sostituire i valori mancanti di certi attributi  in un dataset. Essendo un problema di così larga portata possiamo capire bene che una trattazione esaustiva riempirebbe le ore di un intero corso, tuttavia ne forniamo le basi per essere in grado di poter effettuare una analisi dati efficace. 
 
-Il primo nmetodo è il \textbf{Record removal} che è molto drastico come metodo perché comunque sia vengono eliminati dei valori che sarebbero potuti essere molto importanti.
+Le motivazioni principali del perché un database presenta delle mancanze sono le seguenti:
+\begin{itemize}
+	\item Tale valore non è stato possibile misurarlo.
+	\item Non si conosce con esattezza tale valore.
+	\item Si è verificato qualche errore durante la presa dati.
+	\item Quel determinato attributo fino ad un certo punto dell'analisi non è mai stato considerati importante e quindi non è mai stato registrato.
+\end{itemize}
 
-Il secondo metodo è quello di \textbf{imputazione manuale}: è fatta da umani e tramite osservazioni ci si chiede se sia possibile inserirlo, è tremendamente difficile dal punto di vista computazionale.
+Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di seguito diamo una rapida trattazione dei più usati:
 
-Il terzo metodo è quello della \textbf{global constant}: ossia metto un numero là chiamato place holder con un valore costante, non troppo efficiente.
+\begin{itemize}
+	\item \textbf{Record removal:} è il metodo più drastico e consistere nell'eliminare tutta l'istanza che contiene quel valore. Non viene usato frequentemente perché si rischia di perdere valori che possono essere fondamentali per l'analisi dati.
+	
+	\item \textbf{Global constant:} consiste nel sostituire tutti i missing values con un valore costante chiamato \textit{place holder.} Tale metodo non è molto efficiente perché un valore costante non può essere rappresentativo di una distribuzione.
+	
+	\item \textbf{Manual inputation:} consiste nel sostituire manualmente i missing values tramite delle osservazioni. Lo svantaggio è che è tremendamente svantaggioso dal punto di vista computazionale.
+	\item  \textbf{Moda replacement:} consiste nel rimpiazzare tutti i missing values con la moda di quel dato attributo, valgono le stesse considerazioni fatte per il metodo della global constant. Qualora gli attributi fossero continui si effettuerebbe la stessa cosa ma sostituendo la media.
+	\item \textbf{Conditional mean replacement:} consiste nel rimpiazzare tutti i missing values con la media a condizione del fatto che sia presente un'ulteriore condizione posta su un secondo attributo. E' un po' più efficace degli altri elementi ma presenta anch'esso delle criticità.
+	
+	\item \textbf{Most probable:} consiste nel prendere un modello e sostituire quel valore.
+\end{itemize}
 
-Il quarto metodo è quello di \textbf{rimpiazzarlo con la moda}, anche questo però è fortemente criticabile.
-Se gli attributi sono continui si fa la stessa cosa ma con la media.
-
-Il quinto metodo è \textbf{Conditional mean replacement} ossia bisogna rimpiazzare con la media solo se è presente un altro determinato attributo.
-
-Il sesto metodo è quello del \textbf{most probable} ossia di prendere un modello e sostituire il valore.
-
-E' molto difficile dare il confine tra l'esplorazione dei dati e la modellizzazione dei dati.
+E' ora chiaro che il confine tra l'esplorazione dati e la modellizzazione degli stessi è molto sottile.
 
 \subsection{Data Preprocessing}
 
