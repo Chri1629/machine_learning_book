@@ -1,144 +1,133 @@
-\restylefloat{table,figure}
-\pagestyle{fancy}
-\cfoot{\thepage}
-\renewcommand{\footrulewidth}{0.25pt}
 
 
-\section{Introduzione}
-Gli ambiti più importanti nei quali vengono applicate tecniche di machine learning nella vita reale sono:
+\section{Association Analysis}
+L'analisi di associazione ci riporta al concetto di causalit\`a di variabili: dati certi valori di attributi cosa posso dire del valore di un altro attributo?
+
+Le regole associative ci permettono di prendere delle scelte molto operative in diversi ambiti, in particolare quello che viene chiamato \textit{market busket analysis}. 
+Il problema del carrello tratt il posizionamento di prodotti in un negozio. Si sa che all'acquisto di un certo prodotto si tende a acquistare altri prodotti connessi, quindi si cercano queste associazioni basandosi sul carrello della spesa dei clienti (appunto market basket).
+
+Obiettivo: identificare quali siano gli \textbf{item associati} per poter prendere delle decisioni. In sostanza si generano \textbf{Regole associative} formate da coppie di insiemi \textit{antecedente} e \textit{conseguente}.
+
+es. \{Beer\} $\rightarrow$ \{swiss cheese\} 
+
+\quad \{antecedente\} $\rightarrow$ \{conseguente\}\\
+\textbf{NB}: non \`e una causalit\`a ma un'associazione
+
+SONO ARRIVATO QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+
+L'analisi si basa sullo studio di due diversi dataset:
 \begin{itemize}
-	\item Finanza
-	\item Sanità
-	\item Agricoltura
-	\item e-commerce
-	\item Social
-	\item Chatbot
-	\item Sensoristica (come i veicoli a guida autonoma)
+	\item Product set: contiene informazioni legate ai prodotti come il nome e il prezzo
+	\item Transaction set: contiene informazioni legate agli acquisti dei clienti
 \end{itemize}
 
-Vista la grande mole di dati la necessità è capire come trattare i dati.
+Noi organizziamo il nostro dataset delle transazioni in modo da indicare se l'item considerato in un certo basket sia presente o meno, da l\`i possiamo fare le nostre valutazioni.
 
-\textbf{L'obiettivo del Machine Learning è sviluppare metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo facendo.}
+Consideriamo $I = \{i_1, i_2,...,i_d\}$ il set di tutti gli item nel market basket, e $T = \{t_1,t_2,...,t_N\}$ sia l'insieme di tutte le transazioni.
 
-Tipicamente le tecninche di machine learning si dividono nelle seguenti tre macro categorie:
+Una collezione di zero o pi\`u item \`e chiamata \textbf{Itemset}. Se un itemset contiene k item \`e detto \textbf{K-Itemset}. 
+
+La \textbf{transaction width} \`e il numero di item presenti in una transazione. Una transazione $t_j$ conteien l itemset $X$, se $X$ \`e un sottoinsiemen di $t_j$.
+
+Per comprendere la frequenza degli item in una transazione si considera il \textbf{Support count}. Un itemset viene valutato anche dal numero di transazioni che lo contengono, conteggiato nel $Support Count$:
+
+\[ \sigma(X) = |\{t_i | X  t_i, t_i \in T\} \] SBAGLIATA
+
+Una \textbf{regola di associazione} viene rappresentata come:
+
+$X \rightarrow Y$
+
+dove X e Y sono itemset disgiunti ($X \cap Y = \emptyset$), una regola viene valutata in termini di supporto e confidenza.
+
+\textbf{Support} determina quanto spesso una regola sia applicabile dato un data set:
+
+\[s\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{N}\]
+
+\textbf{Confidence} determina quanto frequente Y \`e presente in una transazione che contiene X (si assume che l'universo sia rappresentato partendo da X):
+
+\[c\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{\sigma(X)}\]
+
+Perch\`e utiliziamo il supporto:
 \begin{itemize}
-	\item Apprendimento supervisionato o predittivo: qualcuno ha gia catalogato ad esempio delle immagini o dei dati e noi prendendo questi modelli dovremmo essere in grado di predire.
-	\item Apprendimento descrittivo: ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
-	\item Apprendimento rinforzato: E' quello più utile in questa epoca: funziona sui premi.
+	\item potrebbe esserci un'associazione casuale se troppo basso
+	\item potrebbe non valere la pena seguire associazioni che si applicano in modo poco significativo dal punto di vista dei profitti 
+\end{itemize}
+Supporto utilizzato per eliminare regole non desiderate e condivide interessanti propriet\`a che possono essere sfruttate per la ricerca di regole associative efficaci.
+
+La confidenza \`e molto importante perch\`e un alta confidenza significa che Y sar\`a molto presente in transazioni con C e si stima la probabilit\`a  condizionata di Y dato X.
+
+\textbf{Association Rule Mining Problem}:
+
+dato un set di transazioni T, trovare le regole con support $\ge$ minsup e confidence $\ge$ minconf.
+
+Approccio a forza bruta di association rule non \`e molto praticabile in quanto i tempi di computazione aumentano in modo esponenziale: $R = 3^d - 2^{d+1} + 1$.
+
+Una strategia comunemente adottata in molti algoritmi \`e decomporre il problema in 2 grandi supertask:
+VEDI CHRISTIAN
+
+
+\subsection{Generazione di frequent itemset e generazione regole}
+
+Un itemset \`e frequente se supera la soglia fissata di minima frequenza per essere considerato tale. 
+\textbf{Candidate Itemset}: ovvero l'insieme di tutti gli itemset che possiamo formare. Avranno un numero di item diverso. 
+
+Se procediamo con un approccio forza bruta per trovare gli \textbf{itemset frequenti} bisogna determinare il support count per ogni itemset candidato. \\
+I confronti da effettuare sono nell'ordine di O(NMw), dove N = numero di transazioni, M = numero di itemset candidati e w = massima lunghezza delle transazioni. 
+
+\`E troppo come numeri confronti contando che molti dei quali sono inutili o poco significativi.
+
+Vi sono due approcci per ridurre il costo computazionale della generazione di itemset frequenti:
+\begin{itemize}
+	\item ridurre il numero di candidati itemset. Il principio Apriori \`e un metodo per eliminare alcuni candidati itemset senza contare il support count. Principio: se un itemset \`e frequente, allora tutti i suoi sottoinsiemi sono frequenti
+	\item riduce il numero di confronti anzich\`e controllare tutte le possibili combinazioni, lo si fa con strutture dati avanzate
 \end{itemize}
 
-In questo corso ci concentreremo sui primi due tipi di apprendimento.
+Il principio apriori si basa sul fatto che se una regola ha una frequenza bassa allora tutte le regole che prevedono come sottoinsieme la stessa non supereranno quella frequenza pertanto \`e inutile considerarle. Posso quindi fare \textbf{pruning} dell'albero per queste soluzioni, viene chiamato \textbf{support-based pruning}.
 
-L' \textit{apprendimento supervisionato} si divide a sua volta nelle seguenti due categorie:
+\subsection{Algoritmo apriori}
+Genera due operazioni:
 \begin{itemize}
-	\item Classificazione: quando il problema consiste nel dividere in classi delle quantità discrete.
-	\item Regressione: quando il problema consiste nel ricostruire una certa variabile date delle condizioni pregresse.
+	\item Candidate Generation: genera nuvi candidati k-itemset basati su (k-1)-itemset frequenti calcolati nella precedente iterazione
+	\item Candidate Pruning: questa operazione elimina alcuni candidati k-itemset usando la strategia del support-based pruning
 \end{itemize}
 
-L' \textit{apprendimento non supervisionato} si divide a sua volta in:
+La complessit\`a computazionale soffre di 4 limiti:
 \begin{itemize}
-	\item Clustering: Quando il problema consistere nel ricostruire delle classi delle istanze che ci vengono consegnate, senza sapere nulla sulla storia pregressa.
-	\item Associativa: Quando il problema consiste nel scoprire pattern che descrivono bene caratteristiche associate ad un certo fenomeno.
+	\item Support threshold: la soglia di supporto se troppo bassa non taglio molto l'albero, per\`o non deve essere neanche troppo elevata. 
+	\item Numero di item (dimensionalit\`a): se il numero di item cresce, pi\`u spazio ci sar\`a bisogno in memoria per registrare il support count degli item.
+	\item numero di transazioni: e molto grande bisogna scorrere ogni volta tutta la lista
+	\item avarage transaction width: quanto \`e mediamente densa la lista di item. La massima taglia di itemset frequenti tende ad aumentare la width delle transazioni media,
 \end{itemize}
 
-Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però essa è addirittura deleteria.  Se infatti provassi a vedere la correlazione tra il numero di omicidi in america e il numero di fondi investiti sulla ricerca scientifica vedrei che statisticamente sono strettamente correlate. Questo è un no-sense ed è il classico esempio di \textit{correlazione spuria.}
+\subsection{Rule Generation}
+Ogni k-itemset frequente, Y pu\`o generare al limite $2^k-2$ regole di associazione. 
 
-A confermare questa visione in cui il modello per una certa trattazione dati è fondamentale è il cosidetto paradosso di Simpson.
+Una regola di associazione pu\`o essere estratta partizionando itemset Y in 2 sottoinsiemi non vuoti: $X \rightarrow Y -X$ che soddisfa il threshold di confidenza.
 
-\textbf{Paradosso di Simpson:} Se uso solo i dati senza modello no c'è alcun modo di scoprire la verità.
+Tutte le regole generate da itemset frequenti sono esse stesse frequenti.
 
-
-\subsection{Data Types}
-
-Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura dei dati che abbiamo a disposizione (\textbf{dataset}), c'è un fenomeno che si chiama \textbf{churn}, quando non siamo soddisfatti di un servizio ci affidiamo al competitor.
-
-Ci possono essere valori missing in un dataset e possono mancare per diversi motivi.
-
-Le colonne sono chiamate \textbf{Attributi.}
-
-Le righe sono chiamate \textbf{Istanze.}
-
-A volte ci sono anche attributi duplicati che possiamo tranquillamente buttare fuori.
-Ogni attributo è caratterizzato dal fatto di avere un tipo. Conoscerlo è fondamentale per trattare i dati.
-Gli attributi si dividono in due grandi gruppi:
+In pratica, il numero di itemset frequenti prodotti da transazioni possono essre molto grandi. Per questo si ragiona in due rappresentazioni:
 \begin{itemize}
-	\item Categorici:
-	\begin{itemize}
-		\item Nominali: ad esempio il colore degli occhi.
-		\item Ordinali: ad esempio possono essere i giudizi.
-	\end{itemize}
-	\item Numerici:
-	\begin{itemize}
-		\item Intervallo: ammettono operazioni di somma e sottrazione. 
-		\item Ratio: possiamo applicare tutte le operazioni logico/matematiche.
-	\end{itemize}
+	\item Maximal Frequent Itemset
+	\item closed Frequent Itemset
 \end{itemize}
 
-Dall'alto al basso il livello gerarchico sale e le proprietà aumentano.
+\textbf{Maximal Frequent Itemset}: verifica il vincolo della frequenza e definisce la frontiera dove lui non gode pi\`u di questa propriet\`a, massima frontiera in cui mi posso spingere. Lo \`e se lui \`e frequente e se tutte le sue estensioni non sono frequenti.\\
+Fornisce una rappresentazione compatta dell'insieme di itemset che cerchiamo, la pi\`u piccola espressione in cui gli itemset sono derivabili. Il maximal frequent itemset \`e applicabile solo se si utilizzano algoritmi efficienti che cerca tutti e solo gli itemset massimali.
 
-Si possono anche dividere in attributi \textit{discreti} che possono essere:
-\begin{itemize}
-	\item Categorici
-	\item Numerici
-	\item Binari: sono i più particolari da trattare, e hanno una serie di proprietà strane.
-\end{itemize}
-Oppure possono essere \textit{Continui.}
+Per costruzione per\`o non ci dice quanto \`e la sua confidenza rispetto ai suoi sottoinsiemi. 
 
-\subsection{Data exploration}
+\textbf{Closed Frequent Itemset}: un itemset X \`e chiuso se nessun immediato sottinisme ha esattamente lo stesso support count di X. In ogni caso il suo spporto deve essere maggiore o uguale a minsup.
 
-Dobbiamo però anche sapere come esplorare i dati. Per farlo facciamo cose molto elementari.
-Per farlo si usano tutti gli strumenti a nostra disposizione.
+Importante qunado vi sono gruppi di prodotti venduti a blocco ignorando gli altri.
 
-Il concetto di \textbf{quantile} è trovare il numero di osservazione che ci indica quanti attributi sono più piccoli di un dato valore.
-Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama \textbf{Mediana} che è quello che ha esattamente minori di lui la metà dei dati.
+Questo tipo di itemset sono utili per rimuovere regole di associazione ridondanti. 
 
-\[mean = \frac{1}{n}\sum_{i=1}^{n}x_i\]
+Una regola di associazione $X \rightarrow Y$ \`e ridondante se esiste $X' \rightarrow Y'$ che rispetta certe propriet\`a. (vedi Christian)
 
-La media non è un buon modo di visualizzare i dati perché dice poco ma quanto meno dice qualcosa. Siccome la media è basata su singole osservazioni si possono vedere le presenze di outliar, ossia di elementi troppo discordanti dalla media e che si presenta poche volte. Sono quindi elementi che è necessario trattare per vedere la provenienza.
-
-Per prevenire questo si usa la \textbf{media trimmed} in cui si buttano via il valore più piccolo e il valore più grande. Se si trova un grosso scostamento probabilmente è presente un outlier.
-
-Si puù definire anche il range anche se di solito si usa la varianza:
-\[var = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})^{2}\]
-
-Di solito si usa la deviazione standard che ha lo stesso ordine di grandezza dei dati:
-
-\[ std = \sqrt{var} \]
-
-Si usa anche il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
-Se ho a che fare con coppie di attributi allora è naturale parlare di \textbf{covarianza} ossia la varianza calcolata su due attributi diversi:
-
-\[cov(X,Y) = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})(y_{i} - \bar{y})\]
-
-Di solito si fanno scalature perché sennò le covarianze vengono troppo sbagliate. Per ovviare uso la \textbf{correlazione di Pearson} che può prendere valori $[-1,1]$
-\[ corr(x,y) = \frac{cov(x,y)}{\sqrt{var(x)var(y)}}\]
-
-Possono organizzare i dati in istogrammi in cui posso usare una ampiezza fissa o variabile (bin). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi.
-
-Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi.
-
-\subsection{Missing replacement}
-
-E' un problema enorme di per sè. Le operazioni più elementari sono le seguenti. In alcuni valori degli attributi un valore non è registrato. Ci possono esser tante ragioni: ad esempio un attributo non è sempre stato osservabile (penso all'ambito clinico), o ad esempio un attributo prima non veniva considerato rilevante.
-
-Il primo nmetodo è il \textbf{Record removal} che è molto drastico come metodo perché comunque sia vengono eliminati dei valori che sarebbero potuti essere molto importanti.
-
-Il secondo metodo è quello di \textbf{imputazione manuale}: è fatta da umani e tramite osservazioni ci si chiede se sia possibile inserirlo, è tremendamente difficile dal punto di vista computazionale.
-
-Il terzo metodo è quello della \textbf{global constant}: ossia metto un numero là chiamato place holder con un valore costante, non troppo efficiente.
-
-Il quarto metodo è quello di \textbf{rimpiazzarlo con la moda}, anche questo però è fortemente criticabile.
-Se gli attributi sono continui si fa la stessa cosa ma con la media.
-
-Il quinto metodo è \textbf{Conditional mean replacement} ossia bisogna rimpiazzare con la media solo se è presente un altro determinato attributo.
-
-Il sesto metodo è quello del \textbf{most probable} ossia di prendere un modello e sostituire il valore.
-
-E' molto difficile dare il confine tra l'esplorazione dei dati e la modellizzazione dei dati.
-
-\subsection{Data Preprocessing}
-
-Tutti questi processi impattano fortemente tutta l'analisi che farò dopo.
-
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.45 \linewidth]{association/pict/itemset_freq.png}
+	\caption{gerarchia dei frequent itemset}
+\end{figure}
 
