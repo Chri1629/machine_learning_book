@@ -1,34 +1,56 @@
 
 
 \section{Association Analysis}
+\subsection{Introduction(*)}
+
 L'analisi di associazione ci riporta al concetto di causalit\`a di variabili: dati certi valori di attributi cosa posso dire del valore di un altro attributo?
 
-Le regole associative ci permettono di prendere delle scelte molto operative in diversi ambiti, in particolare quello che viene chiamato \textit{market busket analysis}. 
-Il problema del carrello tratt il posizionamento di prodotti in un negozio. Si sa che all'acquisto di un certo prodotto si tende a acquistare altri prodotti connessi, quindi si cercano queste associazioni basandosi sul carrello della spesa dei clienti (appunto market basket).
+Le regole associative ci permettono di prendere delle scelte molto operative in diversi ambiti, in particolare in quello che viene chiamato \textit{market busket analysis}. 
+Il problema del carrello tratta il posizionamento di prodotti in un negozio. Si sa che all'acquisto di un certo prodotto si tende a acquistare altri prodotti connessi, quindi si cercano queste associazioni basandosi sul carrello della spesa dei clienti (appunto market basket) per poi capire come impostare la disposizione sugli scaffali.
 
-Obiettivo: identificare quali siano gli \textbf{item associati} per poter prendere delle decisioni. In sostanza si generano \textbf{Regole associative} formate da coppie di insiemi \textit{antecedente} e \textit{conseguente}.
+\textbf{Obiettivo}: identificare quali siano gli \textbf{item associati} per poter prendere delle decisioni. In sostanza si generano \textbf{Regole associative} formate da coppie di insiemi \textit{antecedente} e \textit{conseguente}.
 
 es. \{Beer\} $\rightarrow$ \{swiss cheese\} 
 
 \quad \{antecedente\} $\rightarrow$ \{conseguente\}\\
 \textbf{NB}: non \`e una causalit\`a ma un'associazione
 
-SONO ARRIVATO QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-
 L'analisi si basa sullo studio di due diversi dataset:
 \begin{itemize}
 	\item Product set: contiene informazioni legate ai prodotti come il nome e il prezzo
-	\item Transaction set: contiene informazioni legate agli acquisti dei clienti
+	\item Transaction set: contiene informazioni legate agli acquisti dei clienti, ogni record corrisponde ai prodotti presenti nel carrello del cliente
 \end{itemize}
 
-Noi organizziamo il nostro dataset delle transazioni in modo da indicare se l'item considerato in un certo basket sia presente o meno, da l\`i possiamo fare le nostre valutazioni.
+Si organizza il dataset delle transazioni in formato binario, ovvero ogni colonna indica se in una data transazione un certo prodotto sia o meno presente.
 
-Consideriamo $I = \{i_1, i_2,...,i_d\}$ il set di tutti gli item nel market basket, e $T = \{t_1,t_2,...,t_N\}$ sia l'insieme di tutte le transazioni.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.25 \linewidth]{association/pict/transaction_set_bin.png}
+	\caption{esempio: transaction set binarizzato}
+\end{figure}
+\clearpage
+\noindent
+Consideriamo:
 
-Una collezione di zero o pi\`u item \`e chiamata \textbf{Itemset}. Se un itemset contiene k item \`e detto \textbf{K-Itemset}. 
+$I = \{i_1, i_2,...,i_d\}$ il set di tutti gli item nel market basket
 
-La \textbf{transaction width} \`e il numero di item presenti in una transazione. Una transazione $t_j$ conteien l itemset $X$, se $X$ \`e un sottoinsiemen di $t_j$.
+$T = \{t_1,t_2,...,t_N\}$ l'insieme di tutte le transazioni
 
+\begin{defn}
+	Una collezione di zero o più item è chiamata \textbf{Itemset}.
+\end{defn} 
+\begin{defn}
+	Se un itemset contiene k item \`e detto \textbf{K-Itemset}.
+\end{defn}
+\begin{defn}
+	L'itemset che non contiene alcun elemento è detto \textbf{empty set}.
+\end{defn}
+\begin{defn}
+	La \textbf{transaction width} è il numero di item presenti in una transazione
+\end{defn}
+	 
+Una transazione $t_j$ contiene l'itemset $X$, se $X$ è un sottoinsieme di $t_j$.
+RIPRENDERE QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 Per comprendere la frequenza degli item in una transazione si considera il \textbf{Support count}. Un itemset viene valutato anche dal numero di transazioni che lo contengono, conteggiato nel $Support Count$:
 
 \[ \sigma(X) = |\{t_i | X  t_i, t_i \in T\} \] SBAGLIATA
