@@ -50,106 +50,206 @@ $T = \{t_1,t_2,...,t_N\}$ l'insieme di tutte le transazioni
 \end{defn}
 	 
 Una transazione $t_j$ contiene l'itemset $X$, se $X$ è un sottoinsieme di $t_j$.
-RIPRENDERE QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Per comprendere la frequenza degli item in una transazione si considera il \textbf{Support count}. Un itemset viene valutato anche dal numero di transazioni che lo contengono, conteggiato nel $Support Count$:
 
-\[ \sigma(X) = |\{t_i | X  t_i, t_i \in T\} \] SBAGLIATA
+\begin{defn}
+	Il \textbf{Support count} è il numero di transazioni che contentono uno specifico itemset.
 
+\[ \sigma(X) = |\{t_i | X \subseteq t_i, t_i \in T\} \]
+\end{defn}
+
+\begin{defn}
 Una \textbf{regola di associazione} viene rappresentata come:
 
 $X \rightarrow Y$
 
-dove X e Y sono itemset disgiunti ($X \cap Y = \emptyset$), una regola viene valutata in termini di supporto e confidenza.
+dove $X$ e $Y$ sono itemset disgiunti ($X \cap Y = \emptyset$).
+\end{defn}
+Una regola viene valutata in termini di \textit{supporto} e di \textit{confidenza}.
 
-\textbf{Support} determina quanto spesso una regola sia applicabile dato un data set:
+\begin{defn}
+	\textbf{Support} determina quanto spesso una regola sia applicabile dato un data set:
+	
+	\[s\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{N}\]
+\end{defn}
+\begin{defn}
+	\textbf{Confidence} determina quanto frequente Y \`e presente in una transazione che contiene X (si assume che l'universo sia rappresentato partendo da X):
+	
+	\[c\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{\sigma(X)}\]
+\end{defn}
 
-\[s\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{N}\]
+\textbf{Es}. \\
+$X = \{swiss cheese, cheddar\}$, $Y = \{diet coke\}$\\
+Assumiamo che:
+\begin{itemize}
+	\item $\sigma(x) = 8$ (support count)
+	\item $N = 20$ (numero di transazioni)
+	\item $\sigma(x,y) = 6$ 
+\end{itemize}
+Allora il support e la confidence della regola $X \rightarrow Y$ sono:
 
-\textbf{Confidence} determina quanto frequente Y \`e presente in una transazione che contiene X (si assume che l'universo sia rappresentato partendo da X):
+\[s\{X \rightarrow Y\} = \frac{\sigma(X \cup Y)}{N} = \frac{6}{20} = 0.3\]
 
-\[c\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{\sigma(X)}\]
+\[c\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{\sigma(X)} = \frac{6}{8} = 0.75\]
 
 Perch\`e utiliziamo il supporto:
 \begin{itemize}
-	\item potrebbe esserci un'associazione casuale se troppo basso
+	\item se troppo basso potrebbe esserci un'associazione casuale
 	\item potrebbe non valere la pena seguire associazioni che si applicano in modo poco significativo dal punto di vista dei profitti 
 \end{itemize}
 Supporto utilizzato per eliminare regole non desiderate e condivide interessanti propriet\`a che possono essere sfruttate per la ricerca di regole associative efficaci.
 
-La confidenza \`e molto importante perch\`e un alta confidenza significa che Y sar\`a molto presente in transazioni con C e si stima la probabilit\`a  condizionata di Y dato X.
+La confidenza \`e molto importante perch\`e misura l'affidabilità dell'inferenza e:
+\begin{itemize}
+	\item un alta confidenza significa che Y sar\`a molto presente in transazioni con X 
+	\item si stima la probabilit\`a condizionata di Y dato X
+\end{itemize}
+\begin{defn}
+\textbf{Association Rule Mining Problem} può essere formalmente definito come: dato un set di transazioni T, trovare tutte le regole con $support \ge minsup$ e $confidence \ge minconf$, dove $minsup$ e $minconf$ sono i threshold corrispondenti alle due misure.
+\end{defn}
 
-\textbf{Association Rule Mining Problem}:
+\textit{Approccio a forza bruta} di association rule non \`e molto praticabile in quanto i tempi di computazione aumentano in modo esponenziale: 
 
-dato un set di transazioni T, trovare le regole con support $\ge$ minsup e confidence $\ge$ minconf.
+$R = 3^d - 2^{d+1} + 1$.
 
-Approccio a forza bruta di association rule non \`e molto praticabile in quanto i tempi di computazione aumentano in modo esponenziale: $R = 3^d - 2^{d+1} + 1$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.4 \linewidth]{association/pict/brute_force.png}
+	\caption{numero di regole calcolate in base al numero di itemset}
+\end{figure}
 
 Una strategia comunemente adottata in molti algoritmi \`e decomporre il problema in 2 grandi supertask:
-VEDI CHRISTIAN
+\begin{itemize}
+	\item\textit{Generazione dei frequenti itemset}: specifichiamo tutte e sole quelle regole per cui il supporto è maggiore del $minsup$, gli itemset generati sono chiamati \textbf{Frequent Itemset}
+	\item \textit{Generazione delle regole}: estriamo tutte le regole con alta confidenza (maggiore di $minconf$) dai Frequent Itemset trovati precedentemente, queste regole vengono chiamate \textbf{Strong Rules}
+\end{itemize}
+\noindent
+La complessità maggiore è richiesta dalla generazione dei Frequent Itemset.
 
 
-\subsection{Generazione di frequent itemset e generazione regole}
+\subsection{Frequent Itemset Generation and Rule Generation}
 
-Un itemset \`e frequente se supera la soglia fissata di minima frequenza per essere considerato tale. 
-\textbf{Candidate Itemset}: ovvero l'insieme di tutti gli itemset che possiamo formare. Avranno un numero di item diverso. 
+Per comprendere l'inefficienza della generazione con l'approccio forza bruta pensiamo a questo esempio:
+\begin{figure}[H]
+	\hspace{-0.7 cm}
+	\includegraphics[height=0.5 \linewidth]{association/pict/k-itemset.png}
+	\caption{k-itemset brute-force}
+\end{figure}
+\begin{defn}
+	\textbf{Candidate Itemset}: l'insieme di tutti gli itemset che possiamo formare. Avranno un numero di item diverso. 
+\end{defn}
+Nel nostro caso il numero di itemset candidato è: $M = 2^{d} - 1 = 2^5 -1 = 31$
 
-Se procediamo con un approccio forza bruta per trovare gli \textbf{itemset frequenti} bisogna determinare il support count per ogni itemset candidato. \\
-I confronti da effettuare sono nell'ordine di O(NMw), dove N = numero di transazioni, M = numero di itemset candidati e w = massima lunghezza delle transazioni. 
+Come si può notare abbiamo un sistema a doppio cono che è tipica delle distribuzioni binomiali. Una volta che gli abbiamo considerati tutti ci interessano solo i più frequenti. \\
+Se usassimo la forza bruta dovremmo calcolare per ogni itemset candidato il suo support count, e vedere se il suo supporto lo configura come un itemset frequente (molto dispendioso). 
 
-\`E troppo come numeri confronti contando che molti dei quali sono inutili o poco significativi.
+I confronti da effettuare sono nell'ordine di $O(NMw)$, dove:
+\begin{itemize}
+	\item $N$ = numero di transazioni
+	\item $M$ = numero di itemset candidato
+	\item $w$ = massima lunghezza delle transazioni
+\end{itemize} 
+
+È decisamente troppo come numeri confronti contando che molti dei quali sono inutili o poco significativi.
 
 Vi sono due approcci per ridurre il costo computazionale della generazione di itemset frequenti:
 \begin{itemize}
-	\item ridurre il numero di candidati itemset. Il principio Apriori \`e un metodo per eliminare alcuni candidati itemset senza contare il support count. Principio: se un itemset \`e frequente, allora tutti i suoi sottoinsiemi sono frequenti
+	\item ridurre il numero di candidati itemset ($M$). Il principio Apriori \`e un metodo per eliminare alcuni candidati itemset senza contare il support count. 
 	\item riduce il numero di confronti anzich\`e controllare tutte le possibili combinazioni, lo si fa con strutture dati avanzate
 \end{itemize}
 
-Il principio apriori si basa sul fatto che se una regola ha una frequenza bassa allora tutte le regole che prevedono come sottoinsieme la stessa non supereranno quella frequenza pertanto \`e inutile considerarle. Posso quindi fare \textbf{pruning} dell'albero per queste soluzioni, viene chiamato \textbf{support-based pruning}.
+\paragraph{Principio Apriori} se un itemset \`e frequente, allora tutti i suoi sottoinsiemi sono frequenti.\\
+Quindi se una regola ha una frequenza bassa allora tutte le regole che prevedono come sottoinsieme la stessa non supereranno quella frequenza pertanto \`e inutile considerarle. Si procede attraverso il \textbf{pruning} dell'albero delle sequenze per queste soluzioni, viene chiamato \textbf{support-based pruning} (vedi immagine).
 
-\subsection{Algoritmo apriori}
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{association/pict/pruning.png}
+	\caption{esempio di support-based pruning}
+\end{figure}
+
+\subsubsection{Algoritmo apriori}
 Genera due operazioni:
 \begin{itemize}
-	\item Candidate Generation: genera nuvi candidati k-itemset basati su (k-1)-itemset frequenti calcolati nella precedente iterazione
-	\item Candidate Pruning: questa operazione elimina alcuni candidati k-itemset usando la strategia del support-based pruning
+	\item \textbf{Candidate Generation}: genera nuovi candidati k-itemset basati su (k-1)-itemset frequenti calcolati nella precedente iterazione
+	\item \textbf{Candidate Pruning}: questa operazione elimina alcuni candidati k-itemset usando la strategia del support-based pruning
 \end{itemize}
 
 La complessit\`a computazionale soffre di 4 limiti:
 \begin{itemize}
-	\item Support threshold: la soglia di supporto se troppo bassa non taglio molto l'albero, per\`o non deve essere neanche troppo elevata. 
-	\item Numero di item (dimensionalit\`a): se il numero di item cresce, pi\`u spazio ci sar\`a bisogno in memoria per registrare il support count degli item.
-	\item numero di transazioni: e molto grande bisogna scorrere ogni volta tutta la lista
-	\item avarage transaction width: quanto \`e mediamente densa la lista di item. La massima taglia di itemset frequenti tende ad aumentare la width delle transazioni media,
+	\item \textit{Support threshold}: la soglia di supporto se troppo bassa non taglio molto l'albero, però non deve essere neanche troppo elevata altrimenti non considero associazioni rilevanti. 
+	\item \textit{Numero di item (dimensionalit\`a)}: se il numero di item cresce, ci sar\`a bisogno di più spazio in memoria per registrare il support count degli item, inoltre bisogna considerare anche il costo dell'I/O per passare i dati.
+	\item \textit{Numero di transazioni}: l'algoritmo scorre più volte tutta la lista di transazioni, pertanto un numero alto di transazioni inficia sui tempi.
+	\item \textit{Avarage transaction width}: per dataset densi la lunghezza media delle transazioni tende ad essere grande. La massima lunghezza degli itemset frequenti tende ad aumentare quindi più sequenze candidato devono essere esaminate durante la generazione e support counting. In aggiunta aumenta il numero di archi traversi nell'albero durante il support counting.
 \end{itemize}
 
-\subsection{Rule Generation}
+\subsubsection{Rule Generation}
 Ogni k-itemset frequente, Y pu\`o generare al limite $2^k-2$ regole di associazione. 
 
-Una regola di associazione pu\`o essere estratta partizionando itemset Y in 2 sottoinsiemi non vuoti: $X \rightarrow Y -X$ che soddisfa il threshold di confidenza.
+Una regola di associazione pu\`o essere estratta partizionando l'itemset Y in 2 sottoinsiemi non vuoti $\{X\}$ e $\{Y-X\}$, tale che $X \rightarrow Y -X$ soddisfa il threshold di confidenza.
 
-Tutte le regole generate da itemset frequenti sono esse stesse frequenti.
+\textbf{NB}: Tutte le regole generate da itemset frequenti sono esse stesse frequenti.
 
-In pratica, il numero di itemset frequenti prodotti da transazioni possono essre molto grandi. Per questo si ragiona in due rappresentazioni:
-\begin{itemize}
+In pratica, il numero di itemset frequenti prodotti da transazioni possono essere molto grandi. È utile identificare itemset rappresentativi e piccoli con i quali derivare gli itemset grandi. Per questo si ragiona in due rappresentazioni:
+\begin{enumerate}
 	\item Maximal Frequent Itemset
-	\item closed Frequent Itemset
+	\item Closed Frequent Itemset
+\end{enumerate}
+
+\begin{defn}
+	\textbf{Maximal Frequent Itemset} è definito come un Itemset Frequente per il quale nessuno dei suoi soprainsiemi immediati sono frequenti.
+\end{defn}
+\textbf{Maximal Frequent Itemset}: per ogni nodo si verifica il vincolo della frequenza e si definisce la frontiera dove un nodo non gode pi\`u di questa propriet\`a, corrisponde alla massima frontiera in cui mi posso spingere.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.7 \linewidth]{association/pict/max_freq_itemset.png}
+	\caption{esempio di frontiera di maximal frequent itemset}
+\end{figure}
+
+\textbf{Nella pratica}: Un nodo \`e un Maximal Frequent Itemset se \`e frequente e se tutte le sue estensioni non sono frequenti.\\
+\begin{itemize}
+	\item Fornisce una rappresentazione compatta dell'insieme di itemset che cerchiamo, la pi\`u piccola espressione in cui gli itemset sono derivabili
+	\item Calcolato dal più piccolo insieme di itemset dal quale tutti gli itemset frequenti possono essere derivati
+	\item È praticabile solo l'algoritmo efficiente usato esplicita la ricerca dei maximal frequent itemset senza numerare tutti i suoi sottoinsiemi
 \end{itemize}
+Per costruzione \textit{per\`o} non ci dice quanto \`e il supporto rispetto ai suoi sottoinsiemi. In alcuni casi potrebbe servire avere una minima rappresentazione degli itemset frequenti che preservano l'informazione sul supporto.
 
-\textbf{Maximal Frequent Itemset}: verifica il vincolo della frequenza e definisce la frontiera dove lui non gode pi\`u di questa propriet\`a, massima frontiera in cui mi posso spingere. Lo \`e se lui \`e frequente e se tutte le sue estensioni non sono frequenti.\\
-Fornisce una rappresentazione compatta dell'insieme di itemset che cerchiamo, la pi\`u piccola espressione in cui gli itemset sono derivabili. Il maximal frequent itemset \`e applicabile solo se si utilizzano algoritmi efficienti che cerca tutti e solo gli itemset massimali.
-
-Per costruzione per\`o non ci dice quanto \`e la sua confidenza rispetto ai suoi sottoinsiemi. 
-
-\textbf{Closed Frequent Itemset}: un itemset X \`e chiuso se nessun immediato sottinisme ha esattamente lo stesso support count di X. In ogni caso il suo spporto deve essere maggiore o uguale a minsup.
-
+\begin{defn}
+	Un itemset X è \textbf{Closed Frequent Itemset} se nessun immediato superinsieme ha esattamente lo stesso support count di X. In ogni caso il suo spporto deve essere $\ge minsup$.
+\end{defn}
 Importante qunado vi sono gruppi di prodotti venduti a blocco ignorando gli altri.
 
-Questo tipo di itemset sono utili per rimuovere regole di associazione ridondanti. 
+\textbf{Es}
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{Association/pict/close_freq_itemset.png}
+	\caption{esempio di gruppi closed frequent itemset}
+\end{figure}
 
-Una regola di associazione $X \rightarrow Y$ \`e ridondante se esiste $X' \rightarrow Y'$ che rispetta certe propriet\`a. (vedi Christian)
+Come si può notare in figura ogni gruppo di variabili (Gruppo A, B e C) è perfettamente associato e non hanno bisogno di mostrare items collegati ad altri gruppi. Assumendo che il $minsup = 20\%$, il numero totale di itemset frequenti è: $3 \cdot (2^5 -1) = 93$. In ogni caso vi sono solo 3 closed frequent itemset: 
 
+$\{a1,a2,a3,a4,a5\}$
+
+$\{b1,b2,b3,b4,b5\}$
+
+$\{c1,c2,c3,c4,c5\}$
+
+
+Questo tipo di itemset sono utili per rimuovere \textbf{regole di associazione ridondanti}. 
+\begin{defn}
+	Una regola di associazione $X \rightarrow Y$ \`e \textbf{ridondante} se esiste un'altra regola $X' \rightarrow Y'$ che rispetta certe propriet\`a. 
+	\begin{itemize}
+		\item $X \subseteq X'$
+		\item $Y \subseteq Y'$
+		\item $s(X \rightarrow Y)  = s(X' \rightarrow Y')$
+		\item $c(X \rightarrow Y)  = c(X' \rightarrow Y')$
+	\end{itemize}
+\end{defn}
+
+Mostriamo ora la gerarchia dei frequent itemset:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.45 \linewidth]{association/pict/itemset_freq.png}
 	\caption{gerarchia dei frequent itemset}
 \end{figure}
 
+Come si può notare i Maximal Frequent Itemset sono inclusi nei Closed Frequent Itemset perchè nessun maxmal può avere lo stesso support count del suo immediato superset.
