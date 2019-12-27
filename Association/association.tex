@@ -1,7 +1,7 @@
 
 
 \section{Association Analysis}
-\subsection{Introduction(*)}
+\subsection{Introduction (*)}
 
 L'analisi di associazione ci riporta al concetto di causalit\`a di variabili: dati certi valori di attributi cosa posso dire del valore di un altro attributo?
 
@@ -126,7 +126,7 @@ Una strategia comunemente adottata in molti algoritmi \`e decomporre il problema
 La complessità maggiore è richiesta dalla generazione dei Frequent Itemset.
 
 
-\subsection{Frequent Itemset Generation and Rule Generation}
+\subsection{Rule Extraction}
 
 Per comprendere l'inefficienza della generazione con l'approccio forza bruta pensiamo a questo esempio:
 \begin{figure}[H]
@@ -181,6 +181,7 @@ La complessit\`a computazionale soffre di 4 limiti:
 	\item \textit{Avarage transaction width}: per dataset densi la lunghezza media delle transazioni tende ad essere grande. La massima lunghezza degli itemset frequenti tende ad aumentare quindi più sequenze candidato devono essere esaminate durante la generazione e support counting. In aggiunta aumenta il numero di archi traversi nell'albero durante il support counting.
 \end{itemize}
 
+\subsection{Maximal/Closed Frequent Itemsets}
 \subsubsection{Rule Generation}
 Ogni k-itemset frequente, Y pu\`o generare al limite $2^k-2$ regole di associazione. 
 
@@ -253,3 +254,174 @@ Mostriamo ora la gerarchia dei frequent itemset:
 \end{figure}
 
 Come si può notare i Maximal Frequent Itemset sono inclusi nei Closed Frequent Itemset perchè nessun maxmal può avere lo stesso support count del suo immediato superset.
+
+\subsection{Rules Evaluation (*)}
+Generati gli insiemi di pattern potenzialmente utili, bisogna ordinarli in base al loro livello di attrattività per il dominio di applicazione. La valutazione della qualità viene effettuata seconodo due criteri:
+\begin{itemize}
+	\item \textbf{Statistical arguments}: per patterns di items indipendenti e coperti da poche transazioni. Il problema è che \textit{possono catturare relazioni spurie} nei dati, per evitare:
+	\begin{itemize}
+		\item \underline{Objective Interestingness Measure}: usare statistiche derivate dai dati per determinare quali pattern sono interessanti
+		\item \underline{Supporto, confidenza e correlazione}
+	\end{itemize}
+	\item \textbf{Subjective arguments}: un pattern è considerato non interessante a meno che riveli informazioni inaspettate riguardo ai dati e alla conoscenza: \underline{es}. forte associazione tra acquisto di pannolini e birra. È difficile fare questo tipo di valutazioni, richiede una considerevole quantità di informazioni pregresse dagli esperti di domino.
+\end{itemize}
+
+Meglio cercare di applicare un approccio più \textit{oggettivo} alla valutazione: data-driven, indipendente dal dominio in cui si richiede un minimo input dagli utenti (solo dei threshold) e calcolato basandosi sulle frequenze calcolate in una \textbf{Contingency Table}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.2 \linewidth]{association/pict/contingency_table.png}
+	\caption{contingency table}
+\end{figure}
+dove:
+\begin{itemize}
+	\item $f_{1+}$ = support count di A
+	\item $f_{+1}$ = support count di B
+	\item $N$ = nro di transazioni totali
+\end{itemize}
+
+Supponiamo che un direttore di un minimarket voglia analizzare la relazione tra le persone che bevono tè e persone che bevono caffè. La seguente contingency table è ottenuta considerando le transazioni disponibili:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.2 \linewidth]{association/pict/contingency_table_es.png}
+	\caption{contingency table}
+\end{figure}
+
+Ora valutiamo l'associazione: tea $\rightarrow$ coffee
+\begin{itemize}
+	\item $support = \frac{f_{11}}{N} = \frac{150}{1000} = 15\%$
+	\item $confidence = \frac{f_{11}}{f_{1+}} = \frac{150}{200} = 75\%$
+\end{itemize}
+
+Ad una prima occhiata sembrerebbe che le persone che bevono tè tendono a bere anche caffè (vedi confidenza). Ma se notiamo le persone che bevono caffè, a prescindere dal tè sono l'$80\%$ ($\frac{800}{1000}$), mentre la frazione dei bevitori di tè che bevono caffè è solo il $75\%$.
+
+Da questo ragionamento si può concludere che il fatto di bere tè non influisca sulle persone che bevono caffè. Infatti nonostante l`associazione abbia un alto livello di confidenza ($75\%$) non si può ignorare il supporto dell'itemset conseguente ($80\%$).
+
+Pertanto, vengono definiti altri indici:
+\begin{defn}
+	\textbf{Lift}: tasso di confidenza rispetto al supporto del conseguente
+	
+	\[ Lift = \frac{c(A \rightarrow B)}{s(B)}\]
+\end{defn}
+
+\begin{defn}
+	\textbf{Interest Factor}: equivalente al \textit{Lift} ma per attributi binari, è definito in questo modo:
+	
+	\[ I(A,B)  = \frac{s(A,B)}{s(A)s(B)} = \frac{Nf_{11}}{f_{1+}f_{+1}}\]
+\end{defn}
+I valori sono così classificati:
+\begin{itemize}
+	\item $=1$ se A e B sono indipendenti
+	\item $>1$ se A e B sono positivamente associati
+	\item $<1$ se A e B sono negativamente associati
+\end{itemize}
+	
+\begin{defn}
+	\textbf{Analisi di correlazione} (per attributi binari simmetrici): analizza la relazione tra coppie di attributi. Attributi continui possono essere analizzati con la correlazione di Pearson, la correlazione per attributi binari è misurata usando il $\phi$-coefficient:
+
+	\[\phi = \frac{f_{11}f_{00} - f_{01}f_{10}}{\sqrt{f_{1+}f_{+1}f_{0+}f_{+0}}}\]
+	
+	il valore varia da $[-1,+1]$. Se gli attributi sono statisticamente indipendenti il valore è $0$.
+\end{defn}
+
+\begin{defn}
+	\textbf{IS Measure} (per attributi binari asimmetrici)
+	
+	\[IS(A,B) = \sqrt{I(A,B)s(A,B)} = \frac{s(A,B)}{\sqrt{s(A)s(B)}}\]
+	
+	Il suo valore è grande quanto l'\textit{Interest Factor} e il supporto sono grandi.
+	
+	Se A e B sono indipendenti:
+	
+	\[IS(A,B) = \sqrt{s(A)s(B)}\]
+	
+	ha lo stesso problema della correlazione, il valore può essere grande anche per associazioni incorrelate o negativamente correlate.
+\end{defn}
+
+Vi sono altri tipi di misure per l'analisi delle relazioni tra coppie di variabili binarie.
+
+\begin{defn} \textbf{Misure Simmetriche}
+
+Una misura \textbf{M} è \textbf{Simmetrica} se: $M(A \rightarrow B) = M(B \rightarrow A)$
+
+es. Interest Factor è simmetrico
+\end{defn}
+
+\begin{defn}\textbf{Misure Asimmetriche}
+	
+Una misura \textbf{M} è \textbf{Asimmetrica} se: $M(A \rightarrow B) \ne M(B \rightarrow A)$
+
+es. la Confidenza è asimmetrica
+\end{defn}
+
+Di seguito gli indici più utilizzati:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|p{5cm}|p{5cm}|}
+		\hline
+		Simmetrico & Asimmetrico \\
+		\hline
+		Correlazione ($\phi$) & Gini index \\
+		Odds ratio & Mutual information \\
+		Kappa & Certainty factor \\
+		Interest (I) & Added value \\
+		Cosine (IS) & J-measure \\
+		Jaccard & Goodman-Kruskal \\
+		Collective strength & \\
+		\hline
+	\end{tabular}
+\end{table}
+
+È importante capire che ciascuna misura è adatta per analizzare un certo tipo di associazioni come basket market analysis o document analysis. In base al caso bisogna utilizzare gli indici migliori.\\
+
+\textbf{NB}: sono stati presentati indici relativi a valutazioni per coppie di attributi binari, ma è possibile estendere l'analisi a più di due attributi usando tabelle delle frequenti in una Contingency Table multi-dimensionale. Gli indici come il Supporto Interest Factor e IS si prestano a ciò.
+
+\subsection{Simpson's Paradox}
+
+Consideriamo la seguente situazione:
+
+un direttore di un mini-market racconta di una curiosa scoperta, legata agli item birra e hot dogs. Una società di consulenza da lui pagata per analizzare i suoi dati di vendita ha scoperto che i clienti che comprano birra sono meno tentati di acquistare hot dogs rispetto a quelli che non acquistano la birra. Il direttore però è convinto del contrario, lo sa per esperienza professionale che chi acquista birra tende ad acquistare hot dogs.
+
+Come si può risolvere il paradosso?
+
+Consideriamo la seguente tabella:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.2 \linewidth]{association/pict/beer_hotdog.png}
+	\caption{es. birra - hot dog}
+\end{figure}
+Consideriamo le seguenti regole con le relative confidenze:
+\begin{itemize}
+	\item \{beer\} $\rightarrow$ \{hot dogs\} - confidence = $42\%$
+	\item \{NOT beer\} $\rightarrow$ \{hot dogs\} - confidence = $45\%$
+\end{itemize}	
+Possiamo inferire che i clienti che acquistano birra sono meno inclini ($42\%$) ad acquistare hot dog rispetto a quelli che non acquistano birra ($45\%$).
+
+Analizziamo ora gli stessi dati ma categorizzando se il cliente è single o no:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.2 \linewidth]{association/pict/beer_hotdog_single.png}
+	\caption{es. cliente single: birra - hot dog}
+\end{figure}
+Pertanto posso derivare queste due coppie di regole:
+\begin{itemize}
+	\item Single
+	\begin{itemize}
+		\item \{beer\} $\rightarrow$ \{hot dogs\} - confidence = $75\%$
+		\item \{NOT beer\} $\rightarrow$ \{hot dogs\} - confidence = $11\%$
+	\end{itemize}
+	\item NOT Single
+	\begin{itemize}
+		\item \{beer\} $\rightarrow$ \{hot dogs\} - confidence = $31\%$
+		\item \{NOT beer\} $\rightarrow$ \{hot dogs\} - confidence = $73\%$
+	\end{itemize}
+\end{itemize}
+Da questi dati posso affermare che: i single che acqustano birra sono più inclini ($75\%$) ad acquistare anche hot dog rispetto a quelli che non acquistano birra ($11\%$).\\
+
+Quindi sia l'azienda di consulenza che il direttore del mini-market avevano ragione soltanto che per comprenderlo bisognava categorizzare i clienti. 
+
+\paragraph{Paradosso di Simpson} o Yule-Simpson effect, è un paradosso della probabilità e statistica, in cui una tendenza appare in diversi gruppi di dati ma sparisce o si inverte quando questi gruppi sono combinati. \\
+
+Bisogna applicare una appropriata stratificazione dei dati per evitare la generazione di associazioni spurie risultati dal paradosso di Simpson. 
+
+Es. per i dati del market-basket, la catena di supermercati dovrebbe stratificarli secondo la location del negozio, mentre i dati medici da vari pazienti dovrebbero essere stratificati secondo fattori quali l'età o il genere.
