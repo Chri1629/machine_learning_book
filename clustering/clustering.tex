@@ -32,40 +32,69 @@ La definizione di cluster è \textbf{intrinsicamente imprecisa},una migliore def
 
 \subsubsection{Tipi di clustering}
 
-\paragraph{Partizionale}
-vi \`e una divisione del set di oggetti dati in sottonisime e nei quali ogi oggetto \`e in un solo sottoinsieme
+Formare un insieme di cluster è chiamato in gergo tecnico \textit{clustering.} Ci sono diversi tipi di analisi di clustering.
 
-\paragraph{Gerarchica}
-Posso aggregare dei cluster in uno pi\`u grande in cui ho diversi livelli di imprecisione. Considero un certo sottoinsieme simile ad un altro allora li metto insieme.
-
-Vi sono inoltre:
 \begin{itemize}
-	\item esclusivi dei quali non includono altri
-	\item overlapping nei quali ho delle osservazioni condivise da pi\`u di un cluster
-	\item fuzzy permette che un oggetto appartenga a ciascun cluster con un peso membro tra 0 e 1.
+	\item Partitional vs Hierarchical
+	\item Exclusive vs  Overlapping vs Fuzzy
+	\item Complete vs Partial.
 \end{itemize}
 
-Clustering \textbf{completo} ogni osservazione viene assegnata ad un cluster
+Diamo ora una rapida definizione di tutte:
 
-Clustering \textbf{parziale} non tutte le osservazioni sono assegnate ad un cluster in quanto magari sono outlier per cui se la includessi mi farebbe peggiorare in modo significativo il cluster considerato (altrimenti Garbage cluster).
+\begin{defn}
+	Un clustering si dice \textbf{partizionale} se vi è una divisione del dataset in insiemi non sovrapposti tali che un elemento appartiene ad un solo insieme.
+\end{defn}
+
+\begin{defn}
+	Un clustering si dice \textbf{gerarchico} se ogni cluster può essere a sua volta suddiviso in sotto cluster, in questo caso il clustering è un insieme di cluster che sono organizzati come un albero.
+\end{defn}
+
+\begin{defn}
+	Un clustering si dice \textbf{esclusivo} se ogni oggetto è assegnato ad un singolo cluster.
+\end{defn}
+
+\begin{defn}
+	Un clustering si dice \textbf{sovrapponibile} se ogni oggetto può essere assegnato a più di un cluster.
+\end{defn}
+
+\begin{defn}
+	Un clustering si dice \textbf{fuzzy} se ogni oggetto può essere assegnato a più di un cluster contemporaneamente con un valore che tiene conto del peso che ha l'oggetto rispetto all'appartenenza ad un singolo cluster, la somma dei pesi deve essere necessariamente 1.
+\end{defn}
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{clustering/pict/fuzzy.png}
+	\caption{Custering con modello fuzzy}
+\end{figure}
+\begin{defn}
+	Un clustering si dice \textbf{completo} se ogni oggetto è assegnato ad un cluster (non ci sono oggetti liberi).
+\end{defn}
+
+\begin{defn}
+	Un clustering si dice \textbf{parziale} se esiste almeno un oggetto che non è assegnato a nessun cluster, si usa perché potrebbero esserci degli outlier ed inserirli all'interno di un cluster potrebbe peggiorare in modo significativo la rappresentazione di un cluster.
+\end{defn}
 
 \subsubsection{Differenti nozioni di cluster}
-I cluster naturali sono cluser che si dicano esistano per davvero, \`e molto difficile che ci\`o accada.
+I cluster naturali sono cluster che si dicano esistano per davvero anche se questo  è molto difficile che ciò accada. Per visualizzare le differenze tra i tipi diversi di dati sfruttiamo dati come punti a due dimensioni.
+\begin{itemize}
+	\item \textbf{Well separated Cluster:} dato un cluster, ogni oggetto è più vicino ad ogni oggetto del cluster a cui appartiene piuttosto che a qualsiasi altro oggetto di ogni altro cluster. Un cluster così ben formato permette di avere separazioni molto nette, questo tipo di cosa succede però molto raramente in realtà.
+	\item \textbf{Prototpe-based cluster} dato un cluster, ogni oggetto di quel cluster è più vicino al prototipo che definisce il cluster rispetto ad ogni prototipo di un altro cluster. Il prototipo \`e solitamente il \textit{centroide} del cluster. Il \textit{prototipo} di un cluster corrisponde all'individuo meglio rappresentato dal cluster (può essere anche fittizio). Cluster fatti in questo modo tendon ad essere globulari.
+	\item \textbf{Density-based cluster} un cluster è una regione densa di oggetti che sono circostritti da una regione di bassa densità. Questi sono usati quando i cluster sono irregolari o intermittenti oppure quando c'è una grande presenza di rumore o di outlier.
+	\item \textbf{Graph-based cluster} se i dati sono rappresentati da grafi, i nodi rappresentano  oggetti e i collegamenti connettono gli oggettti. Allora ogni cluster è una componente connessa. La connessione può anche essere pesata e scelta in base ad una certa soglia. 
+	Questi cluster sono molto utilizzati in quanto c'è un sacco di ricerca già fatta.
+\end{itemize}
 
-\textbf{Well separated Cluster} ogni oggetto nel claster \`e pi\`u vicino a ogni altro oggetto nello stesso claster rispetto alla vicinanza ad altri cluster. Avere dei cluster cos\`i ben formati permettono separazioni molto nette (quasi mai succede).
+\subsubsection{Componenti di un'analisi di clustering}
 
-\textbf{Prototpe-based cluster} dato un cluster, ogni oggetto \`e vicino al prototipo che lo definisce il cluster rispetto al prototipo di un altro cluster. Il prototipo \`e solitamente il \textit{centroide} del cluster, es. la media di tutti gli oggetti nel cluser. Che corrisponde all'individuo meglio rappresentato dal cluster (anche se esso non esiste). 
+Per prima cosa  avviene la \textit{feature selection} che assicura la trattenuta degli attributi del dataset degni di significato. Successivamente avviene la fase di  \textit{feature extraction} che serve a produrre feature che potrebbero andare meglio per scoprire la struttura dei dati, questa pratica potrebbe tuttavia generare features di difficile comprensione.
+Le feature ideali 
 
-\textbf{Density-based cluster} un claster in una regione densa di oggetti che sono circostritti da una regione di bassa densit\`a. Usati quando i cluster sono irregolari o intermittenti
+\textbf{ARRIVATO QUIIIIII}
+ Applicare un algoritmo di clustering, per poterlo fare devo specificare una misura di affinit\`a. Successivamente bisogna capire come impostare l'ottimizzazione di una misura di merito scelta. Dopo tutto ci\`o bisogna ricriticare tutto ci\`o che si \`e fatto e valutare il funzionamento e le eventuali performance, entrare nel merito e valutare se i gruppi siano sensati. Si tratta di investigazione sul clustering. Successivamente si cerca un'interpretazione dei risultati chiedendo all'esperto di dominio cosa ne pensa. Saranno i cluster non compretamente palesi all'esperto i pi\`u interessanti da valutare. 
 
-\textbf{Graph-based cluster} se i dati sono rappresentati come grafi, i nodi sono oggetti e il collegamenti connettono gli oggettti. Allora in cluster \`e una componente connessa. La connessione pu\`o anche essere pesata e scelta in base ad una certa soglia. 
 
-Quelli connessi a grafo sono molto utilizzati in quanto c'\`e un sacco di ricerca dietro gi\`a fatta e molto robusta. 
 
-\subsubsection{Metodologia}
-Dal dataset, estrarre le feature o selezionarne di esterne. Applicare un algoritmo di clustering, per poterlo fare devo specificare una misura di affinit\`a. Successivamente bisogna capire come impostare l'ottimizzazione di una misura di merito scelta. Dopo tutto ci\`o bisogna ricriticare tutto ci\`o che si \`e fatto e valutare il funzionamento e le eventuali performance, entrare nel merito e valutare se i gruppi siano sensati. Si tratta di investigazione sul clustering. Successivamente si cerca un'interpretazione dei risultati chiedendo all'esperto di dominio cosa ne pensa. Saranno i cluster non compretamente palesi all'esperto i pi\`u interessanti da valutare. 
-
-\section{Lezione 11 - Proximity}
+\subsection{Lezione 11 - Proximity}
 
 La proximity \`e uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. 
 
