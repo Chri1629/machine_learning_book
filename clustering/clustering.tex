@@ -87,24 +87,20 @@ I cluster naturali sono cluster che si dicano esistano per davvero anche se ques
 \subsubsection{Componenti di un'analisi di clustering}
 
 Per prima cosa  avviene la \textit{feature selection} che assicura la trattenuta degli attributi del dataset degni di significato. Successivamente avviene la fase di  \textit{feature extraction} che serve a produrre feature che potrebbero andare meglio per scoprire la struttura dei dati, questa pratica potrebbe tuttavia generare features di difficile comprensione.
-Le feature ideali 
+Bisognerebbe usare come feature ideali quelle che permettono di distinguere i pattern degli elementi che appartengono ai diversi cluster, immuni al rumore e facili da interpretare.
 
-\textbf{ARRIVATO QUIIIIII}
- Applicare un algoritmo di clustering, per poterlo fare devo specificare una misura di affinit\`a. Successivamente bisogna capire come impostare l'ottimizzazione di una misura di merito scelta. Dopo tutto ci\`o bisogna ricriticare tutto ci\`o che si \`e fatto e valutare il funzionamento e le eventuali performance, entrare nel merito e valutare se i gruppi siano sensati. Si tratta di investigazione sul clustering. Successivamente si cerca un'interpretazione dei risultati chiedendo all'esperto di dominio cosa ne pensa. Saranno i cluster non compretamente palesi all'esperto i pi\`u interessanti da valutare. 
+Il secondo passo è quello di \textit{determinare la misura di prossimità e costruire la funzione di merito.} Una volta che abbiamo determinato una misura di prossimità il problema di clustering si traduce in un problema di ottimizzazione con una specifica funzione.
+
+Bisogna ricordare sempre che diversi algoritmi di dati permettono di avere conclusioni anche totalmente diverse, questo è il motivo per cui in principio non bisogna prediligere alcun algoritmo ma confrontare i risultati ottenuti e trarne conclusioni.
 
 
+\subsection{ Proximity}
 
-\subsection{Lezione 11 - Proximity}
+La proximity è uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. Questa nfluenza quindi in modo pesante la nostra soluzione di un nostro problema di clustering. Bisogna fare una scelta della misura con cui approssimiamo quanto sono simili gli elementi appartenenti allo stesso cluster.
+\subsubsection{Introduzione}
+\textit{La analisi dei cluster affonda le sue radici nel concetto di cosa sia simile e cosa sia dissimile,} quando cerchiamo di esprimere questo concetto  in termini formali diventa abbastanza difficile. Questo avviene perché la similitudine dipende fortemente dal contesto analizzato .
 
-La proximity \`e uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. 
-
-La cluster analysis affonda le sue radici in cosa sia \textbf{simile} e cosa sia \textbf{dissimile}. La similarit\`a \`e un conetto relativo, nel senso che posso considerare uno smartphone e un telefono simili se li considero come strumenti di comunicazione per\`o non per quanto riguarda la forma.
-
-La \textbf{similarit\`a} \`e un valore alto per paia di oggetti che si assomigliano e solitamente si usa un valore compreso tra 0 e 1. 
-
-La \textbf{dissimilarit\`a} \`e una misura numerica di gradi per i quai due oggetti sono differenti. In generale si cerca di ricodurla in un intervallo $[0,1]$ per\`o anche di $[0,\inf]$.
-
-La \textbf{prossimit\`a} ulilizza riferimenti a similarit\`a e dissimilarit\`a.
+In generale la similarità è nulla se i due oggetti sono totalmente differenti sotto la caratteristica che stiamo valutando ed è uguale a 1 se sono completamente uguali, è comune però trovare misure di similitudine che hanno come valori:.  $[0,\inf]$. Useremo il termine \textbf{proximity} per indicare sia la similarità che la dissimilarità. 
 
 \begin{figure}[h!]
 	\centering
@@ -112,34 +108,56 @@ La \textbf{prossimit\`a} ulilizza riferimenti a similarit\`a e dissimilarit\`a.
 	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
 \end{figure}
 
-Se voglio trasformare una misura di similarit\`a in $[0,\inf]$ allora ho bisogno di una trasformazione \textbf{non lineare} e la relazione tra i valori non avr\`a la stessa scala. Verranno compressi dei valori in valori distorti. (\textit{in alcuni casi distorcere i valori \`e quello che desidero}). 
+Non c'è ortogonalità tra la scelta della misura e l'esito che otterrò. Nasce per questo motivo l'esigenza di poter passare da una misura all'altra, in particolare per trasformare una misura di similarità dall'intervallo $[0,\inf]$ all'intervallo $[0,1]$ si opera la seguente trasformazione:
 
-La trasformazione tra similarit\`a e dissimilarit\`a e sostanzialmente lineare, bisogna scegliere un metodo per metterli in relazione. 
+\[s' = \frac{s - \min{s}}{\max{s} - \min{s}} \qquad d' = \frac{d - \min{d}}{\max{d} - \min{d}} \] 
 
-Comunque, la \textbf{prossimit\`a} tra due record \`e una funzione di prossimit\`a compresa tra i corrispondenti attributi dei due record.
+Ci sono diversi problemi che nascono quando cambiamo l'intervallo in cui si trova il valore. Per farlo devo usare una trasformazione \textit{non-lineare}. Posso usare però una cosa del genere:
 
-Per quanto riguarda gli attributi binari la dissimilarit\`a esclude la similarit\`a con valori 0 e 1. 
+\[ d' = \frac{d}{1+d}\]
 
-Se ho attributi nominali ordinali assegno un valore intero agli stessi in base alla scala utilizzata e calcolo la dissimilarit\`a come rapporto tra la differenza dei due record e la scala totale di valori di utilizzo. Naturalmente va notato che sto utilizzando una scala linerare! (forte assunzione)
+Con questa trasformazione grandi valori della dissimilarità $d$ vengono compressi in valori vicini a 1. Il fatto di distorcere o meno le distanze dipende dal compito che voglio svolgere.
 
-Qualsiasi scala di valori si andr\`a a scegliere si porter\`a dietro delle assunzioni.
+Ci sono diversi problemi che nascono quando trasformiamo una similarità in dissimilarità e viceversa. Per farlo devo usare una trasformazione \textit{non-lineare}. Posso usare però una cosa del genere:
 
-\subsection{Misure della distanza}
-Le distanze sono dissimilarit\`a con certe propriet\`a, quando tutti gli attributi sono numerici.
+\[ se \quad s,d = [0, 1]  \quad allora  \quad s =  1-d\]
 
-\begin{figure}[h!]
+In generale si può usare qualsiasi funzione monotona decrescente per trasformare la similarità in dissimilarità.
+
+\begin{defn}
+	Si definisce prossimità tra due record come la funzione di prossimità tra i corrispondenti attributi dei due record.	
+\end{defn}
+
+Consideriamo in prima analisi la misura di prossimità tra due record aventi un solo attributo ed estendiamo successivamente questa analisi a record con più di un attributo.
+\begin{figure}[H]
 	\centering
-	\includegraphics[height=0.4 \linewidth]{clustering/pict/distanze_minkowski.png}
-	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
+	\includegraphics[height=0.3 \linewidth]{clustering/pict/proximity_one.png}
+	\caption{Tabella per misurare la prossimità di record con un solo attributo in funzione del tipo di attributo}
 \end{figure}
 
+Consideriamo due record riferiti al medesimo attributo nominale qualitativo, tutto ciò che possiamo dire è se i due record hanno  lo stesso valore o meno.
+Per quanto riguarda gli attributi binari la dissimilarità esclude la similarità con valori 0 e 1. 
+
+Se ho attributi categoriciordinali assegno un valore intero agli stessi in base alla scala utilizzata e calcolo la dissimilarità come rapporto tra la differenza dei due record e la scala totale di valori di utilizzo. Naturalmente va notato che sto utilizzando una scala linerare, questa è ovviamente un'assunzione molto forte che però bisogna tenere in conto in quanto qualsiasi scala di valori scelta è fatta basandosi su assunzioni.
+
+Come notiamo dalla tabella è molto più facile definire la prossimità tra due attributi numerici, essa è infatti definita come \textit{la differenza in modulo tra i due valori.}
+\subsubsection{Misure della distanza}
+
+Quando ho degli attributi numerici posso definire altre misure di distanza nel seguente modo:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{clustering/pict/distanze_minkowski.png}
+	\caption{Misure di distanza a partire dalla distanza di Minkowski}
+\end{figure}
+Ricordiamo che le proprietà che una funzione deve soddisfare per essere definita distanza sono le seguenti:
 La misura deve essere
 \begin{itemize}
-	\item non negativa
-	\item simmetrica
-	\item disuguaglianza triangolare
+	\item Non negatività: $a$
+	\item Simmetria
+	\item Disuguaglianza triangolare
 \end{itemize}
 
+\textbf{ARRIVATO QUAAAAA}
 La similarit\`a solitamente non rispetta la disuguaglianza triangolare ma \`e simmetrica e non negativa. 
 
 \textbf{Misure di coefficienti}
