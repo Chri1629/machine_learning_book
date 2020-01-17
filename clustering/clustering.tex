@@ -152,27 +152,40 @@ Quando ho degli attributi numerici posso definire altre misure di distanza nel s
 Ricordiamo che le proprietà che una funzione deve soddisfare per essere definita distanza sono le seguenti:
 La misura deve essere
 \begin{itemize}
-	\item Non negatività: $a$
-	\item Simmetria
-	\item Disuguaglianza triangolare
+	\item Non negatività: $d(x,y) \geq 0 \quad \forall x,y \quad d(x,y) = 0 \quad iif \quad x = y$
+	\item Simmetria $d(x,y) = d(y,x) \quad \forall x,y$
+	\item Disuguaglianza triangolare $d(x,z) \leq d(x,y) + d(y,z) \quad \forall x,y,z$
 \end{itemize}
 
-\textbf{ARRIVATO QUAAAAA}
-La similarit\`a solitamente non rispetta la disuguaglianza triangolare ma \`e simmetrica e non negativa. 
+La similarità \textit{non rispetta la disuguaglianza triangolare} ma solitamente verifica le proprietà di simmetria e non negatività.
 
-\textbf{Misure di coefficienti}
+Forniamo ora qualche esempio di misura di prossimità:
+\begin{defn}
+	 Si definisce \textbf{Simple matching coefficient} la seguente espressione: \[ SMC(x,y) = \frac{\#maching\_attributes}{\#attributes} =  \frac{f_{11}+ f_{00}}{f_{11}+ f_{00} + f_{01}+ f_{10}} \]
+\end{defn}
+Questa è una misura che ha senso per attributi \textit{simmetrici binari}, ossia per attributi che possono assumere solo i valori 0 o 1 in circa egual quantità.
+ Questa misura è invece scomoda se non possiamo affermare se gli 0 siano veramente degli 0, per il valore 1 invece è chiaro. In questo caso si utilizza un'altra misura che è derivata da questa misura, ossia si usa l'assunzione per cui l'osservazione di un evento (identificata con 1), abbia peso maggiore della non osservazione di un evento (rappresentata con 0). Si definisce quindi il \textbf{coefficiente di Jaccard}
 
-Simple matching coefficient: \[ SMC(x,y) = \frac{\#maching attriutes}{\#attributes} \]
+\begin{defn}
+	Si definisce \textbf{Jaccard Coefficient} la seguente espressione:    \[ J(x,y) = \frac{\#maching\_attributes}{\#attributes\_except00} = \frac{f_{11}}{f_{11}+ f_{01}+ f_{10}}\]
+\end{defn}
 
-Questa misura ci piace quando gli 0 e gli 1 sono gli stessi. Si dice che gli 0 sono molto meno nobili degli 1. \`E una misura equilibrata.
 
-Jaccard Coefficient \[ J(x,y) = \frac{\#of matching presences}{\# attibutes except 00 matches}\]
+Questa è ovviamente una misura distorta rispetto agli 1 (infatti è un tipo di misura che va bene con attributi \textit{asimmetrici}) che mi permette però di focalizzare la mia attenzione sulla presenza di questi ultimi. 
+Definiamo quindi un nuovo indice:
 
-Questa misura distorta rispetto gli 1 mi permette per\`o di focalizzare la mia attenzione sugli 1. 
+\begin{defn}
+	Si definisce \textbf{Extended Jaccard Coefficient} la seguente espressione: \[ EJ(x,y) = \frac{x \cdot y}{||x||^2 + ||y||^2 - x \cdot y}\]
+\end{defn}
 
-Una versione di questo indice \`e la Extended Jaccard Coefficient, viene utilizzato nell'analisi di testo in linguaggio naturale (Es. post su twitter) analizza vettori di attributi.
+ Questa misura è distorta per trattare dati sparsi, quindi tanti elementi in cui ho 0 e solo poche diverse da 0, questo si usa ad esempio nell'analisi del linguaggio naturale. Penso ad esempio ai tweet, una parola che c'è in una frase ha una rilevanza maggiore rispetto ad una parola non presente nella stessa frase.
 
-\[ EJ(x,y) = \frac{x \cdot y}{||x||^2 + ||y||^2 - x \cdot y}\]
+
+\textbf{ARRIVATO}
+
+\textbf{ARRIVATO}
+
+\textbf{ARRIVATO}
 
 
 \textbf{Similarit\`a al coseno}, utilizzata quando gli attributi hanno natura numerica (utilizzata in information retrival).
