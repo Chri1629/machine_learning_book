@@ -180,40 +180,62 @@ Definiamo quindi un nuovo indice:
 
  Questa misura è distorta per trattare dati sparsi, quindi tanti elementi in cui ho 0 e solo poche diverse da 0, questo si usa ad esempio nell'analisi del linguaggio naturale. Penso ad esempio ai tweet, una parola che c'è in una frase ha una rilevanza maggiore rispetto ad una parola non presente nella stessa frase.
 
+\subsubsection{Altre misure di prossimità}
+Esplicitiamo  ulteriori misure di prossimità.
+\begin{defn}
+	Si definisce \textbf{cosine similarity.} la seguente espressione:   \[ cos(x,y) = \frac{x \cdot y }{||x|| \cdot ||y||  } \]
+\end{defn}
 
-\textbf{ARRIVATO}
-
-\textbf{ARRIVATO}
-
-\textbf{ARRIVATO}
+ Viene usata quando tutti gli attributi sono di natura numerica, e si ignorano i match di natura 00. Il vantaggio di questa misura rispetto a quella di Jaccard è che in grado di trattare anche attributi non binari. E' molto utile quindi per comparare record sparsi ed è molto usata in \textit{Information Retrieval} dove i documenti (rappresentati come conteggi di vettori) devono essere comparati.
 
 
-\textbf{Similarit\`a al coseno}, utilizzata quando gli attributi hanno natura numerica (utilizzata in information retrival).
+\begin{defn}
+	Si definisce \textbf{Correlazione} la seguente espressione:    \[ corr(x,y) = \frac{cov(x,y)}{std(x)std(y)}\]
+\end{defn}
+Questa è la stessa correlazione di Pearson ma non legata alle variabili aleatorie.
 
-\textbf{Correlazione} quella di Pearson ma non legato a variabili aleatorie, bensì quelle con i vettori. 
-
-Problemi:
+Elenchiamo ora diverse problematiche legate alle misure di prossimità:
 \begin{itemize}
-	\item come trattare attibuti su scale di ampiezza diverse e correlati
-	\item come calcolare la prossimit'` a tra record composti da attributi di tipo diverso
-	\item come trattare la prossimit\`a quando assegnavo una diversa rilevanza a diversi attributi, non tutti contribuiscono allo stesso modo
+	\item Come si trattano attibuti su scale di ampiezza diverse e/o correlati?
+	
+	Per risolvere il primo problema faccio la seguente cosa: normalizzo i valori, se ciò non venisse fatto le distanze Euclidee tra i due valori risulterebbero totalmente distorte a favore del valore maggiore. 
+	
+	Quando gli attributi sono fortemente correlati invece il trucco sta nel fatto che la misura di similarità è molto simile al grado di correlazione tra questi attributi, in tal caso utilizziamo la distanza di Mahalnobis:
+	
+	\[Mahal(x,y) = (x- y)\Sigma^{-1}(x- y)^{T}\]
+	
+	Ovviamente questa è una distanza che va usata solo se tutti gli attributi sono numerici.
+	\item Come si calcola la prossimità tra record composti da attributi di tipo diverso?
+	
+	 Per risolvere questo problema mi occupo di valutare tutte le misure di prossimità enunciate in precedenza stando coerenti col tipo di attributo trattato.  
+	Dopo averlo fatto uso una varibile indicatrice $\delta_{k}$ per ogni attributo k come segue:
+	
+	%\delta_{k} = 
+	%\begin{cases}
+	%0  se il k-esimo attributo è asimmetrico ed entrambi i valori hanno \\  valore 0,  o almeno uno dei record presenta un missing value
+	%\\
+	%1  altrimenti 
+	%\end{cases}
+
+	Una volta definite queste allora la similarità si calcola come:
+	\[similarity(x,y) = \frac{\sum_{k=1}^{n}\delta_{k}s_{k}(x,y)}{\sum_{k=1}^{n}\delta_{k}}\]
+	\item Come si tratta la prossimità quando gli attributi hanno diversa rilevanza, ossia quando gli attributi contribuiscono secondo pesi diversi all'analisi? 
+	
+	Per risolvere quest'ultimo problema procedo esattamente nel modo precedente assegnando però dei pesi, le formule risolutive diventano quindi:
+	\[similarity(x,y) = \frac{\sum_{k=1}^{n}w_{k}\delta_{k}s_{k}(x,y)}{\sum_{k=1}^{n}\delta_{k}}\]
 \end{itemize}
 
-nel primo caso bisogna normalizzare i valori in modo che rispettino la stessa scala e poi applicarci misure di distanza come la euclidea, quando invece tutti gli attributi sono correlati e la distribuzione approssimata dalla gaussiana allora uso la distanza di Mahalanobis
-
-nel terzo caso la similarit\`a diventa:
-
-formula con i pesi della similarit\`a 
-
-Indicazioni generali:
-
+Come è facilmente intuibile risulta molto complesso sostenere tutta questa specificità. Per farlo cerchiamo di ricondurci alla seguente scelta:
 \begin{itemize}
-	\item dati densi e continui: distanza come quella euclidea buona rappresentazione
-	\item dati sparsi, binari asimmetrici: misuri della distanza che ignorano i match 00 come cosine, Jaccard e Extended Jaccard
+	\item Dati densi e continui: distanze metriche  come quella euclidea sono buone rappresentazioni.
+	\item Dati sparsi, binari asimmetrici: misure della distanza che ignorano i match 00 come cosine, Jaccard e Extended Jaccard.
 \end{itemize}
 
 \subsection{Clustering Algorithms}
 
+Passiamo ora a parlare degli algoritmi di Clustering veri e propri:
+
+\textbf{ARRIVATO QUA}
 \textbf{Prototype-Based Custering} un cluster \`e un sottoinsieme di oggetti come vicini (similarit\`a o dissimilarit\`a) rispetto ad un oggetto prototipo. 
 
 \begin{figure}[h!]
