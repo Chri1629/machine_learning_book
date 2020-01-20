@@ -257,13 +257,14 @@ Partiamo ora della descrizione di uno dei primi algoritmi basati sul prototipo. 
 
 Forniamo ora una descrizione schematica dell'algoritmo:
 \begin{itemize}
-	\item Selezione K oggetti come centrodi
-	\item \textbf{Repeat} (ciclo)
+	\item Scegliere per $k = 0$ quali sono i centroidi facendo in modo che non si "pestino i piedi".
+	\item Ripetere queste cose:
 	\begin{itemize}
-		\item Da K cluster, assegniamo ogni record al centroide più vicino.
-		\item Ricalcola il centroide di ogni cluster.
-		\item \textbf{Until} i centroidi non cambiano.
+		\item Formo k cluster in modo da assegnare ad ogni record il suo centroide più vicino. E' ovviamente un meccanismo esclusivo.
+		\item Calcolo il nuovo centroide per ogni cluster .
+		\item Mi fermo fino a quando il centroide non cambia più.		 
 	\end{itemize}
+	
 	
 \end{itemize}
 
@@ -290,48 +291,82 @@ Elenchiamo ora una serie di limiti riferiti alla ricerca dei cluster con l'algor
 \begin{itemize}
 	\item Diffiicoltà  a ricercare cluster di non forma sferica. 
 \begin{figure}[H]
-	\begin{minipage}[b]{0.47\textwidth}
+	\begin{minipage}[b]{0.30\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{clustering/pict/non_sferica_1.png}
 		\caption{Cluster non sferico.}
 	\end{minipage}
 	\hfill
-	\begin{minipage}[b]{0.47\textwidth}
+	\begin{minipage}[b]{0.30\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{clustering/pict/non_sferica_2.png}
 		\caption{Cluster sferico.}
 	\end{minipage}
 \end{figure}
 	
-	\item Difficoltà a trovare cluster con dimensioni diverse, questo problema nasce dal fatto che la distanza è fissata.
-	\item difficolt\`a a indentificare cluster di diversa densit\`a (vicinanza dei punti)
+	\item Difficoltà a trovare cluster con dimensioni diverse: questo problema nasce dal fatto che la distanza è fissata.
+	\begin{figure}[H]
+		\begin{minipage}[b]{0.30\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{clustering/pict/distanza_fissata_1.png}
+			\caption{Distanza non fissata.}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[b]{0.30\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{clustering/pict/distanza_fissata_2.png}
+			\caption{Distanza fissata.}
+		\end{minipage}
+	\end{figure}
+	\item Difficoltà a indentificare cluster di diversa densità: questo prblema nasce dal fatto che i cluster possono avere dimensioni nettamente diverse.
+	\begin{figure}[H]
+		\begin{minipage}[b]{0.30\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{clustering/pict/densita_1.png}
+			\caption{Densità differenti.}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[b]{0.30\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{clustering/pict/densita_2.png}
+			\caption{Densità simili.}
+		\end{minipage}
+	\end{figure}
 \end{itemize}
+Come possiamo notare queste tre problematiche ci portano a considerare cluster notevolmenti differenti. Esiste un modo di risolvere parzialmente queste problematiche: \textit{accettare un clustering che rompe i cluster naturali in un numero variabile di sottocluster.}
 
-
-\begin{comment}
-
-Per ovviare ad alcuni di questi problemi vi sono tecniche per clusterizzare in cluster pi\`u numerosi ed alla fine unire secondo degli algoritmi specifici nel numero di cluster richiesto, es minimizzazione delle distanze dei centroidi. 
-
-Quindi K-medie \`e:
+Forniamo un rapido elenco rùche riassume punti di forza e debolezze dell'algoritmo delle k-medie:
 \begin{itemize}
-	\item semplice e si applica a tanti tipi di dati
-	\item \`e abbastanza efficiente anche se vengono effettuate pi\`u applicazioni successive dello stesso
-	\item vi sono varianti pi\`u efficienti e meno problmatiche (es. bisecting k-means)
-	\item non adatto a tutti i tipi di dat e non pu\`o gstire cluster non sferici, con size e densit\`a diverse
-	\item problemi con dati outliers
-	\item \`e strettamente legato al concetto di centroide. Vi sono delle varianti che utilizzano il \underline{medoide} ed \`e pi\`u efficiente
+	\item Semplice e si applica a tanti tipi di dati.
+	\item Abbastanza efficiente anche se vengono ripetute molte cose.
+	\item Vi sono varianti più efficienti e meno problmatiche come ad esempio l'algoritmo \textit{bisecting k-means.}
+	\item Non adatto a tutti i tipi di dat e non può gstire cluster non sferici, con size e densità diverse.
+	\item Problemi con outliers.
+	\item Strettamente legato al concetto di centroide. Vi sono delle varianti che utilizzano il \textit{medoide} e che sono più efficienti.
 	
 	
 \end{itemize}
-NB: pi\`u cluster vengono utilizzati pi\`u aumenta la complessit\`a computazionale.
-
 
 \paragraph{Fuzzy C-means}
-Se gli elementi sono distribuiti in gruppi ben separati il clustering \`e semplice, i problemi nascono dove le istanze sono molto vicine. Inoltre consideriamo il fatto di osservazione sulla frontiera delle distanze dei cluster. 
+Se gli elementi sono distribuiti in gruppi ben separati il clustering è semplice e vengono messi in cluster disgiunti. In molti casi succede però che i record non possano essere partizionati in cluster ben separati, nasce quindi un'incertezza arbitraria nell'assegnare gli oggetti ad un particolare cluster. Questa problematica si riflette infatti sulla scelta dell'assegnazione degli elementi di frontiera al rispettivo cluster.
 
-Per ovviare al problema ogni osservazione viene considerata come appartenente ad ogni cluster ma con una misura diversa per ognuno! (es. utilizzando la misura della media)
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.4 \linewidth]{clustering/pict/frontiera.png}
+	\caption{Differenza tra cluster ben separati e non ben separati.}
+\end{figure}
+Per ovviare al problema ogni osservazione viene considerata come appartenente ad ogni cluster ma con un peso diverso che indica il grado con cui un oggetto appartiene ad un ogni cluster. In particolare $w_{ij}$ è il \textit{peso} con cui l'$i$-esimo oggetto appartiee al $j$-esimo cluster.
 
-$w_{ij}$ \`e il \textbf{peso} con cui l'$i$-esimo oggetto appartiee al $j$-esimo cluster.
+Assumiamo di avere un dataset di $m$ oggetti/record, dove ogni oggetto è associato ad un numero dato di attributi continui.
+
+\begin{defn}
+	Si definisce \textbf{Fuzzy pseudo-partition} l'assegnazione dei valori dei pesi $w_{ij}$ con i seguenti vincoli:
+	\[\sum_{j = 1}^{K}w_{ij} = 1 \quad i=1,2,...,m\]
+	\[0 < \sum_{i = 1}^{K}w_{ij} <  m \quad j=1,2,...,K\]
+\end{defn} 
+
+Ovviamente per come sono definiti i cluster \textit{non ammetto cluster a dimensione nulla.} Il Fuzzy C-means \textit{produce dunque un clustering che risalta l'indicazione del grado per cui un oggetto appartiene ad ogni cluster.} Per come è definito ha gli stessi punti di forza e debolezze dell'algoritmo delle k-medie sebbene sia computazionalmente più pesante.
+\begin{comment}
 
 La \textbf{pseudo-partizione Fuzzy} \`e definita assegnando prima l'isieme di tutti i pesi $w_{ij}$ con $w_{ij} \geq 0$ ed essi devono essere verificati dai seguenti vincoli:
 
