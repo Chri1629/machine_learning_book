@@ -102,7 +102,7 @@ La proximity è uno strumento fondamentale per valutare il funzionamento di un a
 
 In generale la similarità è nulla se i due oggetti sono totalmente differenti sotto la caratteristica che stiamo valutando ed è uguale a 1 se sono completamente uguali, è comune però trovare misure di similitudine che hanno come valori:.  $[0,\inf]$. Useremo il termine \textbf{proximity} per indicare sia la similarità che la dissimilarità. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.45 \linewidth]{clustering/pict/simil_diss.png}
 	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
@@ -232,61 +232,83 @@ Come è facilmente intuibile risulta molto complesso sostenere tutta questa spec
 \end{itemize}
 
 \subsection{Clustering Algorithms}
-
 Passiamo ora a parlare degli algoritmi di Clustering veri e propri:
+\subsubsection{Prototype Based}
 
-\textbf{ARRIVATO QUA}
-\textbf{Prototype-Based Custering} un cluster \`e un sottoinsieme di oggetti come vicini (similarit\`a o dissimilarit\`a) rispetto ad un oggetto prototipo. 
+L'approccio ai  \textit{Prototype-Based Clustering} si basa sull'assunzione che ogni cluster possa essere ben rappresentato da un unico punto chiamato \textbf{prototipo.} Ogni oggetto è quindi collocato nel cluster del prototipo a cui è più vicino.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.4 \linewidth]{clustering/pict/prototype_cluster.png}
-	\caption{esempio di prototype-based clustering}
+	\caption{Esempio di prototype-based clustering}
 \end{figure}
+Esistono diversi tipi di algoritmi basati sul prototipo a seconda delle seguenti caratteristiche:
 
-il quadratino, triangolino e x sono i prototipi centroidi dei cluster. Mi focalizzo su un'osservazione e essa viene assegnata al cluster del centroide prototipo pi\`u vicino.
-
-Caratteristiche:
 \begin{itemize}
-	\item oggetti appartengono ad un unico cluster
-	\item oggetti sono condizione di appartenere a pi\`u di un gruppo
-	\item un cluster \`e modellato con una interpretazione probabilistica
-	\item i cluster sono vicolati ad avere relazioni fisse (vicinato)
+	\item Ogni oggetto deve appartenere ad un singolo cluster.
+	\item Ogni record è nella condizione di appartenere a più di un cluster contemporaneamente.
+	\item Il concetto di cluster è modellizzato con una distribuzione di tipo probabilistico.
+	\item I cluster sono costretti ad avere relazioni fissate.
 \end{itemize}
 
-\subsection{K-medie}
-Il prototipo in questo caso prende il nome di \textbf{centroide}, di solito \`e indentificato dal vettore media dei valori degli attributi delle osservazioni di quel determinato cluster (quindi dei record). Solitamente applicato a oggetti in uno spazio continuo n-dimensionale.
+\paragraph{K-medie}
 
-Bisogna comunque dichiarare il \underline{numero di cluster} da identificare (K cluster) e fa la differenza questo parametro!! 
+Partiamo ora della descrizione di uno dei primi algoritmi basati sul prototipo. In questo caso il prototipo prende il nome di \textit{centroide,} questo valore solitamente è identificato dal vettore media dei valori degli attributi delle osservazioni di quel determinato cluster. Non siamo vincolati a ragionare in due dimensioni, il cluster generalmente è applicato ad oggetti in uno spazio continuo n-dimensionale.
 
-\subsubsection{Algoritmo}
-\begin{enumerate}
-	\item Selezione K oggetti come centrodi
-	\item \textbf{Reapeat} (ciclo)
-	\item Da K cluster, assegnamo ogni record al centroide pi\`u vicino
-	\item Ricalcola il centroide di ogni cluster
-	\item \textbf{Until} i centroidi non cambiano
-\end{enumerate}
-
-\section{Lezione 12 - Clustering Algorithm}
-
-\textbf{K-mean}: vi sono diverse misure di sitanza che popssono essere applciate [errata corrige: massimizzare la somma di coseno (slide 3 part II)]
-
-Problemi sono:
+Forniamo ora una descrizione schematica dell'algoritmo:
 \begin{itemize}
-	\item la scelta dei iniziale centroidi \`e fondamentale e influenza in modo pesante le performance dell'algoritmo in generale. Vi sono alternative quali il clustering gerarchico.
-	\item punti a favore del K-medie \`e che occupa il minimo spazio ed \`e un algoritmo abbastanza rapido in quanto \`e lineare per il numero di istanze considerate. 
-	\item pu\`o accadere che un cluster sia vuoto per scelta sbagliata di centroidi iniziale (magari randomica).
-	\item problema di Outlier: crea grossi problemi quando calcolo la media delle osservazioni di un cluster (\`e per\`o efficiente nella ricerca di outlier in quanto li indentificher\`a come sigleton)
+	\item Selezione K oggetti come centrodi
+	\item \textbf{Repeat} (ciclo)
+	\begin{itemize}
+		\item Da K cluster, assegniamo ogni record al centroide più vicino.
+		\item Ricalcola il centroide di ogni cluster.
+		\item \textbf{Until} i centroidi non cambiano.
+	\end{itemize}
 	
 \end{itemize}
 
-Limiti sono:
+Come notiamo va esplicitato il numero di cluster prima dell'esecuzione dell'algoritmo,  valori di partenza differenti possono fornire risultati molto diversi. La scelta del numero di cluster è dunque un ambito da tenere fortemente in considerazione.
+
+L'algoritmo delle K-medie non è vincolato ad utilizzare la distanza Euclidea ma possiamo utilizzare le diverse misure di prossimità utilizzate in precedenza. In particolare:
+
 \begin{itemize}
-	\item difficolt\`a a ricercare cluster di non forma sferica
-	\item difficolt\`a a trovare cluster con dimensioni diverse
+	\item \textbf{Manhattan:} in questo caso utilizziamo le mediane come centroidi, l'obiettivo è quindi \textit{minimizzare la somma delle $L_{i}$ distanze dei record rispetto al centroide del cluster a cui appartiene.}
+	\item \textbf{Squared Euclidea:} in questo caso utilizziamo le medie come centroidi, l'obiettivo è quindi \textit{minimizzare la somma delle $L_{i}$ distanze dei record rispetto al centroide del cluster a cui appartiene.}
+	\item \textbf{Cosine:} in questo caso utilizziamo le medie come centroidi, l'obiettivo è quindi \textit{massimizzare la somma delle cosine similarity dei record rispetto al centroide del cluster a cui appartiene.}
+\end{itemize}
+
+
+Elenchiamo tutta una serie di problematiche relative all'utilizzo dell'algoritmo delle K-medie come algoritmo di clustering.
+\begin{itemize}
+	\item\textit{Scelta dei centroidi iniziali:} è una fase fondamentale e influenza in modo pesante le performance dell'algoritmo in generale. Se optiamo infatti per una scelta random dei centroidi iniziali possiamo avere cluster molto diversi. Vi sono diverse alternative per ovviare a questo problema quali il clustering gerarchico.
+	\item \textit{Complessità spaziale e temporale:} questi sono due punti a favore del K-medie. In particolare occupa pochissimo spazio in quanto vengono salvate solo le posizioni dei centroidi. Inoltre si tratta di un algoritmo abbastanza rapido in quanto è lineare rispetto al numero di istanze considerate. 
+	\item \textit{Cluster vuoti:} bisogna tenere in considerazione che può capitare che. un cluster sia vuoto per scelta sbagliata di centroidi iniziale (magari randomica).
+	\item \textit{Presenza di outlier:} Questi elementi creano grossi problemi nel calcolo della media delle osservazioni di un cluster. Risulta efficiente però nella ricerca di outlier in quanto verranno identificati come cluster di singleton. Risulta spesso utile rimuoverli.
+\end{itemize}
+
+Elenchiamo ora una serie di limiti riferiti alla ricerca dei cluster con l'algoritmo delle k-medie:
+\begin{itemize}
+	\item Diffiicoltà  a ricercare cluster di non forma sferica. 
+\begin{figure}[H]
+	\begin{minipage}[b]{0.47\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{clustering/pict/non_sferica_1.png}
+		\caption{Cluster non sferico.}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[b]{0.47\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{clustering/pict/non_sferica_2.png}
+		\caption{Cluster sferico.}
+	\end{minipage}
+\end{figure}
+	
+	\item Difficoltà a trovare cluster con dimensioni diverse, questo problema nasce dal fatto che la distanza è fissata.
 	\item difficolt\`a a indentificare cluster di diversa densit\`a (vicinanza dei punti)
 \end{itemize}
+
+
+\begin{comment}
 
 Per ovviare ad alcuni di questi problemi vi sono tecniche per clusterizzare in cluster pi\`u numerosi ed alla fine unire secondo degli algoritmi specifici nel numero di cluster richiesto, es minimizzazione delle distanze dei centroidi. 
 
@@ -304,7 +326,7 @@ Quindi K-medie \`e:
 NB: pi\`u cluster vengono utilizzati pi\`u aumenta la complessit\`a computazionale.
 
 
-\subsection{Fuzzy C-means}
+\paragraph{Fuzzy C-means}
 Se gli elementi sono distribuiti in gruppi ben separati il clustering \`e semplice, i problemi nascono dove le istanze sono molto vicine. Inoltre consideriamo il fatto di osservazione sulla frontiera delle distanze dei cluster. 
 
 Per ovviare al problema ogni osservazione viene considerata come appartenente ad ogni cluster ma con una misura diversa per ognuno! (es. utilizzando la misura della media)
@@ -321,7 +343,7 @@ Ogni oggetto deve essere assegnato ad un certo grado a tutti i cluseter. Non son
 
 Il Fuzzy C-means produce cluseter che danno un'indicazione del grado in cui ogni oggetto appartiene ad ogni cluster, ha gli stessi punti di forza e debolezza del K-means ma pi\`u pesante computazionalmente.
 
-\subsection{Modelli a mistura}
+\paragraph{Modelli a mistura}
 In questi modelli vediamo le osservazioni da una mistura di diverse distribuzioni di problabilit\`a. In sostanza possiamo vedere le misture come distribuite secondo delle normali con uguale varianza ma medie diverse (curve di livello) [propriet\`a rilassabile]. 
 
 Supponiamo spazio di 3 componenti, processo di generazione:
@@ -349,7 +371,7 @@ Svantaggi:
 \end{itemize}
 
 
-\subsection{Mappe di Kohonen o SOMs}
+\paragraph{Mappe di Kohonen o SOMs}
 Una struttura feedforward per algoritmi di clustering. Detta anche mappa atorganizzante. Vi \`e una mappatura dei neuroni che mappano in uno spazio bidimensionale. Non hanno una sola direzione ma sono bi-direzionali, possono spostare i pesi sia da input ad output che viceversa.
 
 Ho uno spazio di input continuo e voglio mapparlo in uno spazio discreto di output. Vorrei che mappando un'osservazione in un neurone posso poi tornare indietro tramite un altro collegamento.
@@ -374,9 +396,7 @@ Limiti:
 	\item la convergenza non \`e garantita, \`e un'euristica
 \end{itemize}
 
-\section{Lezione - Clustering Algorithm}
-
-\subsection{Clustering Gerarchico}
+\paragraph{Clustering Gerarchico}
 \begin{itemize}
 	\item \textbf{agglomerativo}: si parte da tutti gli oggetti come cluster individuali e ad ogni step unisce le coppie di cluster pi\`u vicine.
 	\item \textbf{divisivo}: parte da un cluster unico e passo passo divide il cluster in soli cluster singleton di oggetti individuali rimanenti. Abbiamo bisogno di decidere quale cluster splittare ad ogni passo e come splittare
@@ -423,7 +443,7 @@ La prossimit\`a tra cluster viene calcolata con:
 	\item decisioni di unione di cluster sono subottimali quindi creano rumore
 \end{itemize}
 
-\subsection{Density-Based Clustering}
+\paragraph{Density-Based Clustering}
 Densit\`a di regioni di oggetti che sono circondati da regioni con bassa densit\`a di oggetti.
 
 \textbf{DBSCAN} \`e un semplice ma efficace metodo density-based. 
@@ -488,7 +508,7 @@ Vi sono altri algoritmi di density-based:
 	\item kernel density function
 \end{itemize}
 
-\subsection{Graph-based Clustering Algorithm}
+\paragraph{Graph-based Clustering Algorithm}
 Gi\`a gli algoritmi a rappresentazione gerarchica possono essere visti come graph-based. 
 
 Sparsificare: tagliare, rimuovere certi archi che non superano la verifica di una certa condizione (Es. tutti gli archi che non superano una certa soglia, oppure un concetto di vicinato). 
@@ -510,7 +530,7 @@ se fisso k = 3 scelgo per ogni riga della matrice delle prossimit\`a i primi 3 v
 
 La sparsificazione riduce anche di molto il numero di elementi del dataset. Il clustering lavora molto meglio in quanto si lavora in un concetto di vicinanza. Algoritmi su grafi partizionati possono essere usati. 
 
-\subsection{Altri algoritmi}
+\paragraph{Altri algoritmi}
 Non sempre purtroppo la sparsificazione del grafo porta ad un grafo sconnesso. L'idea \`e di ciclare la sparsificazione finch\`e non otterr\`o dei grafi partizionati ben definiti. 
 
 \textbf{Minimum spanning tree} o albero di supporto a costo minimo:
@@ -538,7 +558,7 @@ Altro algoritmo \textbf{Camaleon}.
 
 Quando si visualizza il dendrogramma, si possono visualizzare le distanze e solitamente ha una forma a "gomito" la soluzione ottimale \`e solitamente quella che precede la salita finale del comito. Un buon dendrogramma ha grandi salti prima di aggregare insieme (salti grandi significa che se raggruppo genero un errore importante quindi \`e positivo per la valutazione del clustering). 
 
-\section{Lezione - Clustering Evaluation}
+\subsection{Clustering Evaluation}
 
 L'efficienza di un algritmo di clustering viene valutato tramite:
 \begin{itemize}
@@ -567,7 +587,7 @@ abbiamo 3 diversi tipi di indici:
 	\item \textbf{Relativi}: compara differenti clustering
 \end{itemize}
 
-\subsection{Esterni o supervisionati}
+\subsubsection{Esterni o supervisionati}
 $P = \{P_1, ..., P_R\}$ partizione di un dataset di m (oggetti record) in R categorie, possono essere partizionati con algoritmi in k cluster $C= \{C_1, ..., C_K\}$.
 
 Casi:
@@ -589,7 +609,7 @@ Fowlkes and Mallows: \[FM = \sqrt{\frac{a}{a + b} x \frac{a}{a + c}}\]
 
 $\Gamma$ statistics
 
-\subsection{Interni o non supervisionati}
+\subsubsection{Interni o non supervisionati}
 
 Molte misure di validit\`a del partizionamento dei cluster si basano sulla \textbf{coesione} e sulla \textbf{separazione}. Noi di base vogliamo un valore di coesione alto ed un valore di separazione basso.
 
@@ -623,7 +643,7 @@ Per il clustering gerarchico viene definito il Cophenetic Correlation Coefficien
 Si considera la matrice di prossimit\`a e la matrice cophenetica.
 Cophenac matrix \`e la matrice che tiene conto delle distanze tra coppie di osservazioni raggruppate all'interno di uno stesso cluster. Il valore varia da $[-1,1]$. Pi\`u il valore \`e vicino a 1 meglio l'algoritmo gerarchico fitta.
 
-\subsection{Paradigma di validit\`a}
+\subsubsection{Paradigma di validit\`a}
 Rispondere alla domanda se il nostro dataset tende ad essere clusterizzabile.
 
 Vengono considerati criteri interni ed esterni legati a metodi statistici e test di ipotesi. 
@@ -638,7 +658,7 @@ Se non ci fosse nessuna struttura dei dati (ipotesi NULLA).
 
 A questo punto valuto in base alla distribuzione sotto l'ipotesi nulla e ci calcolo l'indice. Se il valore dell'indice \`e all'interno del quantile fissato ($\alpha$) posso affermare che ci sia struttura nel dataset, se invece l'ipotesi \`e rigettata allora si sa che il clustering sviluppato non ha struttura pertanto pu\`o essere mostrata al proprio interlocutore l'algoritmo sviluppato. 
 
-\subsection{Selezione del numero di cluster}
+\subsubsection{Selezione del numero di cluster}
 A senso porsi questa domanda se si \`e prima rilevato che vi \`e struttura di clustering. 
 
 I criteri \textbf{relativi} \`e un uso particolare delle misure di clsustering per comprendere il numero ottimale di cluster. Si proietta lo spazio delle osservazioni in uno spazio di dimensione minore e da questo si utilizzano delle tecniche di valutazione.
@@ -658,3 +678,5 @@ Misure miste di probabilit\`a model-based clustering sono:
 \end{itemize}
 
 Per l'algoritmo di clustering richiede un input di numero di clsuter K dagli utenti una sequenza di strutture di clustering ottenute eseguendo l'algoritmo motlre volte dove K spazia da $K_{min}$ a $K_{max}$.
+
+\end{comment}
