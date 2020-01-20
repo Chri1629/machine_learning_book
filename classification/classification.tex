@@ -1,144 +1,706 @@
-\restylefloat{table,figure}
-\pagestyle{fancy}
-\cfoot{\thepage}
-\renewcommand{\footrulewidth}{0.25pt}
+\section{Classification}
 
+\subsection{Introduction (*)}
+Entriamo un po' più nella componente di validazione nei modelli di classificazione supervisionata.
+La cosa più importante è \textbf{capire cosa stiamo facendo} in quanto quando sia applicano algoritmi di machine learning è facile perdersi.
 
-\section{Introduzione}
-Gli ambiti più importanti nei quali vengono applicate tecniche di machine learning nella vita reale sono:
-\begin{itemize}
-	\item Finanza
-	\item Sanità
-	\item Agricoltura
-	\item e-commerce
-	\item Social
-	\item Chatbot
-	\item Sensoristica (come i veicoli a guida autonoma)
-\end{itemize}
+Nel solito dataset vogliamo determinare se un cliente abbandonerà o meno il nostro servizio, per farlo cerchiamo di utilizzare una particolare combinazione di attributi. Bisogna innanzitutto vedere di che tipo siano le variabili presenti nel nostro database.
 
-Vista la grande mole di dati la necessità è capire come trattare i dati.
+Dobbiamo essere in grado sia di prevederlo che di capire \textbf{perché} qualcuno ha abbandonato. Svolgiamo questo compito con un modello di \textbf{classificazione}. Un modello di classificazione è un modello che sfrutta alcuni attributi del dataset (\textbf{attributi esplicativi}) per prevedere un valore di un altro attributo (\textbf{attributo di classe}).
 
-\textbf{L'obiettivo del Machine Learning è sviluppare metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo facendo.}
+\begin{figure}[H]
+	\hspace{-0.5cm}
+	\includegraphics[height=0.2 \linewidth]{classification/pict/class_model.png}
+	\caption{processo di classificazione}
+\end{figure}
 
-Tipicamente le tecninche di machine learning si dividono nelle seguenti tre macro categorie:
-\begin{itemize}
-	\item Apprendimento supervisionato o predittivo: qualcuno ha gia catalogato ad esempio delle immagini o dei dati e noi prendendo questi modelli dovremmo essere in grado di predire.
-	\item Apprendimento descrittivo: ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
-	\item Apprendimento rinforzato: E' quello più utile in questa epoca: funziona sui premi.
-\end{itemize}
+\begin{defn}
+	Le variabili in input si chiamano \textbf{variabili esplicative}.
+\end{defn}
 
-In questo corso ci concentreremo sui primi due tipi di apprendimento.
+\begin{defn}
+	Le variabili in output si chiamano \textbf{variabili di classe}.
+\end{defn}
 
-L' \textit{apprendimento supervisionato} si divide a sua volta nelle seguenti due categorie:
-\begin{itemize}
-	\item Classificazione: quando il problema consiste nel dividere in classi delle quantità discrete.
-	\item Regressione: quando il problema consiste nel ricostruire una certa variabile date delle condizioni pregresse.
-\end{itemize}
-
-L' \textit{apprendimento non supervisionato} si divide a sua volta in:
-\begin{itemize}
-	\item Clustering: Quando il problema consistere nel ricostruire delle classi delle istanze che ci vengono consegnate, senza sapere nulla sulla storia pregressa.
-	\item Associativa: Quando il problema consiste nel scoprire pattern che descrivono bene caratteristiche associate ad un certo fenomeno.
-\end{itemize}
-
-Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però essa è addirittura deleteria.  Se infatti provassi a vedere la correlazione tra il numero di omicidi in america e il numero di fondi investiti sulla ricerca scientifica vedrei che statisticamente sono strettamente correlate. Questo è un no-sense ed è il classico esempio di \textit{correlazione spuria.}
-
-A confermare questa visione in cui il modello per una certa trattazione dati è fondamentale è il cosidetto paradosso di Simpson.
-
-\textbf{Paradosso di Simpson:} Se uso solo i dati senza modello no c'è alcun modo di scoprire la verità.
-
-
-\subsection{Data Types}
-
-Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura dei dati che abbiamo a disposizione (\textbf{dataset}), c'è un fenomeno che si chiama \textbf{churn}, quando non siamo soddisfatti di un servizio ci affidiamo al competitor.
-
-Ci possono essere valori missing in un dataset e possono mancare per diversi motivi.
-
-Le colonne sono chiamate \textbf{Attributi.}
-
-Le righe sono chiamate \textbf{Istanze.}
-
-A volte ci sono anche attributi duplicati che possiamo tranquillamente buttare fuori.
-Ogni attributo è caratterizzato dal fatto di avere un tipo. Conoscerlo è fondamentale per trattare i dati.
-Gli attributi si dividono in due grandi gruppi:
-\begin{itemize}
-	\item Categorici:
+\begin{defn}
+	 Un \textbf{modello di classificazione} è qualcosa che risolve un problema di classificazione:
 	\begin{itemize}
-		\item Nominali: ad esempio il colore degli occhi.
-		\item Ordinali: ad esempio possono essere i giudizi.
+		\item \textbf{Modello descrittivo}: serve come strumento di spiegazione per distinguere tra oggetti di classi diverse
+		\item \textbf{Modello predittivo}: predice la classe di un record sconosciuto, pu\`o essere visto come una \underline{scatola nera} che asssegna una label di una classe al record sconosciuto
 	\end{itemize}
-	\item Numerici:
-	\begin{itemize}
-		\item Intervallo: ammettono operazioni di somma e sottrazione. 
-		\item Ratio: possiamo applicare tutte le operazioni logico/matematiche.
-	\end{itemize}
-\end{itemize}
+\end{defn}
 
-Dall'alto al basso il livello gerarchico sale e le proprietà aumentano.
+\begin{defn}
+	La tecnica di classificazione o \textbf{classificatore} è un approccio sistematico per costruire un modello di classificazione su un dataset.
+\end{defn}
+Il classificatore segue il seguente processo:
 
-Si possono anche dividere in attributi \textit{discreti} che possono essere:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.6 \linewidth]{classification/pict/class_process.png}
+	\caption{processo di creazione della classificazione}
+\end{figure}
+
+\begin{defn}
+	Il \textbf{training set} consiste in dei record in cui tutti i valori degli attributi sono noti.
+\end{defn}.  
+
+\begin{defn}
+	Il \textbf{test set} consiste in dei record i cui valori dell'attributo di classe sono sconosciuti (o presunti tali).
+\end{defn}
+
+Si utilizza quindi un algorimo di learning (\textbf{Learner}) sul training set, passaggio definito come \textbf{Classification Model Learning}. 
+
+\begin{defn}
+	L'output di questa operazione è un'istanza del modello di classificazione chiamato \textbf{Inducer}. All'inducer è chiesto di predire il valore della classe attributo per il test set. 
+\end{defn}
+
+La chiave di tutto è la scelta dell'algoritmo learner per l'apprendimento. Inoltre la scelta degli attributi esplicativi è fondamentale, infatti alcuni di essi possono essere solo ridondanti nel processo e generare solo rumore. Tramite l'analisi delle performace si possono valutare queste due scelte. 
+
+Bisogna valutare ora le performance del modello inducer. Uno dei modi per analizzare se è efficace è la \textbf{matrice di confusione}. 
+
+Nelle righe vi sono i veri valori delle classi, nelle colonne i valori predetti dall'inducer. Il numero di righe è uguale al numero di colonne e corrispondono al numero di classi da predire.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.25 \linewidth]{classification/pict/matrconf.png}
+	\caption{modello di matrice di confusione}
+\end{figure}
+All'interno sono identificati i risultati dei test e sono così classificati:
 \begin{itemize}
-	\item Categorici
-	\item Numerici
-	\item Binari: sono i più particolari da trattare, e hanno una serie di proprietà strane.
+	\item \textbf{TN - vero negativo}: num. di record dove AC=-1  che sono stati corretamente predetti IP=-1
+	\item \textbf{FN - falso negativo}: num. di record dove AC=+1  che sono stati erroneamente predetti IP=-1
+	\item \textbf{TP - vero positivo}: num. di record dove AC=+1  che sono stati corretamente predetti IP=+1
+	\item \textbf{FP - falso positivo}: num. di record dove AC=-1  che sono stati erroneamente predetti IP=+1
 \end{itemize}
-Oppure possono essere \textit{Continui.}
 
-\subsection{Data exploration}
+\begin{defn}
+	La misura più utilizzata come metrica di performance è l'\textbf{accuratezza}:
+	
+	\[accuracy = \frac{\sum_{i = 1}^{n} diagonal}{\sum_{i=1}^{n}elements} = \frac{\#CorrPrediction}{\#Prediction} = \frac{TN + TP}{TN + TP + FN + FP}\] 
+	
+	La misura complementare che troveremo indicata è quella degli elementi:
+	
+	\[error = \frac{FN + FP}{TN + FN + FP + TP} =  1 - accuracy\]
+\end{defn}
 
-Dobbiamo però anche sapere come esplorare i dati. Per farlo facciamo cose molto elementari.
-Per farlo si usano tutti gli strumenti a nostra disposizione.
+\subsection{Tecniche di classificazione}
 
-Il concetto di \textbf{quantile} è trovare il numero di osservazione che ci indica quanti attributi sono più piccoli di un dato valore.
-Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama \textbf{Mediana} che è quello che ha esattamente minori di lui la metà dei dati.
+Una tecnica di classificazione è un modo sistematico di aggredire un dataset e costruire i modelli di classificazione, in particolare possiamo dividerle in 4 macro categorie:
+\begin{itemize}
+	\item \textbf{Euristiche}: ispezionano il suo vicinato come (Decision Trees, Random Forest, Nearest Neighboor)
+	\item \textbf{Regression Based}: usa la probabilità condizionata parametrica, es regressione logica
+	\item \textbf{Separazione}: partiziona lo spazio degli attributi, fa riferimento alle Support Vector Machine e alle Artificial Neural Network
+	\item \textbf{Probabilistici}: usano la formula di Bayes (Naive Bayes ecc...).
+\end{itemize}
 
-\[mean = \frac{1}{n}\sum_{i=1}^{n}x_i\]
+Forniremo una overview di tutte queste, non le tratteremo nel dettaglio, partiamo da quelli \textbf{Euristici}.
 
-La media non è un buon modo di visualizzare i dati perché dice poco ma quanto meno dice qualcosa. Siccome la media è basata su singole osservazioni si possono vedere le presenze di outliar, ossia di elementi troppo discordanti dalla media e che si presenta poche volte. Sono quindi elementi che è necessario trattare per vedere la provenienza.
+\subsection{Decision Tree}
+I modelli decision tree sono bodelli basati euristici. 
 
-Per prevenire questo si usa la \textbf{media trimmed} in cui si buttano via il valore più piccolo e il valore più grande. Se si trova un grosso scostamento probabilmente è presente un outlier.
+Un \textbf{albero di decisione} ha innanzitutto una rappresentazione grafica precisa. Vi sono 2 elementi: nodi e archi. Il \textbf{nodo} rappresenta un sottoinsieme del dataset, gli \textbf{archi} sono usati per modellare gli output di modelli diversi di dataset.
 
-Si puù definire anche il range anche se di solito si usa la varianza:
-\[var = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})^{2}\]
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.7 \linewidth]{classification/pict/decision_tree.png}
+	\caption{modello decision tree}
+\end{figure}
 
-Di solito si usa la deviazione standard che ha lo stesso ordine di grandezza dei dati:
+I suoi ingredienti pricnipali sono:
+\begin{itemize}
+	\item \textbf{Root node} (nodo radice): non ha archi in ingresso ma può averne più di due in uscita
+	\item \textbf{Internal nodes} (nodi interni): hanno un solo arco in ingresso e alemeno due in uscita
+	\item \textbf{Leaf} (nodi foglia o terminali): sono nodi interni senza archi in uscita e con esattamente un arco in ingresso.
+\end{itemize}
 
-\[ std = \sqrt{var} \]
+Cerchiamo di capire come si forma questo albero: ad ogni nodo è associato un determinato schema.
 
-Si usa anche il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
-Se ho a che fare con coppie di attributi allora è naturale parlare di \textbf{covarianza} ossia la varianza calcolata su due attributi diversi:
+Ogni record viene classificato partendo \textbf{dall'alto} (radice) fino \textbf{al basso} (nodi foglia).
 
-\[cov(X,Y) = \frac{1}{n}\sum_{i = 1}^{n} (x_{i} - \bar{x})(y_{i} - \bar{y})\]
+Leggo il primo nodo (radice) abbiamo l'indicazione di un attributo: nell'esempio se 'day charge' sia $\le 41,665$ o  $>$ e dividere l'albero in due nodi. Se la risposta è vera allora mi muovo in un nodo altrimenti nell'altro. All'interno del nuovo nodo ho di nuovo la valutazione di una variabile, e proseguo cos\`i finch\`e raggiungo un nodo foglia.
+Quando arriviamo ad una foglia devo fornire una risposta, ovvero conto la classe più frequente ed rispondo al chiamante con essa (es. churn = n).
 
-Di solito si fanno scalature perché sennò le covarianze vengono troppo sbagliate. Per ovviare uso la \textbf{correlazione di Pearson} che può prendere valori $[-1,1]$
-\[ corr(x,y) = \frac{cov(x,y)}{\sqrt{var(x)var(y)}}\]
+Il decision tree può essere usato per attributi nominali, ordinali così come intervalli numerici e coefficienti.
+ 
+Diverse misure possono essere usate per selezionare la politica di node splitting ottima: \textit{entropia}, \textit{indice di Gini} e il \textit{classification error}. Esso comunque dipende anche dal tipo di attributo: \textit{binario}, \textit{nominale} e \textit{continuo}. 
 
-Possono organizzare i dati in istogrammi in cui posso usare una ampiezza fissa o variabile (bin). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi.
+E' un modello che risponde sempre \textit{la classe più frequente} ed è un modello praticamente inutile quando ho delle classi particolarmente sbilanciate. Sono evidentemente test univariati, ciò che faccio è costruire iper parallelepipedi del nostro dataset. Vanno a definirsi delle rette per il cambio di classificazione: \textbf{decision boundary}.
 
-Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{classification/pict/decision_boundary.png}
+	\caption{decision boundary}
+\end{figure}
 
-\subsection{Missing replacement}
+Il risultato di queste rette fa la differenza sulla capacità di evidenziare dove ci siano elementi di una certa classe, devo quindi imparare a posizionare questi iperpiani: \textbf{Voglio partizionare il mio spazio in iperpiani massimizzando l'accuratezza.}
 
-E' un problema enorme di per sè. Le operazioni più elementari sono le seguenti. In alcuni valori degli attributi un valore non è registrato. Ci possono esser tante ragioni: ad esempio un attributo non è sempre stato osservabile (penso all'ambito clinico), o ad esempio un attributo prima non veniva considerato rilevante.
+Non c'è alcuna ragione per cui io non possa usare degli splitting multipli e non solo su binari, posso farlo anche su valori nominali.
 
-Il primo nmetodo è il \textbf{Record removal} che è molto drastico come metodo perché comunque sia vengono eliminati dei valori che sarebbero potuti essere molto importanti.
+\subsection{Regressione Logistica Binomiale}
+La regressione logistica è un metodo di classificazione basato sulla regressione.
 
-Il secondo metodo è quello di \textbf{imputazione manuale}: è fatta da umani e tramite osservazioni ci si chiede se sia possibile inserirlo, è tremendamente difficile dal punto di vista computazionale.
+Assumiamo che la variabile di classe Y sia compresa tra $\{0,1\}$, allora la regressione logistica binaria calcola a posteriori la probabilità che Y dia il valore dell'input ovvero le variabili esplicative 
+Servono per risolvere problemi di regressione binaria a diversi livelli. E' applicabile ad attributi continui e con certe accuratezze anche ad attributi nominali.
 
-Il terzo metodo è quello della \textbf{global constant}: ossia metto un numero là chiamato place holder con un valore costante, non troppo efficiente.
+Si assume l'attributo di classe $Y = \{0,1\}$, allora il classificatore a regressione logistica binomiale calcola a posteriore la probabilit\`a che $Y$ assuma il valore di un input esplicativo \underline{$X$}. Si cacola come segue:
 
-Il quarto metodo è quello di \textbf{rimpiazzarlo con la moda}, anche questo però è fortemente criticabile.
-Se gli attributi sono continui si fa la stessa cosa ma con la media.
+\[P(Y = 0 | \underline{X}= \underline{x}) = \frac{1}{1+exp(\underline{x} \cdot \underline{w})}\]
 
-Il quinto metodo è \textbf{Conditional mean replacement} ossia bisogna rimpiazzare con la media solo se è presente un altro determinato attributo.
+\[P(Y = 1 | \underline{X}= \underline{x}) = \frac{exp(\underline{w} \cdot \underline{x})}{1+exp(\underline{w} \cdot \underline{x})}\]
 
-Il sesto metodo è quello del \textbf{most probable} ossia di prendere un modello e sostituire il valore.
+dove $\underline{w}$ \`e chiamato il vettore parametro.
 
-E' molto difficile dare il confine tra l'esplorazione dei dati e la modellizzazione dei dati.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{classification/pict/regr_logistic.png}
+	\caption{regressione logistica}
+\end{figure}
 
-\subsection{Data Preprocessing}
+In questo modo vengono portate le probabilità di appartenere ad una certa classe.	
 
-Tutti questi processi impattano fortemente tutta l'analisi che farò dopo.
+Vi sono poi diversi modelli derivati dal decision tree, come il Random Forest.
+ 
+\textbf{Random forest}: \`e un comitato di alberi di decisione. Sostanzialmente usa degli attributi che sono in generale sottoinsiemi degli attributi, ogni albero può avere un sottoinsieme differente di attributi. Ogni albero usa attributi in modo randomico. Ogni albero apprende a modo suo e il random forest in base a dei parametri (regione dello spazio) decide a quale albero ascoltare per la decisione. 
+
+\subsection{Support Vector Machines}
+La tecnica Support Vector Machines è un metodo di classificazione con separazione. Lo scopo \`e separare o "apprendere" classi che vogliamo classificare. 
+
+Consideriamo uno spazio bidimensionale in cui sono rappresentati $m$ record dove due attributi continui vengono misurati: $D = \{(\underline{x}_1, y_1),...,(\underline{x}_m, y_m)\}$ dove $\underline{x}_i \in R^2$ e $y_i \in \{-1, +1\}$
+
+L'idea è quella di tracciare una retta (se ho due sole classi) per cui definisco l'area di appartenenza di una o dell'altra classe. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.4 \linewidth]{classification/pict/svm.png}
+	\caption{support vector machine - una possibile retta}
+\end{figure}
+
+La retta in questione è definita dalla seguente equazione:
+
+\[\underline{w} \cdot \underline{x} + b = w_1 x_1 + w_2 x_2 + b = 0\]
+
+per orientare la retta utiliziamo il vettore $\underline{w} = [w_1,w_2]$ oppure $b$. ($\underline{w}$ fa ruotare, $b$ fa traslare)\\
+se la retta esiste allora l'insieme delle istanze è \textit{linearmente separabile}.
+
+\textit{Problema}: vi sono pi\`u (anche infinite) rette utilizzabili per effettuare la separazione, quale devo scegliere? Perch\`e non basta trovare una retta che funziona, ma la retta migliore per quando si dovr\`a valutare dati nuovi. Si crea una sorta di area grigia nella quale non so dire esattamente quale delle due classi categorizzare (\textbf{Linear Decision Boundary}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.4 \linewidth]{classification/pict/svm_rette.png}
+	\caption{support vector machine - tante possibili rette}
+\end{figure}
+
+Devo sostanzialmente trovare una retta che \textbf{massimizza il margine di errore}, l'\textit{optimal linear decision boundary}. 
+
+\begin{figure}[H]
+	\hspace{-0.5cm}
+	\includegraphics[height=0.45 \linewidth]{classification/pict/svm_boundary.png}
+	\caption{support vector machine - boundary}
+\end{figure}
+
+la retta $B_1$ è nettamente preferita rispetto alla retta $B_2$ in quanto ha un margine di supporto $\delta$ maggiore.
+
+SONO ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+Naturalmente per n attributi bisogna trovare l'iperpiano ottimale per dividere un determinato insieme di istanze. Matematicamente parlando si cerca di massimizzare il margine $\delta = 1 / |w|^2$, la retta ha la seguente impostazione: $\bar{w} \cdot \bar{x} + b = 0$, le rette ai confini del margine sono fissate a $\bar{w} \cdot \bar{x} + b = 1$ e $\bar{w} \cdot \bar{x} + b = -1$. 
+
+$h(\bar{x}) = $
+
+L'argomento della retta \`e in 2 dimensioni, per\`o dopo aver applicato la funzione h(x) quella retta diventa un piano che va a -1 da un lato e a 1 dall'altro.
+
+\[min \frac{1}{2}\bar{w} \cdot \bar{w}^T \]
+
+Per trovare la retta devo minimizzare l'inverso del margine $\delta$\\
+bisogna imporvi dei vincoli per ogni attributo, se $\bar{w}$ e $\bar{x}$ sono \textit{concordi in segno} (positivo o negativo) allora classifica perfettamente perch\`e il risultato è $>= 1$. Garantiscono che tutti i casi del dataset siano classificati correttamente e tra tutti i casi che classificano correttamente scelgo quello che massimizza il margine. 
+
+Non risolveremo questa formula di ottimizzazione in modo diretto, ma la sua formulazione \textbf{duale}. In ogni caso questa formulazione funziona bene se il problema \`e \underline{linearmente separabile}.
+
+Nei casi \textbf{non} linearmente separabili, non esiste \textbf{mai} una retta in grado di separare correttamente le classi. In questi casi la formulazione precedente non ammette soluzione, perch\'e per alcuni dati i vincoli non ammettono soluzione. 
+
+Si introducono allora le \textbf{Linear Soft-margin}:
+
+$min $
+
+il chi deve essere non negativo (variabile di slack), se utilizzo questo parametro di una certa quantit\`a per ammettere un errore allora esiste almeno una retta che risolve il problema di ottimizzazione. Ho sostanzialmente \textit{rilassato} il problema di ottimizzazione, in particolare i vincoli. Graficamente parlando \`e come traslare degli elementi di una classe diversa dalla regione di appartenenza verso la regione della classe di quell'elemento.
+
+NB: i vettori di supporto sono quelle osservazioni che sono sul bordo del margine
+
+Altra soluzione fattibile \`e utilizzare una funzione \textbf{non lineare}. Si va a cercare una trasformazione che porti dallo spazio originale in uno spazio delle features in cui posso applicare una separazione lineare. Sono in grado di separare il nuovo dataset nello spazio delle features. In questo modo posso sfruttare tutta la metodologia precedente ma in uno spazio "controllato". 
+
+la traslazione avviene attraverso una funzione $\phi$: $\bar{w} \cdot \phi(\bar{x}) + b = 0$. Il modello diventa:
+
+$ min $ ...
+
+per l'apprendimento utilizziamo sostanzialmente delle funzioni kernel: $K(\bar{u}, \bar{v}) = \phi(\bar{u}) \cdot \phi(\bar{v})$. Queste funzioni kernel sono delle funzioni di similarit\`a calcolate nello spazio attributi originale di $x$.
+
+\subsection{Reti di neuroni artificiali}
+Oggi si utilizzano molto per il deep learning.
+
+Un modello \textbf{MLP Multi-layer perceptron} consiste in neuroni artificiali che comunicano in modo unidimensionale dall'input X alla variabile di classe (volendo ci possono essere pi\`u neuroni di ouput).
+
+Dati 3 neuroni di parametri continui, vengono inseriti in un neurone 4 che calcola una funzione. Ogni input nel neurone ha associato in peso $w$.
+Il neurone calcola una \underline{combinazione lineare} tra gli input ed il peso dato ad esso. 
+
+$z_4 = w_{1,4} \cdot x_1 + w_{2,4} \cdot x_2 +w_{3,4} \cdot x_3$
+
+$z_4 - \theta_4$ threshold di soglia applicato alla combinazione lineare
+
+$f(z_4 - \theta_4)$ funzione di attivazione (o trasferimento) che restituisce il valore che lui trasferir\`a ad un altro neurone o strato con cui comunica. Storicamente le funzioni applicazione sono la tangente iperbolica e la funzione logistica (intervallo tra -1 e 1 e tra 0 e 1). Oggi vengono utilizzate delle funzioni non derivabili pi\`u complesse, come funzioni RELU (Retify Linear Unit) che assumono valore 0 nel semiasse negativo e 1 nel semiasse positivo.
+
+Vi sono 3 tipi di neuroni: di input, di output e nascosti. Quelli di input comunicano con quelli nascosti (i cui valori non sono palesi a noi) e comunicano infine con quello/i di output. 
+
+Ogni neurone di input \`e connesso con ogni neuroni di strato nascosto  ed ogni nodo di strato nascosto comunica con il nodo di output (rete fully-connected). Ogni arco ha associato un peso e ogni nodo ha un valore di soglia $\theta_j$ e una funzione di attivazione. 
+
+Le scelte architetturali fanno la differenza nel risultato della computazione. Doppia scelta: quanti neuoni usiamo e quanti ne utilizziamo nello strato nascosto. Determina l'architettura della nostra rete. Posso pensare di aggiungere un \textbf{livello} di neuroni nascosti. Non vi sono teorie che dicono il numero di nodi e livelli di strati nascosti, si procede in modo empirico e si valuta il modello che funziona meglio. Non vi sono vincoli rispetto a comunicare saltando livelli. Non si pu\`o per\`o comunicare all'indietro, infatti queste reti sono chiamate \textbf{feed-forward neural network} (possono possedere fino a centinaia di strati nascosti).
+
+Per migliorare l'apprendimento si pu\`o propagare le valutazioni fatte all'output per tutti i nodi risalendo fino all'input. Modificando i pesi degli archi. Questa cosa funziona bene e ha senso con le RELU.
+
+Il problema MLP. non ha soluzione oggi, pertanto si procede in modo empirico, non \`e ancora possibile arrivare ad una soluzione ottima, non si riesce a capire se si ha raggiunto il massimo/minimo globale ma si cerca quella che da risultati accettabili e migliori di altri. 
+
+NB: classificare non significa saper approssimare!! Le SVM sono cos\`i, non adatti a modellare la probabilit\`a.
+
+\section{Lezione 5}
+
+\textbf{Classificatori probabilistici} calcolano la probabilit\`a condizionata e cercano di capire il valore della classe attributo da altre variabili. Si basa sul \textbf{teorema di Bayes}. 
+
+\[P(Y|\bar{X}) = \frac{P(\bar{X}|Y) \cdot P(Y)}{P(\bar{X})}\]
+
+dove:
+\begin{itemize}
+	\item $P(Y)$ è la probabilit\`a della classe attributo
+	\item $P(\bar{X}|Y)$ la verosimiglianza di un vettore di attributi data la classe attributo
+	\item $P(\bar{X})$ probabilit\`a dell'evidenza (nel senso di certezza)
+	\item $P(Y|\bar{X})$ probabilit\`a a posteriori della classe attributo dato il vettore di attributi esplicativi
+\end{itemize}
+\subsection{Naive bayes}
+Supponiamo Y attributo di classe binario \{-1,+1\}, $\bar{X}$ \`e attributo esplicativo binario $\{male, female\}$
+
+Sostanzialmente una volta che comprendo le probabilit\`a condizionate tra attributo di classe e attributi esplicativi, applico la formula di bayes per inferire la classe pi\`u probabile. 
+
+Quando il numero di variabili esplicative cresce (n variabili), le devo \underline{binarizzare} quindi avr\`o $2^n$ parametri. Che raggiungendo $n=30$ si arriva a pi\`u di un miliardo di parametri, valore assolutamente inaccettabile.
+
+Bisogna allora fare un'assunzione: dati X, Y, Z. Diremo che X \`e indipendente condizionatamente da Y dato Z, se e sono se la probabilit\`a di X è indipendente dal valore dell'attributo Y una volta che Z sia noto. 
+
+$\forall i,j,k P(X=x_i|Y=y_j, Z=z_k) = P(X=x_i|Z=z_k)$
+
+Se assumo questa espressione per le variabili utilizzate si riduce enormemente il numero di parametri da computare, ci permette di andare da $2^n$ a $2 \cdot n$, in quanto $P(X_1, ..., X_n|Y) = \prod_{i=1}^n P(X_i|Y)$
+
+Il record di variabili viene etichettato con il valore di classe che massimizza la probabilit\`a a posteriori.
+La probabilit\`a computata a posteriori \`e:
+
+\[P(Y=y_k|X_1,...,X_n) = \frac{P(Y=y_k)\cdot \prod_{i=1}^{n}P(X_i|Y=y_k)}{\sum_{j}P(Y=y_j) \cdot \prod_{i=1}^{n}P(X_i|Y=y_j)} \]
+
+Naive Bayes fa parte dei modelli \textbf{grafico-probabilistici}. Un intera famiglia di modelli di questo tipo: reti bayesiane dinamiche, ecc... non andremo nel dettaglio.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/naivebayes.png}
+	\caption{rete naive bayes}
+\end{figure}
+
+A fianco del risultato output comunque \`e bene fornire la probabilit\`a con il quale si \`e ottenuto il risultato, in modo da dare una \textit{misura di affidabilit\`a}. 
+
+il Naive bayes pu\`o essere applicato a attributi numerici quali intervalli e ratio. Ogni attributo numerico è associato a una densit\`a di probabilit\`a condizionale di classe normale. 
+
+Solitamente si combinano attributi categorici (nominali e ordinali) con attributi numerici. 
+
+Naive bayes si comporta generalmente bene ma richiede \underline{una enorme premessa} per essere applicato correttamente (\textbf{indipendenza condizionata}). Quindi \`e stata creata una versione pi\`u flessibile mantenendo la stessa capacit\`a computazionale.
+
+\subsection{Reti bayesiane}
+Una rete Naive bayes \`e generalizzata dalla \textbf{rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.35 \linewidth]{classification/pict/networkbayes.png}
+	\caption{rete bayesiana generalizzata}
+\end{figure}
+
+In queste reti vi \`e sempre il nodo radice Y che corrisponde all'attributo di classe, ma anche \underline{gli attributi esplicativi possono puntare ad altri attributi esplicativi}. Inoltre va notato che nel grafo \textbf{non} vi possono essere cicli in quanto un nodo successivo non pu\`o essere causa di un nodo precedente. Per ogni nodo va specificata una tabella di probabilit\`a condizionata rispetto al valore dei suoi genitori. In sostanza prendo in considerazione tutte le possibili configurazioni dei genitori e per ognuna do un risultato figlio diverso.
+
+Questo /`e un modello particolare di rete bayesiana che viene utilizzata per la classificazione. La cosa bella di questo modello \`e che anche con valori null si potr/`a comunque fare inferenza perch/`e nativamente ha questa caratteristica. 
+
+Se io ti offro di valutare un certo attributo perch\`e sapendo il valre di quel attributo so che \`e condizionato da quell'altro che ho gi\`a calcolato.  
+
+Nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che io abbia tutti gli input. 
+\\
+
+\subsection{Tree-augmented Naive Bayes}
+\textbf{Tree-augmented Naive Bayes} oltre ad avere il nodo genitore Y pu\`o permettersi di avere un altro nodo genitore (sempre). Se io addestro la rete senza nodo di classe allora ho un albero, dopo inserendovi il nodo Y fa inferenza. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.35 \linewidth]{classification/pict/treenaivebayes.png}
+	\caption{tree-augmented Naive bayes}
+\end{figure}
+
+\`E molto potente per la feature selection, ovvero per la ricerca delle feature pi\`u significative. 
+
+Ci sono altre modifiche possibili al Tree-augmente naive bayes, presenti il letteratura. 
+\clearpage
+\subsection{Summary}
+Per capire come \textit{nativamente} si differenziano i modelli di classificazione vedi tabella successiva. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/class_tecniques.png}
+	\caption{comparazione tra i principali modelli}
+\end{figure}
 
 
+\section{Lezione 6}
+Modelli di separazione nativi tendono a non essere buoni per la stima di probabilit\`a.
+Modelli di classificazione sono molteplici, bisogna saper valutare quali siano i migliori e quali i peggiori.
 
+La stima dell'accuratezza non \`e sufficiente per comprendere la confidenza di un modello.
+
+Bisogna rendersi conto del rischio di \textbf{overfitting} magnificare alcuni risultati, e \textbf{overfitting} ovvero non abbastanza accurati.
+
+Vi sono due diversi tipi di \underline{errori}:
+\begin{itemize}
+	\item training error: numero di record del trainign set mal classificato
+	\item: generalization error: errori non visti precedentemente nei record (test set)
+\end{itemize}
+
+Sempre avere attenzione sulla qualit\`a dei dati! 
+
+Se un modello di classificazione fitta il \underline{training set troppo bene} potrebbe avere un generalization error povero rispetto ad un modello con alto training error, ciò non va bene perch\`e inficia sulle performace del test set: \textbf{Model Overfitting}. Il punto \`e che il modello deve funzionare bene sui dati di test non per forza in quelli di training. Nella pratica: non devo adattare troppo il mio modello sui dati di training. 
+
+Noi puntiamo ad un modello che "sbaglia" sia nel training set che nel test set in modo simile. Questa situazione significa che ho un modello che non ha overfittato. 
+
+Il fenomeno contrario \`e l'\textbf{overfitting}. La complessit\`a del modello scelto non \`e sufficiente per i dati che sto studiando. Accade quando performance del training e test sono simili e basse. Non abbiamo utilizzato tutta la flessibilit\`a che potevamo usare nella definizione del modello.
+
+La soluzione ottimale la si evince da quello che succede nei dati di training e quello che succede nei dati di test. (leggere articolo Baias variance dilemma 2002)
+
+\`E impossibile avere una misurazione certa sugli errori del modello, si pu\`o avere una stima. 
+
+\subsection{Performance di un modello di classificazione}
+Problema molto importante \`e comprendere la catena logica con cui un classificatore impari, perch\`e per prendere una decisione un individuo deve capire come ha fatto l'algoritmo. In particolare nei contesti delicati quali la guida autonoma in cui la macchina deve sapere come comportarsi in situazioni delicate, ecc. 
+
+In una analisi di classificazione vogliamo sviluppare un modello che ci dia una migliore classificazione possibile. Viene valutata in termini di:
+\begin{itemize}
+	\item accuracy
+	\item speed
+	\item robustezza
+	\item scalabilit\`a
+	\item interpretabilit\`a (tema pi\`u dibattuto)
+\end{itemize}
+
+\subsubsection{Accuratezza}
+importante misura perch\`e misura il modello in base a se da predizioini affidabili o meno, ci permette di selezionare l'istanza di modello che d\`a le migliori performance ad un nuovo record.
+
+$D_T$ training set con $t$ records
+
+$D_{TS}$ test set con $v$ records
+
+formula dell'unione ecc
+
+Viene definita una funzione di comparazione tra i valori correttamente rilevati. Viene poi specificata una funzione di accuratezza e il suo complemento, l'errore.
+
+\subsubsection{Velocit\`a}
+Tempo di classificazione e spazio di memoria occupato sono caratteristiche che vanno considerate per il modello. Oggi per\`o si da meno importanza a queste caratteristiche in quanto devono vi sono diverse tecnologie e tecniche ottimizzare i tempi.
+
+Se l'algoritmo impega tempistiche poco accettabili, pu\`o essere fatto un campionamento del dataset originale. 
+
+\textbf{Robustezza} di un modello sono quelli in cui il modello non rispetta:
+\begin{itemize}
+	\item outliers - possono influenzare significativamente il modello
+	\item misssing data - problema centrale (i dati di base sono sporchi e soggetti a deperimento)
+	\item variazione tra training set e test set - si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
+\end{itemize}
+
+\textbf{Scalabilit\`a} \`e la capacit\`a di apprendere da enormi quantit\`a di dati. Es. le reti bayesiane scalano molto male. 
+
+\textbf{Interpretabilit\`a} \`e un problema enorme, perch\`e noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione pu\`o essere la pi\`u dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non raggiungo il mio obiettivo di far interpretare il mio lavoro.
+
+\subsubsection{Holdout}
+Significa lasciare fuori una porzione del dataset da dedicare al test set e il resto al training. Vi \`e la best practice 2/3 per training e 1/3 per test. Se si hanno molti dati a disposizione non \`e necessario seguire questa proporzione si pu\`o aumentare sul training.
+
+La stima dipende dalla particolare scelta di divisione tra training e test set. Vi sono anche altre tecniche:
+
+\textbf{Iterated Holdout} consiste di ripetere iterativamente R volte il metodo di holdout per cui apprendo e stimo. Ad ogni iterazione valuto il livello di accuratezza e in base ad esse decido il modello pi\`u preciso.
+
+\`E chiaramente un metodo pi\`u robusto per\`o come viene suddiviso il dataset fa la differenza nello studio del metodo migliore. Non ho la certezza di aver usato dei dati ottimi per la stima fatta. 
+
+\textbf{Cross-validation} 
+Con questa tecnica divido il fold il dataset. Vengono generati diversi fold di training e viene escluso nella divisione il foglio di dati dei test. Il test generato \`e un solo insieme e viene usato per testare tutti i modelli usati precedentemente. (NB: considero sempre solo dati non duplicati). Si provano tutte le possibili combinazioni tra insiemi di training e insieme di test e si prende la stima con la migliiore accuratezza. 
+Il K scelto in letteratura sono: 3,5,10 e non sono per forza le migliori scelte.
+
+LOOCV (Leave One Out Cross Validation): numero di fogli uguale al numero delle osservazioni che vado a considerare, forma pi\`u estrema di cross-validation
+
+Se ci troviamo in una situazione in cui una classe \`e sovrarappresentata, partizionare \`e molto pi\`u problemeatico. In questo caso utilizzo un campionamento stratificato ovvero quello che mantiene le proporzioni all'interno di ogni foglio di dati, non sempre \`e possibile. 
+
+
+Noi in generale ci fidiamo di pi\`u del k-folds cross-validation in quanto rispetto all'holdout ho la certezza che i record non siano ripetuti.
+
+\section{Lezione 7 - Comparing Classifiers}
+\subsection{Intervallo di confidenza}
+L'accuratezza o errore non \'e sufficiente a definire il migliore classificatore.
+
+Supponiamo di avere:
+\begin{itemize}
+	\item Inducer A accuracy = 0.85 con 30 record di test
+	\item Inducer B accuracy = 0.75 con 5000 recordi di test
+\end{itemize}
+Qual \`e il migliore?
+
+Perch\`e anche se l'inducer A ha un'accuratezza maggiore, \`e stato testato su un numero di record molto minore rispetto al B. Bisogna testare l'intervallo di confidenza per A e B.
+
+\`E possibile spiegare la differenza delle accuratezza dei due classificatori? Bisogna svolgere unt est di ipotesi per le deviazioni osservate.
+
+Consideriamo il problema di predire il valore di una classe attributo da un test record come esperimento \textbf{binomiale}. Dato un test set $D_N$ contenente N record, consideriamo:
+
+\begin{itemize}
+	\item X: numero di record correttamente predetti dall'inducer (non lo conosciuamo)
+	\item p: vera accuratezza dell'inducer (probabilit\`a di successo della distribuzione binomiale)
+\end{itemize}
+
+X distribuita secondo una binomiale con \textit{media = $N \cdot p$} e \textit{varianza = $N \cdot p \cdot (1-p)$}. 
+
+Oggetto del nostro studio \`e l'\textbf{accuratezza empirica}: \[acc = \frac{X}{N} \] che \`e distribuita secondo una binomiale con $\mu = p$ e $\sigma^2 = \frac{p \cdot (1-p)}{N}$
+
+Se la dimensione del test set \`e sufficientemente grande, \`e buona norma approssimare una distribuzione binomiale, in una \textbf{normale}. Cos\`i facendo l'intervallo di confidenza per l'\textbf{accuratezza empirica} \`e:
+
+\[ P(-Z_{1-\alpha/2} < \frac{acc - p}{\sqrt{p \cdot (1-p / N)}} < Z_{1 - \alpha/2}) = 1 - \alpha \]
+
+NB: se prendessi diversi test set indipendenti l'uno dall'altro \`e ovvio che vengono diversi intervalli di confidenza. Per\`o in questi casi fissato $\alpha$ posso stabilire statisticamente quali intervalli sono pi\`u significativi di altri. Pi\`u riduco $\alpha$ pi\`u aumenta $\beta$ ovvero il caso di errore in cui non rifiuto l'ipotesi nulla quando invece dovrei rifiutarla.
+
+(non chiede la formula gigante!!!)
+
+Supponiamo il caso in cui ho 2 modelli e vengono valutati per forza su due test set diversi (per tanti motivi pu\`o succedere):
+\begin{itemize}
+	\item $M_1$ valtutato su test set $D_1$ contenente $n_1$ record con tasso di errore $e_1$
+	\item $M_2$ valtutato su test set $D_2$ contenente $n_2$ record con tasso di errore $e_2$
+\end{itemize}
+I due test set devono essere assunti \underline{indipendenti}. Il nostro obiettivo \`e testare se la \textbf{differenza} tra i due errori \`e statisticamente significativa.
+
+La differenza osservata \`e: $d = e_1 - e_2$ e sono distribuiti secondo una \textbf{normale} con $\mu = d_t$ e $\sigma^2 = \sigma^2_d$. la varianza di d pu\`o essere stimanata come segue: \[\sigma^2 = ... \]
+
+L'intervallo di confidenza per la differenza $d_t$ \`e: \[ (d - z_{1-\alpha/2 \cdot \bar{\sigma}}, d + z_{1-\alpha/2 \cdot \bar{\sigma}}) \]
+
+Se l'intervallo contiene 0 allora concludiamo che la differenza osservata non \`e statisticamente significativa ad un livello $\alpha$. 
+
+Se il limite superiore della confidenza \`e negativo allora il modello $M_1$ \`e migliore del modello $M_2$ a un livello $\alpha/2$
+
+Se il limite superiore della confidenza \`e positivo allora il modello $M_2$ \`e migliore del modello $M_1$ a un livello $\alpha/2$
+
+Buona norma fare il test di ipotesi solo se prima mi faccio la domanda se sono o meno differenti, non continuare a condurre test a casaccio o a tappeto perch\`e altrimenti si rischia di raggiungere degli assurdi. Bisogno farsi la domanda e poi eseguire tutta la procedura sulla coppia di modelli. Vi \`e un \textbf{problema dei confronti multipli} devo adattarli tutti allo stesso livello di $\alpha$ altrimenti non sono confrontabili le differenze. 
+
+Nel caso in cui ho lo stesso test set posso svolgere un test pi\`u \textbf{potente} ovvero posso valutare il caso di errore di secondo tipo: affermo che la differenza tra i due classificatori non \`e significativa quando in realt\`a lo \`e ($\beta$). 
+
+Si confrontano $M_1$ ed $M_2$ usando il k-fold cross validation.
+
+Ho il dataset D partizionato in K subset disgiunti con circa lo stesso numero di record. Vengono costriuti i modelli k-volte in cui ogni volta cambio la partizione di test set. Ottengo:
+\begin{itemize}
+	\item $M_{1k}$ inducer per il modello $M_1$ ottenuto da k iterazioni con $e_{1k}$ errore
+	\item $M_{2k}$ inducer per il modello $M_2$ ottenuto da k iterazioni con $e_{2k}$ errore
+\end{itemize}
+
+La differenza tra gli errori durante le k iterazioni sono: $d_k = e_{1k} - e_{2k}$, per K sufficientemente grande, $d_k$ \`e distribuito normalmente con: $\mu = d_t^{cv}$ e $\sigma = \sigma^{cv}$ dove la varianza osservata \`e stimata secondo la seguente formula: \[ \hat{\sigma}^2_{d^{cv}} = \frac{\sum_{k=1}^{K}(d_k - \bar{d})^2}{K \cdot (K-1)} \] con \[ \bar{d} = \frac{1}{K} \sum_{k=1}^K d_k \]
+
+\subsection{Class Imbalance}
+Consideriamo di nuovo il dataset dei Churner. In particolare sappiamo che il $14.5\%$ sono dei churner. Ricorda un modello che risponde sempre la stessa cosa \`e un \textbf{non modello}. Il modello pi\`u inutile \`e quello che risponde sempre come un \textbf{ZeroR Rule} ovvero risponde sempre con la classe pi\`u frequente.
+
+Bisogna studiare la classe pi\`u rara (meno frequente), essa viene denotata come \textbf{classe positiva}, mentre quella pi\`u frequente \`e detta \textbf{classe negativa}.
+
+Consideriamo la \textbf{matrice di confusione}, allora possiamo calcolare:
+\begin{itemize}
+	\item specificit\`a (tasso veri negativi) $TNR = \frac{TN}{TN + FP}$
+	\item sensitivit\`a (tasso veri positivi) $TPR = \frac{TP}{TP + FN}$
+	\item tasso falsi positivi $FPR = \frac{FP}{TN + FP}$
+	\item tasso falsi negativi $TNR = \frac{FN}{TP + FN}$
+\end{itemize}
+
+Viene definito un indice chiamato \textbf{precisione}: $p = \frac{TP}{TP+FP}$, ovvero il punto di vista del classificatore. Valuto quanti di quelli positivi ha valutato come effettivamente positivi. 
+
+Viene anche definito il \textbf{recall} (richiamo): $r = \frac{TP}{TP+FN}$, in questo caso ho il punto di vista della realt\`a. Sotto ho quelli effettivamente positivi, sopra ho quelli che il classificatore ritiene positivi. \`E la capacit\`a del classificatore di richiamare i risultati positivi (quanti dei positivi \`e riuscito ad aspirare?). 
+
+Vi \`e un legame molto stretto tra questi due indici, posso avere una recall molto alta ma allora probabilmente avrò una precisione bassa. Oppure potrò puntare ad avere una precisione alta ma in quei casi probabilmente avrò una recall bassa.
+
+\underline{NB} queste due misure per convenzione sono calcolate sulla classe positiva (quella pi\`u frequente) non \`e per\`o detto che non vadano utilizzate su quella negativa. Inoltre non \`e sempre detto che queste quantit\`a siano sempre calcolabili (vedi es. slide).
+
+Siccome queste due misure sono legate (pensa alla coperta corta). Si utilizza una misura che le riassume chiamata $F_1$ measure:
+
+\[ F_1 = \frac{2 \cdot r \cdot p}{r + p}\]
+
+$F_1$ \`e una misura media armonica tra recall e precision. Un alto valore di $F_1$ implica alti valori di recall e precision.
+
+Generalizzazione:
+
+\[ F_\beta = \frac{(\beta^2 + 1) \cdot r \cdot p}{r + \beta^2 \cdot p} \]
+
+\begin{itemize}
+	\item $F_\beta$ con $\beta = 0$ \`e la Precisione
+	\item $F_\beta$ con $\beta = \infty$ \`e la Precisione	
+\end{itemize}
+
+\section{Lezione 8}
+
+\subsection{Matrice di costo}
+Se pensiamo al nostro problema del churner, l'azienda ha interesse ad evitare quello che si prevede, ovvero che il cliente se ne vada, in sostanza cerco di prevedere chi vuole andarsene e cerco di evitare che questa previsione sia effettiva. L'azienda pu\`o spendere un tot budget per invertire questo fenomeno, devo fare il meglio per identificare i possibili churner e attuare SOLO su di loro le politiche di dissuasione (se lo facessi per tutti i clienti non avrebbe senso per quanto riguarda i costi).
+
+Bisogna convincere il proprio interlocutore che il modello da me sviluppato sia migliore rispetto al modello che storicamente hanno utilizzato. Con l'accouracy \`e facile. Bisogna associarci la \textbf{matrice di costo} che stabilisce in base a falsi positivi e negativi quanto costo (in soldi) sostiene l'azienda in base alla situazione. 
+
+Costo: $Cost = C_{--} \cdot TN + C_{-+} \cdot FP + C_{+-} \cdot FN + C_{++} \cdot TP$
+
+\textbf{NB} se matrice di costo \`e simmetrica allora il costo corrisponde all'accuratezza.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.55 \linewidth]{classification/pict/matr_costo.png}
+	\caption{legame tra matrice di confusione (sn) e matrice di costo (dx)}
+\end{figure}
+
+\subsection{Cumulative Gains}
+\`E importante notare per\`o che ci sono situazioni nelle quali perdere un cliente \`e pi\`u grave che perderne un'altro. Devo capire se sto utilizzando la matrice dei costi vera oppure se \`e solo rappresentativa. Se essa non \`e certa posso ragionare in un altro modo. 
+
+Supponiamo che suddividiamo la nostra popolazione in campioni casuali. Vengono valutati la zero rule (campionamento casuale) il modello storico dell'azienda e il nostro modello di classificazione. Si verifica che in termini percentuali il nostro modello fa 60\% e il campionamento casuale fa 37.5\%. 
+Il \textbf{List Factor} = rapporto tra i due modelli. 
+
+\textbf{NB}: considera che il nostro classificatore \`e bravo ad identificare i casi semplici ma rischia di sbagliare di molto in quelli complessi. Man mano che lo forzo a rispondere lui risponder\`a in modo sempre pi\`u random
+
+Per comprendere il \textit{livello di profittabilit\`a} pu\`o essere calcolate una volta che si conoscono i costi coinvolti. Nel nostro caso vogliamo:
+\begin{itemize}
+	\item alta proporzione di record positivi
+	\item alto numero di elementi del set
+\end{itemize}
+
+Se ordinassi gli output con probabilit\`a di riconoscimento corretto in ordine decrescente. Posso calcolare il List Factor sui primi risultati per comprendere fino a dove ha buone performance. Man mano aumento gli elementi di risultato per comprendere la sua efficacia se considero elemento con probabilit\`a minore. Quanto ha senso considerare output con bassa probabilit\`a per valutare il mio modello?
+
+Viene quindi visualizzata la cosiddetta curva del \textbf{cumulative gains} ovvero la curva che evidenzia questo fenomeno.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.6 \linewidth]{classification/pict/cumulative_gains.png}
+	\caption{cumulative gains evidenziando un punto di alto valore aggiunto}
+\end{figure}
+
+NB: la retta verde calcola la cumulative gain per un modello che risponde in maniera casuale, sull'asse x \`e la recall, i positivi riconosciuti correttamente (ricordati ripetendo il test non per un caso ad ogni percentuale)
+
+\subsection{Lift Chart}
+La curva di lift chart \`e derivata direttamente dalla mappatura della cumulative gains.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.45 \linewidth]{classification/pict/lift_chart.png}
+	\caption{da cumulative gain a lift chart}
+\end{figure}
+
+Queste valutazioni ci fanno comprendere quando il nostro classificatore perde efficacia. Naturalmente pi\`u il campione \`e piccolo meglio funziona, bisogna comprendere per\`o il punto di massima accuratezza in rapporto alla percentuale di istanze.
+
+\subsection{Curva ROC}
+Assomiglia molto alla cumulative gains ma sull'asse delle x ho la percentuale di falsi positivi sopportabili, e sulle y i veri positivi corrisposti. \`E chiamata \textbf{ROC} e sta per Receiver Operating Characteristic curve. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.6 \linewidth]{classification/pict/roc.png}
+	\caption{curva ROC legata a dataset variabili (pi\`u reale)}
+\end{figure}
+Serve a confrontare diversi classificatori per cercare di comprendere dove un classificatore \`e pi\`u o meno efficace. 
+
+Un modello \`e preferibile ad un altro se \`e disposto a sopportare un certo numero di falsi positivi e valuto quanto veri positivi ci sono. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.6 \linewidth]{classification/pict/roc_confronto.png}
+	\caption{confronto ROC da due modelli}
+\end{figure}
+\clearpage
+\section{Lezione 9 - Feature Selection}
+La feature selection \`e un compito importantissimo ed \`e legato gi\`a alla risoluzione del problema. Analizzare le relazioni tra le variabili in modo preliminare potrebbe gi\`a aiutare di molto nella ricerca della soluzione migliore al problema. 
+
+Quasi sempre non ha senso utilizzare tutti gli attributi per generare il modello che si vuole sviluppare. Quindi si procede con la selezione delle feature.
+\begin{itemize}
+	\item attributi \textbf{ridondanti} ovvero quelli dei quali l'informazione \`e gi\`a contenuta in altri attributi. La rilevanza va sempre valutata in base ai dati a disposizione
+	\item attributi \textbf{irrilevanti} contengono informazioni non utili per risolvere il problema di data mining.
+\end{itemize}
+Vi sono diversi approcci per rilevare questi attributi:
+\begin{itemize}
+	\item \textbf{Brute-force}: provo tutti i modelli per ogni combinazione di parametri usati nel modello di Classificazione. Ma la computazione di questi casi \`e troppo grossa, vi sono: $\sum_{n=1}^{10}\left(10 n\right)$ possibili combinazioni
+	\item \textbf{Embedded}: attributi scelto in base alla capacit\`a di fare split della classificazione (pensa agli alberi di decisione)
+	\item \textbf{Filter}: attributi selezionati pima del classificatore in base a quelli che si ritengono pi\`u rilevanti e meno rilevanti (analisi di funzione obiettivo)
+	\item \textbf{Wrapper}: gli attributi che si scelgono in base al modello di classificazione scelto, quelli che sono rilevanti per un modello non lo sono per un altro (dipende dall'ipotesi che ho fatto)
+\end{itemize}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.45 \linewidth]{classification/pict/filter_wrapper.png}
+	\caption{Filter - Wrapper, due differenti approcci per feature selection}
+\end{figure}
+\textbf{NB} non va bene fare feature selection su tutti i dati e poi trainare solo su un sottoinsieme!! altrimenti si hanno risultati non comparabili
+\\
+\textbf{Filter} nel caso di attributi \textit{uni-variati}: 
+\begin{enumerate}
+	\item si scegle una misura di associazione tra gli attributi candidato e quello di classe
+	\item si ordinano gli attributi in base alla misura di associazione
+	\item si selezionano le prime $R$ posizioni come attributi di input per il classificatore
+\end{enumerate}
+solitamente si identificano gli attributi irrilevanti, per\`o non funziona bene nella ricerca di attributi ridondanti.
+
+multi-variati:
+\begin{itemize}
+	\item identificano insieme attributi rilevanti e irrilevanti
+	\item un buon sottoinsieme di attributi deve contenere attributi fortemente associati con l'attributo di classe ma essere incorrelati tra di loro
+\end{itemize}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.22 \linewidth]{classification/pict/filter_uni_multi.png}
+	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
+\end{figure}
+
+Vantaggi pe la feature selection sono:
+\begin{itemize}
+	\item riduzione del costo di collezione di dati
+	\item riduzione dei tempi di inferenza del classificatore relativo all'attributo di classe
+	\item pi\`u alta interpretabilit\`a
+	\item aumento dell'accuratezza
+\end{itemize}
+Motivazioni:
+\begin{itemize}
+	\item evitare l'overfitting
+	\item sviluppo di un miglior cost-effective classifier
+	\item migliorare la comprensione del processo di generazione dati
+\end{itemize}
+
+Flowchart da seguire:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.45 \linewidth]{classification/pict/feature_flowchart.png}
+	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
+\end{figure}
+\\
+La creazione di nuove feature dai dati:
+\begin{itemize}
+	\item feature extraction: utilizzati per classificazione di immagini/segnali
+	\item mappare dati in un uovo spazio: vedere gli attributi in modo normalizzato o secondo un'altra scala pi\`u facilmente trattabile (SVM)
+	\item feature construction: generare feature nuove pi\`u comode per un certo modello di classificatore rispetto a quelle originali attrivarso trasformazioni, es. logaritmi di somme ecc.. (non \`e detto che i dati originali siano i pi\`u utili per la classificazione)
+\end{itemize}
+
+\section{Lezione 10 - Classificazione NON binaria}
+
+Nei problemi reali la classificazione avviene su pi\`u valori non solo binari.
+
+L'idea \`e quella di trasformare un problema multi-classe in tanti attributi di classe binari. \textbf{Multi-classe} esattamente una classe si realizza. \textbf{Multi-etichetta} pi\`u di una classe pu\`o verificarsi. Vi possono essere anche problemi non di classe ma di \textbf{ranking} in cui i valori assunti dalla variabile di classe sono ordinati.
+
+\subsection{One-Vs-All}
+In questa modalit\`a si verifica se il set corrente verifica o meno ciascuna delle caratteristiche da valutare. 
+
+Ricorda che non sempre binarizzare \`e necessario, in particolare per quanto riguarda i naive bayes non serve, invece per un decition tree s\`i. 
+
+Nel \textit{One-vs-all} creo un numero di classificatori diverso in base al numero di modalit\`a dell'attributo di classe. Inoltre bisogna normalizzare poi gli output dei classificatori. Nel modello \textit{multi-label} bisogna prendere i valori cos\`i come li restituisce il cassificatore e fissare un threshold sopra il quale considero signficiativo il risultato (potenzialmente pi\`u di una classe supera il threshold). 
+
+\subsection{Train/validation/test e feature selection}
+Una rete neurale \`e dimostrato che permette architetturarla per approssimare qualsiasi problema. Non \`e per\`o esente da overfitting anzi visto che non \`e sempre chiaro il funzionamento \`e pi\`u difficile valutarle. 
+
+Se volessimo scegliere i parametri (pesi e soglie) e un \textbf{iperparametro} $\lambda$ detto di \textit{regolarizzazione}. Voglio sceglere qella allocazione di parametri per ridurre il pi\`o possibile l'errore quadratico del modello, quindi l'iperparametro. 
+
+\[ E(w, \lambda) = \frac{1}{m} \sum_{i=1}^{m}(y_i \hat{y}_i)^2 + \frac{\lambda}{2} \sum_{j=1}^{K} w_i^2 \]
+
+La prima parte \`e il fitting della funzione, la seconda parte \`e la flessibilit\`a alla quale posso accedere. Potenzialmente io posso imparare il valore ottimale di $\lambda$ dai dati. 
+
+Per questo suddivido il dataset in train e test. Se utilizzazzi i dati di training per imparare il migliore lambda allora andrei in overfitting di lambda. Quindi suddivido in questo modo il dataset:
+\begin{itemize}
+	\item train dataset viene utilizzato per trainare il modello (sui parametri w)
+	\item validation dataset che viene utilizzato per trainare su lambra
+	\item test dataset viene utilizzato per testare definitivamente il modello
+\end{itemize} 
+
+\textbf{NB} se utilizzo il test set per ottimizzare il parametro lambda allora ho bruciato il dataset e devo rifare, obiettivo \`e sempre quelo di riconoscere dati mai visti.
