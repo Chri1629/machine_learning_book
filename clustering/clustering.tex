@@ -418,15 +418,23 @@ Questi algoritmi presentano però anche una serie di vantaggi non indifferente r
 	\item Disciplina il metodo di eliminazione delle complessità associate ad alcuni tipi di dati.
 \end{itemize}
 
+\paragraph{Mappe di Kohonen o SOMs}
+E' una struttura feedforward per algoritmi di clustering, in particolare viene imposta un'organizzazione topografica dei \textit{neuroni} (centroidi). Durante il processo di training la SOM usa ogni oggetto per aggiornare il centroide più vicino e i centroidi che sono più vicini nell'ordinamento topografico.
+La differenza principale tra gli algoritmi precedenti è che i centroidi in questo caso \textit{hanno una predeterminata relazione di ordinamento topografico.}
+
+In particolare si ha che i centroidi che sono più vicini l'uno all'altro nella griglia sono più strettamente correlati rispetto ai centroidi che sono lontani.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{clustering/pict/som.png}
+	\caption{Girglia di una SOM.}
+\end{figure}
+
+A causa di questo vincolo i centroidi di una griglia bidimensionale possono essere visti come giacenti su una \textit{superficie bidimensionale che prova ad adattare i dati multidimensionali il meglio possibile.}
 \begin{comment}
 
 
-
-
-
-
 \paragraph{Mappe di Kohonen o SOMs}
-Una struttura feedforward per algoritmi di clustering. Detta anche mappa atorganizzante. Vi \`e una mappatura dei neuroni che mappano in uno spazio bidimensionale. Non hanno una sola direzione ma sono bi-direzionali, possono spostare i pesi sia da input ad output che viceversa.
+Detta anche mappa atorganizzante. Vi \`e una mappatura dei neuroni che mappano in uno spazio bidimensionale. Non hanno una sola direzione ma sono bi-direzionali, possono spostare i pesi sia da input ad output che viceversa.
 
 Ho uno spazio di input continuo e voglio mapparlo in uno spazio discreto di output. Vorrei che mappando un'osservazione in un neurone posso poi tornare indietro tramite un altro collegamento.
 
