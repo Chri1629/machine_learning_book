@@ -96,7 +96,7 @@ Una tecnica di classificazione è un modo sistematico di aggredire un dataset e 
 
 Forniremo una overview di tutte queste, non le tratteremo nel dettaglio, partiamo da quelli \textbf{Euristici}.
 
-\subsection{Decision Tree}
+\subsubsection{Decision Tree}
 I modelli decision tree sono bodelli basati euristici. 
 
 Un \textbf{albero di decisione} ha innanzitutto una rappresentazione grafica precisa. Vi sono 2 elementi: nodi e archi. Il \textbf{nodo} rappresenta un sottoinsieme del dataset, gli \textbf{archi} sono usati per modellare gli output di modelli diversi di dataset.
@@ -137,7 +137,7 @@ Il risultato di queste rette fa la differenza sulla capacità di evidenziare dov
 
 Non c'è alcuna ragione per cui io non possa usare degli splitting multipli e non solo su binari, posso farlo anche su valori nominali.
 
-\subsection{Regressione Logistica Binomiale}
+\subsubsection{Regressione Logistica Binomiale}
 La regressione logistica è un metodo di classificazione basato sulla regressione.
 
 Assumiamo che la variabile di classe Y sia compresa tra $\{0,1\}$, allora la regressione logistica binaria calcola a posteriori la probabilità che Y dia il valore dell'input ovvero le variabili esplicative 
@@ -163,7 +163,7 @@ Vi sono poi diversi modelli derivati dal decision tree, come il Random Forest.
  
 \textbf{Random forest}: \`e un comitato di alberi di decisione. Sostanzialmente usa degli attributi che sono in generale sottoinsiemi degli attributi, ogni albero può avere un sottoinsieme differente di attributi. Ogni albero usa attributi in modo randomico. Ogni albero apprende a modo suo e il random forest in base a dei parametri (regione dello spazio) decide a quale albero ascoltare per la decisione. 
 
-\subsection{Support Vector Machines}
+\subsubsection{Support Vector Machines}
 La tecnica Support Vector Machines è un metodo di classificazione con separazione. Lo scopo \`e separare o "apprendere" classi che vogliamo classificare. 
 
 Consideriamo uno spazio bidimensionale in cui sono rappresentati $m$ record dove due attributi continui vengono misurati: $D = \{(\underline{x}_1, y_1),...,(\underline{x}_m, y_m)\}$ dove $\underline{x}_i \in R^2$ e $y_i \in \{-1, +1\}$
@@ -252,7 +252,7 @@ Il modello diventa:
 
 per l'algoritmo di apprendimento utilizziamo sostanzialmente delle funzioni kernel: $K(\underline{u}, \underline{v}) = \phi(\underline{u}) \cdot \phi(\underline{v})$. Queste funzioni kernel sono delle funzioni di similarit\`a calcolate nello spazio attributi originale di $x$ e sono riferite alla funzione kernel.
 
-\subsection{Multi-Layer Perceptron/Artificial Neural Network}
+\subsubsection{Multi-Layer Perceptron o Artificial Neural Network}
 Il Multi-Layer Perceptron (MLP) è una tecnica di classificazione che si basa sulla separazione dello spazio degli attributi. Oggi si utilizzano molto per il deep learning.
 \begin{defn}
 	Un modello \textbf{MLP Multi-Layer Perceptron} consiste in neuroni artificiali che comunicano in modo unidirezionale, dall'input X alla variabile di classe (volendo ci possono essere pi\`u neuroni di ouput).
@@ -310,38 +310,82 @@ Il problema MLP. non ha soluzione oggi, pertanto si procede in modo \textbf{empi
 
 \textbf{NB}: classificare non significa saper approssimare!! soprattutto per i modelli basati sulla separazione dello spazio delle feautures.
 
-SONO ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-\section{Lezione 5}
+\subsubsection{Classificatori bayesiani}
+I \textbf{classificatori probabilistici} calcolano la probabilit\`a condizionata secondo il \textbf{teorema di Bayes} e cercano di capire il valore della classe attributo dalle altre variabili. 
 
-\textbf{Classificatori probabilistici} calcolano la probabilit\`a condizionata e cercano di capire il valore della classe attributo da altre variabili. Si basa sul \textbf{teorema di Bayes}. 
+\begin{defn}
 
-\[P(Y|\bar{X}) = \frac{P(\bar{X}|Y) \cdot P(Y)}{P(\bar{X})}\]
+La \textbf{formula di Bayes} calcola la probabilità che un evento accada dati altri eventi: 
+
+\[P(Y|\underline{X}) = \frac{P(\underline{X}|Y) \cdot P(Y)}{P(\underline{X})}\]
 
 dove:
 \begin{itemize}
 	\item $P(Y)$ è la probabilit\`a della classe attributo
-	\item $P(\bar{X}|Y)$ la verosimiglianza di un vettore di attributi data la classe attributo
-	\item $P(\bar{X})$ probabilit\`a dell'evidenza (nel senso di certezza)
-	\item $P(Y|\bar{X})$ probabilit\`a a posteriori della classe attributo dato il vettore di attributi esplicativi
+	\item $P(\underline{X}|Y)$ la verosimiglianza di un vettore di attributi data la classe attributo
+	\item $P(\underline{X})$ probabilit\`a dell'evidenza (nel senso di certezza)
+	\item $P(Y|\underline{X})$ probabilit\`a a posteriori della classe attributo dato il vettore di attributi esplicativi
 \end{itemize}
-\subsection{Naive bayes}
-Supponiamo Y attributo di classe binario \{-1,+1\}, $\bar{X}$ \`e attributo esplicativo binario $\{male, female\}$
 
-Sostanzialmente una volta che comprendo le probabilit\`a condizionate tra attributo di classe e attributi esplicativi, applico la formula di bayes per inferire la classe pi\`u probabile. 
+vediamone un esempio, assumiamo di avere:
+\begin{itemize}
+	\item $Y$ variabile binaria di classe $\{-1,+1\}$
+	\item $\underline{X}$ variabile bianria esplicativa $\{Male, Female\}$
+\end{itemize}
+\end{defn}
+Assumiamo di avere le seguenti probabilità: 
+\\
+$P(Y) = (0.3,0.7)$ \quad $P(\underline{X}|Y=-1) = (0.2,0.8)$ \quad $P(\underline{X}|Y = +1) = (0.9,0.1)$
 
-Quando il numero di variabili esplicative cresce (n variabili), le devo \underline{binarizzare} quindi avr\`o $2^n$ parametri. Che raggiungendo $n=30$ si arriva a pi\`u di un miliardo di parametri, valore assolutamente inaccettabile.
+Vogliamo classificare $\underline{X} = Male$ tramite la formula di Bayes:
 
-Bisogna allora fare un'assunzione: dati X, Y, Z. Diremo che X \`e indipendente condizionatamente da Y dato Z, se e sono se la probabilit\`a di X è indipendente dal valore dell'attributo Y una volta che Z sia noto. 
+\[P(Y = -1 | \underline{X} = M) = \frac{P(\underline{X} = M | Y=-1) \cdot P(Y=-1)}{P(\underline{X}= M)} = \frac{0.06}{P(\underline{X} = M)}\]
 
-$\forall i,j,k P(X=x_i|Y=y_j, Z=z_k) = P(X=x_i|Z=z_k)$
+\[P(Y = +1 | \underline{X} = M) = \frac{P(\underline{X} = M | Y=+1) \cdot P(Y=+1)}{P(\underline{X}= M)} = \frac{0.63}{P(\underline{X} = M)}\]
 
-Se assumo questa espressione per le variabili utilizzate si riduce enormemente il numero di parametri da computare, ci permette di andare da $2^n$ a $2 \cdot n$, in quanto $P(X_1, ..., X_n|Y) = \prod_{i=1}^n P(X_i|Y)$
+In questo caso quindi la $Y$ è più probabile che abbia valore $+1$ se $\underline{X} = Male$.
 
-Il record di variabili viene etichettato con il valore di classe che massimizza la probabilit\`a a posteriori.
-La probabilit\`a computata a posteriori \`e:
+Assumiamo ora che il numero di variabili esplicative aumenti a \textbf{n} ed esse sono binarie, così come l'attributo di classe, allora avremo bisogno di conoscere i seguenti parametri:
+
+\[\theta_{ki} = P(\underline{X} = x_k | Y = y_i) \qquad k \in \{1, ..., 2^n\}, y_i \in \{-1,+1\}\]
+
+Quando il numero di variabili esplicative cresce, le devo binarizzare quindi avrò $2^n$ parametri:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{n} & 1 & 2 & 3 & 10 & 20 & 30 \\
+		\hline
+		\textbf{$\#$ parametri}& $2$ & $4$ & $8$ & $1,024$ & $1,048,576$ & $1,073,741,824$  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Per risolvere il problema si utilizzerà l'\textbf{assunto della condizione di indipendenza}.
+
+\subsubsection{Naive bayes}
+
+\begin{defn}
+Dati gli attributi X, Y, Z, diremo che X \`e \textbf{indipendente condizionatamente} da Y dato Z, se e solo se la probabilit\`a di X è indipendente dal valore dell'attributo Y una volta che Z sia noto, formalmente: 
+
+\[\forall i,j,k P(X=x_i|Y=y_j, Z=z_k) = P(X=x_i|Z=z_k)\]
+\end{defn}
+
+Se assumo questa espressione per le variabili utilizzate si riduce enormemente il numero di parametri da computare, il \textbf{Naive Bayes} assume indipendenza condizionale e ci permette di calcolare la probabilità a posteriori dell'attributo classe dati gli attributi esplicativi come segue: 
+
+\[P(X_1, ..., X_n|Y) = \prod_{i=1}^n P(X_i|Y)\]
+
+\[2 \cdot (2^n-1) \rightarrow 2 \cdot n\]
+
+Il \textbf{Classificatore Naive Bayes} calcola la probabilità a posteriori dell'attributo di classe come segue:
 
 \[P(Y=y_k|X_1,...,X_n) = \frac{P(Y=y_k)\cdot \prod_{i=1}^{n}P(X_i|Y=y_k)}{\sum_{j}P(Y=y_j) \cdot \prod_{i=1}^{n}P(X_i|Y=y_j)} \]
+
+
+Il record di variabili viene etichettato con il valore di classe che massimizza la probabilit\`a a posteriori
+
+\[arg\max_{y_k} P(Y = y_k | X_1,...,X_n)\]
 
 Naive Bayes fa parte dei modelli \textbf{grafico-probabilistici}. Un intera famiglia di modelli di questo tipo: reti bayesiane dinamiche, ecc... non andremo nel dettaglio.
 
@@ -353,34 +397,46 @@ Naive Bayes fa parte dei modelli \textbf{grafico-probabilistici}. Un intera fami
 
 A fianco del risultato output comunque \`e bene fornire la probabilit\`a con il quale si \`e ottenuto il risultato, in modo da dare una \textit{misura di affidabilit\`a}. 
 
-il Naive bayes pu\`o essere applicato a attributi numerici quali intervalli e ratio. Ogni attributo numerico è associato a una densit\`a di probabilit\`a condizionale di classe normale. 
+Il classificatore Naive bayes pu\`o essere applicato ad attributi categorici (nominali e ordinali), numerici (intervalli e tassi). Ogni attributo numerico è associato a una densit\`a di probabilit\`a condizionale di classe normale:
 
-Solitamente si combinano attributi categorici (nominali e ordinali) con attributi numerici. 
+\[P(X_i = x_i | Y = y_k) = \frac{1}{\sigma_{ik}\sqrt{2 \cdot \pi}}exp(-\frac{(x_i-\mu_{ik})^2}{2 \sigma_{ik}^2})\] 
 
-Naive bayes si comporta generalmente bene ma richiede \underline{una enorme premessa} per essere applicato correttamente (\textbf{indipendenza condizionata}). Quindi \`e stata creata una versione pi\`u flessibile mantenendo la stessa capacit\`a computazionale.
+i cui parametri sono: \[\mu_{ik} = E[X_i | Y = y_k] \qquad \sigma_{ik}^2 = E[(X_i - \mu_{ik})^2 | Y = y_k]\]
 
-\subsection{Reti bayesiane}
-Una rete Naive bayes \`e generalizzata dalla \textbf{rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata. 
+\textbf{NB:} solitamente si combinano attributi categorici (nominali e ordinali) con attributi numerici (intervalli e tassi).
 
-\begin{figure}[h!]
+Naive bayes si comporta generalmente bene ma richiede \textit{\underline}{una enorme premessa} per essere applicato correttamente, (\textbf{indipendenza condizionata}). Quindi \`e stata creata una versione pi\`u flessibile mantenendo la stessa capacit\`a computazionale.
+
+\subsubsection{Reti bayesiane}
+Il classificatore Naive bayes \`e generalizzata dalla \textbf{Rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata ma sfrutta il concetto di \textbf{Sparsity}. 
+
+Un esempio di rete bayesiana è il seguente:
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.35 \linewidth]{classification/pict/networkbayes.png}
 	\caption{rete bayesiana generalizzata}
 \end{figure}
 
-In queste reti vi \`e sempre il nodo radice Y che corrisponde all'attributo di classe, ma anche \underline{gli attributi esplicativi possono puntare ad altri attributi esplicativi}. Inoltre va notato che nel grafo \textbf{non} vi possono essere cicli in quanto un nodo successivo non pu\`o essere causa di un nodo precedente. Per ogni nodo va specificata una tabella di probabilit\`a condizionata rispetto al valore dei suoi genitori. In sostanza prendo in considerazione tutte le possibili configurazioni dei genitori e per ognuna do un risultato figlio diverso.
+Il nodo radice $Y$ che corrisponde all'attributo di classe.\\
 
-Questo /`e un modello particolare di rete bayesiana che viene utilizzata per la classificazione. La cosa bella di questo modello \`e che anche con valori null si potr/`a comunque fare inferenza perch/`e nativamente ha questa caratteristica. 
+Gli attributi esplicativi sono associati con i nodi, ma non solo quelli con un arco in entrata dalla radice, attributi esplicativi possono puntare ad altri attributi esplicativi.\\
 
-Se io ti offro di valutare un certo attributo perch\`e sapendo il valre di quel attributo so che \`e condizionato da quell'altro che ho gi\`a calcolato.  
+Nel grafo \textbf{non} vi possono essere \textbf{cicli} in quanto un nodo successivo non pu\`o essere causa di un nodo precedente. Per ogni nodo va specificata una tabella di probabilità condizionata rispetto al valore dei suoi genitori. In sostanza prendo in considerazione tutte le possibili configurazioni dei genitori e per ognuna do un output diverso. \\
 
-Nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che io abbia tutti gli input. 
+In questo modello gli attributi esplicativi non sono più assunti come indipententi dalla classe attributo.
+
+Questo è un modello particolare di rete bayesiana che viene utilizzata per la classificazione. La cosa bella di questo modello \`e che anche con valori null si potrà comunque fare inferenza perchè nativamente ha questa caratteristica. \\
+
+Al contrario, nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che io abbia tutti gli input. 
 \\
+\subsubsection{Tree-augmented Naive Bayes}
+Vi sono diverse versioni di reti bayesiane, una di queste è il Tree-augmented Naive Bayes.
+\begin{defn}
+\textbf{Tree-augmented Naive Bayes} oltre ad avere il nodo genitore Y pu\`o permettersi di avere un altro nodo genitore (sempre). Se io addestro la rete senza nodo di classe allora ho un albero, dopo inserendovi il nodo Y fa inferenza (nel caso in figura vedi nodo $X_1$).
+\end{defn}
 
-\subsection{Tree-augmented Naive Bayes}
-\textbf{Tree-augmented Naive Bayes} oltre ad avere il nodo genitore Y pu\`o permettersi di avere un altro nodo genitore (sempre). Se io addestro la rete senza nodo di classe allora ho un albero, dopo inserendovi il nodo Y fa inferenza. 
-
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.35 \linewidth]{classification/pict/treenaivebayes.png}
 	\caption{tree-augmented Naive bayes}
@@ -388,33 +444,37 @@ Nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che
 
 \`E molto potente per la feature selection, ovvero per la ricerca delle feature pi\`u significative. 
 
-Ci sono altre modifiche possibili al Tree-augmente naive bayes, presenti il letteratura. 
+Ci sono altre modifiche possibili al Tree-augmente naive bayes, presenti il letteratura, come AODE, HNB, ecc... 
 \clearpage
-\subsection{Summary}
+\subsubsection{Summary}
 Per capire come \textit{nativamente} si differenziano i modelli di classificazione vedi tabella successiva. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/class_tecniques.png}
-	\caption{comparazione tra i principali modelli}
+	\caption{comparazione tra i principali modelli nativi}
 \end{figure}
 
+In ogni caso, è possibile \textbf{trasformare} attributi esplicativi e di classe nominali applicando tecniche di classificazione non assegnate per attributi nominali. Notare comunque che le tecniche di classificazione \textbf{non} sono l'opzione migliore quando bisogna predire un attributo \textbf{ordinale}.
 
-\section{Lezione 6}
-Modelli di separazione nativi tendono a non essere buoni per la stima di probabilit\`a.
-Modelli di classificazione sono molteplici, bisogna saper valutare quali siano i migliori e quali i peggiori.
+\subsection{Performance Evaluation (*)}
+La stima dell'accuratezza non \`e sufficiente per comprendere la confidenza di un modello, in particolare quando bisogna applicarlo a dati mai visti.
 
-La stima dell'accuratezza non \`e sufficiente per comprendere la confidenza di un modello.
-
-Bisogna rendersi conto del rischio di \textbf{overfitting} magnificare alcuni risultati, e \textbf{overfitting} ovvero non abbastanza accurati.
+Bisogna rendersi conto del rischio di \textbf{overfitting} quindi magnificare alcuni risultati, e di \textbf{underfitting} ovvero non abbastanza accurati.
 
 Vi sono due diversi tipi di \underline{errori}:
 \begin{itemize}
-	\item training error: numero di record del trainign set mal classificato
-	\item: generalization error: errori non visti precedentemente nei record (test set)
+	\item \textbf{training error}: numero di record del training set mal classificato
+	\item \textbf{generalization error}: errori non visti precedentemente nei record (test set)
 \end{itemize}
+Un buon classificatore non deve fittare troppo bene il training set ma deve anche classificare accuratamente i record che non ha mai visto prima (test set).\\
 
-Sempre avere attenzione sulla qualit\`a dei dati! 
+Inoltre sempre avere attenzione sulla qualit\`a dei dati, infatti considerare sempre il matra:
+ 
+\textbf{Garbage IN Garbage OUT}\\
+
+ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+\begin{comment}
 
 Se un modello di classificazione fitta il \underline{training set troppo bene} potrebbe avere un generalization error povero rispetto ad un modello con alto training error, ciò non va bene perch\`e inficia sulle performace del test set: \textbf{Model Overfitting}. Il punto \`e che il modello deve funzionare bene sui dati di test non per forza in quelli di training. Nella pratica: non devo adattare troppo il mio modello sui dati di training. 
 
@@ -756,3 +816,4 @@ Per questo suddivido il dataset in train e test. Se utilizzazzi i dati di traini
 \end{itemize} 
 
 \textbf{NB} se utilizzo il test set per ottimizzare il parametro lambda allora ho bruciato il dataset e devo rifare, obiettivo \`e sempre quelo di riconoscere dati mai visti.
+\end{comment}
