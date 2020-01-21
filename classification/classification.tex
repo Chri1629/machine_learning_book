@@ -199,67 +199,119 @@ Devo sostanzialmente trovare una retta che \textbf{massimizza il margine di erro
 	\caption{support vector machine - boundary}
 \end{figure}
 
-la retta $B_1$ è nettamente preferita rispetto alla retta $B_2$ in quanto ha un margine di supporto $\delta$ maggiore.
-
-SONO ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+la retta $B_1$ è nettamente preferita rispetto alla retta $B_2$ in quanto ha un margine di supporto $\delta$ maggiore. 
 
 Naturalmente per n attributi bisogna trovare l'iperpiano ottimale per dividere un determinato insieme di istanze. Matematicamente parlando si cerca di massimizzare il margine $\delta = 1 / |w|^2$, la retta ha la seguente impostazione: $\bar{w} \cdot \bar{x} + b = 0$, le rette ai confini del margine sono fissate a $\bar{w} \cdot \bar{x} + b = 1$ e $\bar{w} \cdot \bar{x} + b = -1$. 
 
-$h(\bar{x}) = $
+L'argomento della retta \`e in 2 dimensioni, per\`o dopo aver applicato la funzione $h(\underline{x})$ quella retta diventa un piano che va a $-1$ da un lato e a $+1$ dall'altro.
 
-L'argomento della retta \`e in 2 dimensioni, per\`o dopo aver applicato la funzione h(x) quella retta diventa un piano che va a -1 da un lato e a 1 dall'altro.
+Il training di una \textbf{SVM Linear Hard-margin} formulando e risolvendo il seguente problema matematico: 
 
-\[min \frac{1}{2}\bar{w} \cdot \bar{w}^T \]
+\[ \min_{\underline{w},b} \frac{1}{2}\underline{w} \cdot \underline{w}^T \]
+\qquad s.t.
+\[ y_i (\underline{w} \cdot \underline{x}_i + b) \ge 1 \quad \forall i = 1, ..., m\]
+
+È un problema di programmazione quadratica con vincoli lineari i quali devono essere risolti con tecniche numeriche speciali.
 
 Per trovare la retta devo minimizzare l'inverso del margine $\delta$\\
-bisogna imporvi dei vincoli per ogni attributo, se $\bar{w}$ e $\bar{x}$ sono \textit{concordi in segno} (positivo o negativo) allora classifica perfettamente perch\`e il risultato è $>= 1$. Garantiscono che tutti i casi del dataset siano classificati correttamente e tra tutti i casi che classificano correttamente scelgo quello che massimizza il margine. 
+bisogna imporvi dei vincoli per ogni attributo, se $\underline{w}$ e $\underline{x}$ sono \textit{concordi in segno} (positivo o negativo) allora classifica perfettamente perch\`e il risultato è $>= 1$. Garantiscono che tutti i casi del dataset siano classificati correttamente e tra tutti i casi che classificano correttamente scelgo quello che massimizza il margine. 
 
 Non risolveremo questa formula di ottimizzazione in modo diretto, ma la sua formulazione \textbf{duale}. In ogni caso questa formulazione funziona bene se il problema \`e \underline{linearmente separabile}.
 
 Nei casi \textbf{non} linearmente separabili, non esiste \textbf{mai} una retta in grado di separare correttamente le classi. In questi casi la formulazione precedente non ammette soluzione, perch\'e per alcuni dati i vincoli non ammettono soluzione. 
 
-Si introducono allora le \textbf{Linear Soft-margin}:
+Si introduce allora la \textbf{Linear Soft-margin}:
 
-$min $
+\[ \min_{\underline{w},b,\underline{\epsilon}} \frac{1}{2}\underline{w} \cdot \underline{w}^T + \Delta \sum_{i=1}^{m} \epsilon_i \]
+\qquad s.t.
+\[\forall_{i=1}^m :  y_i (\underline{w} \cdot \underline{x}_i + b) \ge 1 - \epsilon \] \[\forall_{i=1}^m : \epsilon \ge 0\]
 
-il chi deve essere non negativo (variabile di slack), se utilizzo questo parametro di una certa quantit\`a per ammettere un errore allora esiste almeno una retta che risolve il problema di ottimizzazione. Ho sostanzialmente \textit{rilassato} il problema di ottimizzazione, in particolare i vincoli. Graficamente parlando \`e come traslare degli elementi di una classe diversa dalla regione di appartenenza verso la regione della classe di quell'elemento.
+le $\epsilon$ devono essere non negative (variabili di slack), se utilizzo questo parametro di una certa quantit\`a per ammettere un errore allora esiste almeno una retta che risolve il problema di ottimizzazione. Ho sostanzialmente \textit{rilassato} il problema di ottimizzazione, in particolare i vincoli. Graficamente parlando \`e come traslare degli elementi di una classe diversa dalla regione di appartenenza verso la regione della classe di quell'elemento.
 
-NB: i vettori di supporto sono quelle osservazioni che sono sul bordo del margine
+\textbf{NB}: i vettori di supporto sono quelle osservazioni che sono sul bordo del margine
 
-Altra soluzione fattibile \`e utilizzare una funzione \textbf{non lineare}. Si va a cercare una trasformazione che porti dallo spazio originale in uno spazio delle features in cui posso applicare una separazione lineare. Sono in grado di separare il nuovo dataset nello spazio delle features. In questo modo posso sfruttare tutta la metodologia precedente ma in uno spazio "controllato". 
+\textbf{Problema}: se la separazione deve avvenire con una funzione \textbf{non lineare}.
+ 
+\textbf{Soluzione}: Si va a cercare una trasformazione che porti dallo spazio originale in uno spazio delle features in cui posso applicare una separazione lineare. Nel nuovo spazio sono in grado di separare il nuovo dataset in due diverse classi (vedi immagine che segue). 
 
-la traslazione avviene attraverso una funzione $\phi$: $\bar{w} \cdot \phi(\bar{x}) + b = 0$. Il modello diventa:
+\begin{figure}[H]
+	\hspace{-0.5cm}
+	\includegraphics[height=0.45 \linewidth]{classification/pict/svm_nonlinear.png}
+	\caption{support vector machine - non lineare}
+\end{figure}
 
-$ min $ ...
+In questo modo posso sfruttare tutta la metodologia precedente ma in uno spazio "controllato". Bisogna trovare però una trasformazione $\phi()$ che mappi X in F.
 
-per l'apprendimento utilizziamo sostanzialmente delle funzioni kernel: $K(\bar{u}, \bar{v}) = \phi(\bar{u}) \cdot \phi(\bar{v})$. Queste funzioni kernel sono delle funzioni di similarit\`a calcolate nello spazio attributi originale di $x$.
+La nuova Linear Deision Boundary nello spazio delle feature F è definito dalla seguente equazione: $\phi$: $underline{w} \cdot \phi(\underline{x}) + b = 0$. 
 
-\subsection{Reti di neuroni artificiali}
-Oggi si utilizzano molto per il deep learning.
+Il modello diventa:
 
-Un modello \textbf{MLP Multi-layer perceptron} consiste in neuroni artificiali che comunicano in modo unidimensionale dall'input X alla variabile di classe (volendo ci possono essere pi\`u neuroni di ouput).
+\[ \min_{\underline{w},b} \frac{1}{2}\underline{w} \cdot \underline{w}^T \]
+\qquad s.t.
+\[ y_i (\underline{w} \cdot \phi(\underline{x}_i) + b) \ge 1 \quad \forall i = 1, ..., m\]
 
-Dati 3 neuroni di parametri continui, vengono inseriti in un neurone 4 che calcola una funzione. Ogni input nel neurone ha associato in peso $w$.
-Il neurone calcola una \underline{combinazione lineare} tra gli input ed il peso dato ad esso. 
+per l'algoritmo di apprendimento utilizziamo sostanzialmente delle funzioni kernel: $K(\underline{u}, \underline{v}) = \phi(\underline{u}) \cdot \phi(\underline{v})$. Queste funzioni kernel sono delle funzioni di similarit\`a calcolate nello spazio attributi originale di $x$ e sono riferite alla funzione kernel.
 
-$z_4 = w_{1,4} \cdot x_1 + w_{2,4} \cdot x_2 +w_{3,4} \cdot x_3$
+\subsection{Multi-Layer Perceptron/Artificial Neural Network}
+Il Multi-Layer Perceptron (MLP) è una tecnica di classificazione che si basa sulla separazione dello spazio degli attributi. Oggi si utilizzano molto per il deep learning.
+\begin{defn}
+	Un modello \textbf{MLP Multi-Layer Perceptron} consiste in neuroni artificiali che comunicano in modo unidirezionale, dall'input X alla variabile di classe (volendo ci possono essere pi\`u neuroni di ouput).
+\end{defn}
 
-$z_4 - \theta_4$ threshold di soglia applicato alla combinazione lineare
+\begin{figure}[H]
+	\hspace{-0.5cm}
+	\includegraphics[height=0.45 \linewidth]{classification/pict/mlp.png}
+	\caption{modello MLP}
+\end{figure}
 
-$f(z_4 - \theta_4)$ funzione di attivazione (o trasferimento) che restituisce il valore che lui trasferir\`a ad un altro neurone o strato con cui comunica. Storicamente le funzioni applicazione sono la tangente iperbolica e la funzione logistica (intervallo tra -1 e 1 e tra 0 e 1). Oggi vengono utilizzate delle funzioni non derivabili pi\`u complesse, come funzioni RELU (Retify Linear Unit) che assumono valore 0 nel semiasse negativo e 1 nel semiasse positivo.
+In figura vi sono 3 neuroni di parametri continui, viene aggiunto un quarto neurone che calcola una funzione. Ogni input nel neurone ha associato in peso $w$.
+Il neurone calcola una \textbf{combinazione lineare} tra gli input ed il peso dato ad esso, il j-esimo neurone calcola: 
 
-Vi sono 3 tipi di neuroni: di input, di output e nascosti. Quelli di input comunicano con quelli nascosti (i cui valori non sono palesi a noi) e comunicano infine con quello/i di output. 
+\[ y_j = f(\sum_{i=1}^{n} w_{i,j} \cdot x_i - \theta_j)\] 
 
-Ogni neurone di input \`e connesso con ogni neuroni di strato nascosto  ed ogni nodo di strato nascosto comunica con il nodo di output (rete fully-connected). Ogni arco ha associato un peso e ogni nodo ha un valore di soglia $\theta_j$ e una funzione di attivazione. 
+Ad esempio il quarto neurone in figura:  $z_4 = w_{1,4} \cdot x_1 + w_{2,4} \cdot x_2 +w_{3,4} \cdot x_3$.
+A questo calcolo viene posto una soglia threshold di valore
+$\theta$ applicato alla combinazione lineare. Successivamente il neurone risponde con un valore pari all'applicazione di una funzione di attivazione rispetto all'input meno il threshold, 
+nel nostro caso $f(z_4-\theta_4)$. 
 
-Le scelte architetturali fanno la differenza nel risultato della computazione. Doppia scelta: quanti neuoni usiamo e quanti ne utilizziamo nello strato nascosto. Determina l'architettura della nostra rete. Posso pensare di aggiungere un \textbf{livello} di neuroni nascosti. Non vi sono teorie che dicono il numero di nodi e livelli di strati nascosti, si procede in modo empirico e si valuta il modello che funziona meglio. Non vi sono vincoli rispetto a comunicare saltando livelli. Non si pu\`o per\`o comunicare all'indietro, infatti queste reti sono chiamate \textbf{feed-forward neural network} (possono possedere fino a centinaia di strati nascosti).
+\begin{defn}
+	In ciascun neurone viene quindi definita la \textbf{funzione di attivazione (o trasferimento)} che restituisce il valore che lui trasferir\`a ad un altro neurone o strato con cui comunica. 
+\end{defn}Storicamente le funzioni applicazione sono la tangente iperbolica e la funzione logistica (intervallo tra -1 e 1 e tra 0 e 1). Oggi vengono utilizzate delle funzioni non derivabili pi\`u complesse, come funzioni \textbf{RELU} (Retify Linear Unit) che assumono valore 0 nel semiasse negativo e 1 nel semiasse positivo.
+\\
+
+Vi sono 3 tipi di neuroni: di input, di output e nascosti:
+\begin{itemize}
+	\item \textbf{input} sono collegati con le variabili esplicative e con \textit{ciascun} nodo nascosto
+	\item \textbf{nascosti} (o hidden) ricevono i segnali dai neuroni di input e il segnale viene propagato a quelli di ouput
+	\item \textbf{output} sono associati alla variabile di classe e ricevono i segnali da visualizzare
+\end{itemize}
+
+Ogni neurone di input \`e connesso con ogni neuroni di strato nascosto  ed ogni nodo di strato nascosto comunica con il nodo di output, rete \textbf{fully-connected}. Ogni arco ha associato un peso e ogni nodo ha un valore di soglia $\theta_j$ e una funzione di attivazione. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{classification/pict/mlp_struct.png}
+	\caption{modello MLP semplice}
+\end{figure}
+
+Per la disposizione dell'architettura ho diverse scelte da fare: quanti neuroni usare, quanti nello strato nascosto, quanti strati nascosti usiamo, che funzione di attivazione, ecc.
+
+Determinare l'architettura della nostra rete è fondamentale per avere buone performance. Posso pensare di aggiungere un \textbf{livello} di neuroni nascosti. Non vi sono vincoli rispetto a comunicare saltando livelli. \textbf{Non} si pu\`o per\`o comunicare all'indietro, infatti queste reti sono chiamate \textbf{feed-forward neural network} (possono possedere fino a centinaia di strati nascosti).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{classification/pict/mlp_esempio.png}
+	\caption{esempio MPL con 2 strati nascosti}
+\end{figure}
 
 Per migliorare l'apprendimento si pu\`o propagare le valutazioni fatte all'output per tutti i nodi risalendo fino all'input. Modificando i pesi degli archi. Questa cosa funziona bene e ha senso con le RELU.
 
-Il problema MLP. non ha soluzione oggi, pertanto si procede in modo empirico, non \`e ancora possibile arrivare ad una soluzione ottima, non si riesce a capire se si ha raggiunto il massimo/minimo globale ma si cerca quella che da risultati accettabili e migliori di altri. 
+Il problema MLP. non ha soluzione oggi, pertanto si procede in modo \textbf{empirico}, non \`e ancora possibile arrivare ad una soluzione ottima, non si riesce a capire se si ha raggiunto il massimo/minimo globale ma si cerca quella che dà risultati accettabili e migliori di altri. Numero di nodi, archi o livelli nascosti scelto in base all'esperienza.
 
-NB: classificare non significa saper approssimare!! Le SVM sono cos\`i, non adatti a modellare la probabilit\`a.
+\textbf{NB}: classificare non significa saper approssimare!! soprattutto per i modelli basati sulla separazione dello spazio delle feautures.
 
+SONO ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 \section{Lezione 5}
 
 \textbf{Classificatori probabilistici} calcolano la probabilit\`a condizionata e cercano di capire il valore della classe attributo da altre variabili. Si basa sul \textbf{teorema di Bayes}. 
