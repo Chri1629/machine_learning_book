@@ -96,7 +96,7 @@ Una tecnica di classificazione è un modo sistematico di aggredire un dataset e 
 
 Forniremo una overview di tutte queste, non le tratteremo nel dettaglio, partiamo da quelli \textbf{Euristici}.
 
-\subsection{Decision Tree}
+\subsubsection{Decision Tree}
 I modelli decision tree sono bodelli basati euristici. 
 
 Un \textbf{albero di decisione} ha innanzitutto una rappresentazione grafica precisa. Vi sono 2 elementi: nodi e archi. Il \textbf{nodo} rappresenta un sottoinsieme del dataset, gli \textbf{archi} sono usati per modellare gli output di modelli diversi di dataset.
@@ -137,7 +137,7 @@ Il risultato di queste rette fa la differenza sulla capacità di evidenziare dov
 
 Non c'è alcuna ragione per cui io non possa usare degli splitting multipli e non solo su binari, posso farlo anche su valori nominali.
 
-\subsection{Regressione Logistica Binomiale}
+\subsubsection{Regressione Logistica Binomiale}
 La regressione logistica è un metodo di classificazione basato sulla regressione.
 
 Assumiamo che la variabile di classe Y sia compresa tra $\{0,1\}$, allora la regressione logistica binaria calcola a posteriori la probabilità che Y dia il valore dell'input ovvero le variabili esplicative 
@@ -163,7 +163,7 @@ Vi sono poi diversi modelli derivati dal decision tree, come il Random Forest.
  
 \textbf{Random forest}: \`e un comitato di alberi di decisione. Sostanzialmente usa degli attributi che sono in generale sottoinsiemi degli attributi, ogni albero può avere un sottoinsieme differente di attributi. Ogni albero usa attributi in modo randomico. Ogni albero apprende a modo suo e il random forest in base a dei parametri (regione dello spazio) decide a quale albero ascoltare per la decisione. 
 
-\subsection{Support Vector Machines}
+\subsubsection{Support Vector Machines}
 La tecnica Support Vector Machines è un metodo di classificazione con separazione. Lo scopo \`e separare o "apprendere" classi che vogliamo classificare. 
 
 Consideriamo uno spazio bidimensionale in cui sono rappresentati $m$ record dove due attributi continui vengono misurati: $D = \{(\underline{x}_1, y_1),...,(\underline{x}_m, y_m)\}$ dove $\underline{x}_i \in R^2$ e $y_i \in \{-1, +1\}$
@@ -252,7 +252,7 @@ Il modello diventa:
 
 per l'algoritmo di apprendimento utilizziamo sostanzialmente delle funzioni kernel: $K(\underline{u}, \underline{v}) = \phi(\underline{u}) \cdot \phi(\underline{v})$. Queste funzioni kernel sono delle funzioni di similarit\`a calcolate nello spazio attributi originale di $x$ e sono riferite alla funzione kernel.
 
-\subsection{Multi-Layer Perceptron/Artificial Neural Network}
+\subsubsection{Multi-Layer Perceptron o Artificial Neural Network}
 Il Multi-Layer Perceptron (MLP) è una tecnica di classificazione che si basa sulla separazione dello spazio degli attributi. Oggi si utilizzano molto per il deep learning.
 \begin{defn}
 	Un modello \textbf{MLP Multi-Layer Perceptron} consiste in neuroni artificiali che comunicano in modo unidirezionale, dall'input X alla variabile di classe (volendo ci possono essere pi\`u neuroni di ouput).
@@ -310,38 +310,82 @@ Il problema MLP. non ha soluzione oggi, pertanto si procede in modo \textbf{empi
 
 \textbf{NB}: classificare non significa saper approssimare!! soprattutto per i modelli basati sulla separazione dello spazio delle feautures.
 
-SONO ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-\section{Lezione 5}
+\subsubsection{Classificatori bayesiani}
+I \textbf{classificatori probabilistici} calcolano la probabilit\`a condizionata secondo il \textbf{teorema di Bayes} e cercano di capire il valore della classe attributo dalle altre variabili. 
 
-\textbf{Classificatori probabilistici} calcolano la probabilit\`a condizionata e cercano di capire il valore della classe attributo da altre variabili. Si basa sul \textbf{teorema di Bayes}. 
+\begin{defn}
 
-\[P(Y|\bar{X}) = \frac{P(\bar{X}|Y) \cdot P(Y)}{P(\bar{X})}\]
+La \textbf{formula di Bayes} calcola la probabilità che un evento accada dati altri eventi: 
+
+\[P(Y|\underline{X}) = \frac{P(\underline{X}|Y) \cdot P(Y)}{P(\underline{X})}\]
 
 dove:
 \begin{itemize}
 	\item $P(Y)$ è la probabilit\`a della classe attributo
-	\item $P(\bar{X}|Y)$ la verosimiglianza di un vettore di attributi data la classe attributo
-	\item $P(\bar{X})$ probabilit\`a dell'evidenza (nel senso di certezza)
-	\item $P(Y|\bar{X})$ probabilit\`a a posteriori della classe attributo dato il vettore di attributi esplicativi
+	\item $P(\underline{X}|Y)$ la verosimiglianza di un vettore di attributi data la classe attributo
+	\item $P(\underline{X})$ probabilit\`a dell'evidenza (nel senso di certezza)
+	\item $P(Y|\underline{X})$ probabilit\`a a posteriori della classe attributo dato il vettore di attributi esplicativi
 \end{itemize}
-\subsection{Naive bayes}
-Supponiamo Y attributo di classe binario \{-1,+1\}, $\bar{X}$ \`e attributo esplicativo binario $\{male, female\}$
 
-Sostanzialmente una volta che comprendo le probabilit\`a condizionate tra attributo di classe e attributi esplicativi, applico la formula di bayes per inferire la classe pi\`u probabile. 
+vediamone un esempio, assumiamo di avere:
+\begin{itemize}
+	\item $Y$ variabile binaria di classe $\{-1,+1\}$
+	\item $\underline{X}$ variabile bianria esplicativa $\{Male, Female\}$
+\end{itemize}
+\end{defn}
+Assumiamo di avere le seguenti probabilità: 
+\\
+$P(Y) = (0.3,0.7)$ \quad $P(\underline{X}|Y=-1) = (0.2,0.8)$ \quad $P(\underline{X}|Y = +1) = (0.9,0.1)$
 
-Quando il numero di variabili esplicative cresce (n variabili), le devo \underline{binarizzare} quindi avr\`o $2^n$ parametri. Che raggiungendo $n=30$ si arriva a pi\`u di un miliardo di parametri, valore assolutamente inaccettabile.
+Vogliamo classificare $\underline{X} = Male$ tramite la formula di Bayes:
 
-Bisogna allora fare un'assunzione: dati X, Y, Z. Diremo che X \`e indipendente condizionatamente da Y dato Z, se e sono se la probabilit\`a di X è indipendente dal valore dell'attributo Y una volta che Z sia noto. 
+\[P(Y = -1 | \underline{X} = M) = \frac{P(\underline{X} = M | Y=-1) \cdot P(Y=-1)}{P(\underline{X}= M)} = \frac{0.06}{P(\underline{X} = M)}\]
 
-$\forall i,j,k P(X=x_i|Y=y_j, Z=z_k) = P(X=x_i|Z=z_k)$
+\[P(Y = +1 | \underline{X} = M) = \frac{P(\underline{X} = M | Y=+1) \cdot P(Y=+1)}{P(\underline{X}= M)} = \frac{0.63}{P(\underline{X} = M)}\]
 
-Se assumo questa espressione per le variabili utilizzate si riduce enormemente il numero di parametri da computare, ci permette di andare da $2^n$ a $2 \cdot n$, in quanto $P(X_1, ..., X_n|Y) = \prod_{i=1}^n P(X_i|Y)$
+In questo caso quindi la $Y$ è più probabile che abbia valore $+1$ se $\underline{X} = Male$.
 
-Il record di variabili viene etichettato con il valore di classe che massimizza la probabilit\`a a posteriori.
-La probabilit\`a computata a posteriori \`e:
+Assumiamo ora che il numero di variabili esplicative aumenti a \textbf{n} ed esse sono binarie, così come l'attributo di classe, allora avremo bisogno di conoscere i seguenti parametri:
+
+\[\theta_{ki} = P(\underline{X} = x_k | Y = y_i) \qquad k \in \{1, ..., 2^n\}, y_i \in \{-1,+1\}\]
+
+Quando il numero di variabili esplicative cresce, le devo binarizzare quindi avrò $2^n$ parametri:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{n} & 1 & 2 & 3 & 10 & 20 & 30 \\
+		\hline
+		\textbf{$\#$ parametri}& $2$ & $4$ & $8$ & $1,024$ & $1,048,576$ & $1,073,741,824$  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Per risolvere il problema si utilizzerà l'\textbf{assunto della condizione di indipendenza}.
+
+\subsubsection{Naive bayes}
+
+\begin{defn}
+Dati gli attributi X, Y, Z, diremo che X \`e \textbf{indipendente condizionatamente} da Y dato Z, se e solo se la probabilit\`a di X è indipendente dal valore dell'attributo Y una volta che Z sia noto, formalmente: 
+
+\[\forall i,j,k P(X=x_i|Y=y_j, Z=z_k) = P(X=x_i|Z=z_k)\]
+\end{defn}
+
+Se assumo questa espressione per le variabili utilizzate si riduce enormemente il numero di parametri da computare, il \textbf{Naive Bayes} assume indipendenza condizionale e ci permette di calcolare la probabilità a posteriori dell'attributo classe dati gli attributi esplicativi come segue: 
+
+\[P(X_1, ..., X_n|Y) = \prod_{i=1}^n P(X_i|Y)\]
+
+\[2 \cdot (2^n-1) \rightarrow 2 \cdot n\]
+
+Il \textbf{Classificatore Naive Bayes} calcola la probabilità a posteriori dell'attributo di classe come segue:
 
 \[P(Y=y_k|X_1,...,X_n) = \frac{P(Y=y_k)\cdot \prod_{i=1}^{n}P(X_i|Y=y_k)}{\sum_{j}P(Y=y_j) \cdot \prod_{i=1}^{n}P(X_i|Y=y_j)} \]
+
+
+Il record di variabili viene etichettato con il valore di classe che massimizza la probabilit\`a a posteriori
+
+\[arg\max_{y_k} P(Y = y_k | X_1,...,X_n)\]
 
 Naive Bayes fa parte dei modelli \textbf{grafico-probabilistici}. Un intera famiglia di modelli di questo tipo: reti bayesiane dinamiche, ecc... non andremo nel dettaglio.
 
@@ -353,34 +397,46 @@ Naive Bayes fa parte dei modelli \textbf{grafico-probabilistici}. Un intera fami
 
 A fianco del risultato output comunque \`e bene fornire la probabilit\`a con il quale si \`e ottenuto il risultato, in modo da dare una \textit{misura di affidabilit\`a}. 
 
-il Naive bayes pu\`o essere applicato a attributi numerici quali intervalli e ratio. Ogni attributo numerico è associato a una densit\`a di probabilit\`a condizionale di classe normale. 
+Il classificatore Naive bayes pu\`o essere applicato ad attributi categorici (nominali e ordinali), numerici (intervalli e tassi). Ogni attributo numerico è associato a una densit\`a di probabilit\`a condizionale di classe normale:
 
-Solitamente si combinano attributi categorici (nominali e ordinali) con attributi numerici. 
+\[P(X_i = x_i | Y = y_k) = \frac{1}{\sigma_{ik}\sqrt{2 \cdot \pi}}exp(-\frac{(x_i-\mu_{ik})^2}{2 \sigma_{ik}^2})\] 
 
-Naive bayes si comporta generalmente bene ma richiede \underline{una enorme premessa} per essere applicato correttamente (\textbf{indipendenza condizionata}). Quindi \`e stata creata una versione pi\`u flessibile mantenendo la stessa capacit\`a computazionale.
+i cui parametri sono: \[\mu_{ik} = E[X_i | Y = y_k] \qquad \sigma_{ik}^2 = E[(X_i - \mu_{ik})^2 | Y = y_k]\]
 
-\subsection{Reti bayesiane}
-Una rete Naive bayes \`e generalizzata dalla \textbf{rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata. 
+\textbf{NB:} solitamente si combinano attributi categorici (nominali e ordinali) con attributi numerici (intervalli e tassi).
 
-\begin{figure}[h!]
+Naive bayes si comporta generalmente bene ma richiede \textit{\underline}{una enorme premessa} per essere applicato correttamente, (\textbf{indipendenza condizionata}). Quindi \`e stata creata una versione pi\`u flessibile mantenendo la stessa capacit\`a computazionale.
+
+\subsubsection{Reti bayesiane}
+Il classificatore Naive bayes \`e generalizzata dalla \textbf{Rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata ma sfrutta il concetto di \textbf{Sparsity}. 
+
+Un esempio di rete bayesiana è il seguente:
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.35 \linewidth]{classification/pict/networkbayes.png}
 	\caption{rete bayesiana generalizzata}
 \end{figure}
 
-In queste reti vi \`e sempre il nodo radice Y che corrisponde all'attributo di classe, ma anche \underline{gli attributi esplicativi possono puntare ad altri attributi esplicativi}. Inoltre va notato che nel grafo \textbf{non} vi possono essere cicli in quanto un nodo successivo non pu\`o essere causa di un nodo precedente. Per ogni nodo va specificata una tabella di probabilit\`a condizionata rispetto al valore dei suoi genitori. In sostanza prendo in considerazione tutte le possibili configurazioni dei genitori e per ognuna do un risultato figlio diverso.
+Il nodo radice $Y$ che corrisponde all'attributo di classe.\\
 
-Questo /`e un modello particolare di rete bayesiana che viene utilizzata per la classificazione. La cosa bella di questo modello \`e che anche con valori null si potr/`a comunque fare inferenza perch/`e nativamente ha questa caratteristica. 
+Gli attributi esplicativi sono associati con i nodi, ma non solo quelli con un arco in entrata dalla radice, attributi esplicativi possono puntare ad altri attributi esplicativi.\\
 
-Se io ti offro di valutare un certo attributo perch\`e sapendo il valre di quel attributo so che \`e condizionato da quell'altro che ho gi\`a calcolato.  
+Nel grafo \textbf{non} vi possono essere \textbf{cicli} in quanto un nodo successivo non pu\`o essere causa di un nodo precedente. Per ogni nodo va specificata una tabella di probabilità condizionata rispetto al valore dei suoi genitori. In sostanza prendo in considerazione tutte le possibili configurazioni dei genitori e per ognuna do un output diverso. \\
 
-Nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che io abbia tutti gli input. 
+In questo modello gli attributi esplicativi non sono più assunti come indipententi dalla classe attributo.
+
+Questo è un modello particolare di rete bayesiana che viene utilizzata per la classificazione. La cosa bella di questo modello \`e che anche con valori null si potrà comunque fare inferenza perchè nativamente ha questa caratteristica. \\
+
+Al contrario, nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che io abbia tutti gli input. 
 \\
+\subsubsection{Tree-augmented Naive Bayes}
+Vi sono diverse versioni di reti bayesiane, una di queste è il Tree-augmented Naive Bayes.
+\begin{defn}
+\textbf{Tree-augmented Naive Bayes} oltre ad avere il nodo genitore Y pu\`o permettersi di avere un altro nodo genitore (sempre). Se io addestro la rete senza nodo di classe allora ho un albero, dopo inserendovi il nodo Y fa inferenza (nel caso in figura vedi nodo $X_1$).
+\end{defn}
 
-\subsection{Tree-augmented Naive Bayes}
-\textbf{Tree-augmented Naive Bayes} oltre ad avere il nodo genitore Y pu\`o permettersi di avere un altro nodo genitore (sempre). Se io addestro la rete senza nodo di classe allora ho un albero, dopo inserendovi il nodo Y fa inferenza. 
-
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.35 \linewidth]{classification/pict/treenaivebayes.png}
 	\caption{tree-augmented Naive bayes}
@@ -388,103 +444,223 @@ Nelle reti neurali \textbf{non} \`e possibile far computare un modello senza che
 
 \`E molto potente per la feature selection, ovvero per la ricerca delle feature pi\`u significative. 
 
-Ci sono altre modifiche possibili al Tree-augmente naive bayes, presenti il letteratura. 
+Ci sono altre modifiche possibili al Tree-augmente naive bayes, presenti il letteratura, come AODE, HNB, ecc... 
 \clearpage
-\subsection{Summary}
+\subsubsection{Summary}
 Per capire come \textit{nativamente} si differenziano i modelli di classificazione vedi tabella successiva. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/class_tecniques.png}
-	\caption{comparazione tra i principali modelli}
+	\caption{comparazione tra i principali modelli nativi}
 \end{figure}
 
+In ogni caso, è possibile \textbf{trasformare} attributi esplicativi e di classe nominali applicando tecniche di classificazione non assegnate per attributi nominali. Notare comunque che le tecniche di classificazione \textbf{non} sono l'opzione migliore quando bisogna predire un attributo \textbf{ordinale}.
 
-\section{Lezione 6}
-Modelli di separazione nativi tendono a non essere buoni per la stima di probabilit\`a.
-Modelli di classificazione sono molteplici, bisogna saper valutare quali siano i migliori e quali i peggiori.
+\subsection{Performance Evaluation (*)}
+La stima dell'accuratezza non \`e sufficiente per comprendere la confidenza di un modello, in particolare quando bisogna applicarlo a dati mai visti.
 
-La stima dell'accuratezza non \`e sufficiente per comprendere la confidenza di un modello.
-
-Bisogna rendersi conto del rischio di \textbf{overfitting} magnificare alcuni risultati, e \textbf{overfitting} ovvero non abbastanza accurati.
+Bisogna rendersi conto del rischio di \textbf{overfitting} quindi magnificare alcuni risultati, e di \textbf{underfitting} ovvero non abbastanza accurati.
 
 Vi sono due diversi tipi di \underline{errori}:
 \begin{itemize}
-	\item training error: numero di record del trainign set mal classificato
-	\item: generalization error: errori non visti precedentemente nei record (test set)
+	\item \textbf{training error}: numero di record del training set mal classificato
+	\item \textbf{generalization error}: errori non visti precedentemente nei record (test set)
 \end{itemize}
+Un buon classificatore non deve fittare troppo bene il training set ma deve anche classificare accuratamente i record che non ha mai visto prima (test set).\\
 
-Sempre avere attenzione sulla qualit\`a dei dati! 
+Inoltre sempre avere attenzione sulla qualit\`a dei dati, infatti considerare sempre il matra:
+ 
+\textbf{Garbage IN Garbage OUT}\\
 
-Se un modello di classificazione fitta il \underline{training set troppo bene} potrebbe avere un generalization error povero rispetto ad un modello con alto training error, ciò non va bene perch\`e inficia sulle performace del test set: \textbf{Model Overfitting}. Il punto \`e che il modello deve funzionare bene sui dati di test non per forza in quelli di training. Nella pratica: non devo adattare troppo il mio modello sui dati di training. 
+\begin{defn}
+	Un modello di calssificazione che si allena su un training set troppo bene (basso training error) può avere un generalization error peggiore (stimato sul test set) rispetto ad un modello con alto training error, non va bene noi puntiamo a predire bene dati che non conosciamo. Si parla allora di \textbf{Overfitting del modello}.
+\end{defn}
 
-Noi puntiamo ad un modello che "sbaglia" sia nel training set che nel test set in modo simile. Questa situazione significa che ho un modello che non ha overfittato. 
+\underline{Nella pratica}: non devo adattare troppo il mio modello sui dati di training. 
 
-Il fenomeno contrario \`e l'\textbf{overfitting}. La complessit\`a del modello scelto non \`e sufficiente per i dati che sto studiando. Accade quando performance del training e test sono simili e basse. Non abbiamo utilizzato tutta la flessibilit\`a che potevamo usare nella definizione del modello.
+Noi puntiamo ad un modello che "\textit{sbaglia}" (possibilmente poco) sia nel training set che nel test set in modo simile. Questa situazione significa che ho un modello che \textbf{non} ha overfittato. 
 
-La soluzione ottimale la si evince da quello che succede nei dati di training e quello che succede nei dati di test. (leggere articolo Baias variance dilemma 2002)
+Consideriamo il seguente esempio
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/overfitting.png}
+	\caption{esempio di overfitting}
+\end{figure}
+\begin{itemize}
+	\item linea {\color{blue}{blu}}: modello con poco training error (non overfitting)
+	\item linea {\color{orange}{arancione}}: modello con zero training error (overfitting)
+\end{itemize}
+Come si può notare il modello {\color{orange}{arancione}} si adatta troppo ai dati di training quindi c'è un forte rischio che non classifichi bene i dati di test. Al contrario il modello {\color{blue}{blu}} segue meglio la tendenza della distribuzione delle due classi di elementi.
 
-\`E impossibile avere una misurazione certa sugli errori del modello, si pu\`o avere una stima. 
+Ora vediamo come si comportano i due modelli nel test set
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/overfitting_test.png}
+	\caption{esempio di overfitting test}
+\end{figure}
+Ora si può notare come il modello {\color{blue}{blu}}: più alto training error e più basso generalization error) classifichi \textbf{più correttamente} rispetto al modello {\color{orange}{arancione}}: più basso training error e più alto generalization error).
 
-\subsection{Performance di un modello di classificazione}
-Problema molto importante \`e comprendere la catena logica con cui un classificatore impari, perch\`e per prendere una decisione un individuo deve capire come ha fatto l'algoritmo. In particolare nei contesti delicati quali la guida autonoma in cui la macchina deve sapere come comportarsi in situazioni delicate, ecc. 
+\begin{defn}
+Il fenomeno contrario \`e l'\textbf{Underfitting}, in cui sia il training error che il generation error sono elevati. Accade quando performance del training e test sono simili e basse.
+\end{defn}
+La complessit\`a del modello scelto non \`e sufficiente per i dati che sto studiando. Non abbiamo utilizzato tutta la flessibilit\`a che potevamo usare nella definizione del modello.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/underfitting_merge.png}
+	\caption{esempio di underfitting (sinistra)}
+\end{figure}
+Guardando agli esempi in figura, il modello {\color{blue}{blu}} classifica erroneamente 6 record, non è un buon modello. Invece, nel modello {\color{orange}{arancione}} fitta meglio il training ed risponde meglio anche al test (1 errore), in questo caso però bisogna stare attenti a non incappare in overfitting.\\
+ 
+La \textbf{soluzione ottimale} la si evince da quello che succede nei dati di training e quello che succede nei dati di test.
+
+\`E impossibile avere una misurazione certa sugli errori del modello, si pu\`o solo avere una stima. 
+
+\subsubsection{Performance di un modello di classificazione}
 
 In una analisi di classificazione vogliamo sviluppare un modello che ci dia una migliore classificazione possibile. Viene valutata in termini di:
 \begin{itemize}
-	\item accuracy
-	\item speed
-	\item robustezza
-	\item scalabilit\`a
-	\item interpretabilit\`a (tema pi\`u dibattuto)
+	\item Accuracy
+	\item Speed
+	\item Robustezza
+	\item Scalabilit\`a
+	\item Interpretabilit\`a (tema pi\`u dibattuto)
 \end{itemize}
 
 \subsubsection{Accuratezza}
-importante misura perch\`e misura il modello in base a se da predizioini affidabili o meno, ci permette di selezionare l'istanza di modello che d\`a le migliori performance ad un nuovo record.
+L'accuratezza è una misura fondamentale perch\`e: 
+\begin{itemize}
+	\item misura la capacità del modello nel dare classificazioni affidabili su nuovi record
+	\item ci permette di selezionare l'istanza di modello che d\`a le migliori performance sui nuovi record
+\end{itemize}
+Consideriamo:
 
 $D_T$ training set con $t$ records
 
 $D_{TS}$ test set con $v$ records
 
-formula dell'unione ecc
+$D = D_T \cup D_{TS},D_T \cap D_{TS} = \emptyset,m = t + v$\\
 
-Viene definita una funzione di comparazione tra i valori correttamente rilevati. Viene poi specificata una funzione di accuratezza e il suo complemento, l'errore.
+Un buon indicatore è la percentale di record di test ($D_{TS}$) che sono classificati correttamente. 
 
-\subsubsection{Velocit\`a}
-Tempo di classificazione e spazio di memoria occupato sono caratteristiche che vanno considerate per il modello. Oggi per\`o si da meno importanza a queste caratteristiche in quanto devono vi sono diverse tecnologie e tecniche ottimizzare i tempi.
-
-Se l'algoritmo impega tempistiche poco accettabili, pu\`o essere fatto un campionamento del dataset originale. 
-
-\textbf{Robustezza} di un modello sono quelli in cui il modello non rispetta:
+Definiamo:
 \begin{itemize}
-	\item outliers - possono influenzare significativamente il modello
-	\item misssing data - problema centrale (i dati di base sono sporchi e soggetti a deperimento)
-	\item variazione tra training set e test set - si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
+	\item $y_i$ come il valore della variabile di classe dell'istanza $\underline{x_i} \in D_{TS}$
+	\item $f(\underline{x_i})$ valore della classe predetto per l'istanza $\underline{x_i} \in D_{TS}$ dal modello di classificazione
+\end{itemize} 
+Consideriamo quindi la seguente funzione di loss:
+\[
+L(y_i, f(\underline{x_i})) =  
+\begin{cases}
+	0 \qquad se &y_i = f(\underline{x_i}) \\
+	1 \qquad se &y_i \ne f(\underline{x_i})
+\end{cases}
+\]
+
+l'\textbf{Accuratezza} viene calcolata in questo modo:
+\[ acc(D_{TS}) = 1 - \frac{1}{v} \sum_{i=1}^{v} L(y_i, f(\underline{x_i}))\]
+
+in alcuni casi si preferisce l'\textbf{Errore} associato:
+\[err(D_{TS}) = 1 - acc(D_{TS}) = \frac{1}{v} \sum_{i=1}^{v} L(y_i, f(\underline{x_i}))\]
+
+\subsubsection{Speed}
+Gli algoritmi di classificazione differiscono per:
+\begin{itemize}
+	\item tempo di apprendimento
+	\item spazio di memoria occupato
 \end{itemize}
+Oggi per\`o si da meno importanza a queste caratteristiche in quanto vi sono diverse tecnologie e tecniche ottimizzare i tempi e lo spazio di memoria costa sempre meno (economicamente parlando).
 
-\textbf{Scalabilit\`a} \`e la capacit\`a di apprendere da enormi quantit\`a di dati. Es. le reti bayesiane scalano molto male. 
+Un algoritmo che impega molto tempo e\o una grande quantità di memoria per l'addestramento, pu\`o essere trainato dopo un campionamento del dataset originale. In questi casi accettiamo di non sfruttare tutte le informazioni disponibili invece di trainare un tipo di modello che riteniamo assicurerà buone performance.
 
-\textbf{Interpretabilit\`a} \`e un problema enorme, perch\`e noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione pu\`o essere la pi\`u dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non raggiungo il mio obiettivo di far interpretare il mio lavoro.
+\subsubsection{Robustezza, Scalabilità e Interpretabilità}
+\begin{defn}
+	Un modello/algoritmo può essere \textbf{robusto} o meno rispetto a:
+\begin{itemize}
+	\item \underline{outliers}: possono influenzare significativamente il modello
+	\item \underline{misssing data}: problema centrale (i dati di base sono sporchi e soggetti a deperimento)
+	\item \underline{variazione tra training set e test set}: si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
+\end{itemize}
+\end{defn}
+
+\begin{defn}
+	\textbf{Scalabilit\`a} \`e la capacit\`a di apprendere da enormi quantit\`a di dati. Questa proprietà è intresecamente connessa alla speed. 
+\end{defn}
+Es. le reti bayesiane scalano molto male. 
+
+\begin{defn}
+Quando la classificazione è orientata dall'\textbf{Interpretabilit\`a} di un problema per essere risolto e non ci si può limitare ad assicurare alti valori di accuratezza, è importante estrarre regole semplici e chiare per l'esperto di dominio del caso di studio.
+\end{defn}
+L'interpretabilit\`a \`e un problema enorme, perch\`e noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione pu\`o essere la pi\`u dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non raggiungo il mio obiettivo di far interpretare il mio lavoro.
 
 \subsubsection{Holdout}
-Significa lasciare fuori una porzione del dataset da dedicare al test set e il resto al training. Vi \`e la best practice 2/3 per training e 1/3 per test. Se si hanno molti dati a disposizione non \`e necessario seguire questa proporzione si pu\`o aumentare sul training.
+\begin{defn}
+L'\textbf{Holdout} è la partizione del dataset $D$ in due sottinsiemi di training e test set attraverso un procedura di campionamento. 
+\end{defn}
 
-La stima dipende dalla particolare scelta di divisione tra training e test set. Vi sono anche altre tecniche:
+\textbf{Best practice} suggerisce 2/3 per il training set e 1/3 per il test set.
 
-\textbf{Iterated Holdout} consiste di ripetere iterativamente R volte il metodo di holdout per cui apprendo e stimo. Ad ogni iterazione valuto il livello di accuratezza e in base ad esse decido il modello pi\`u preciso.
+Se si hanno molti dati a disposizione non \`e necessario seguire questa proporzione si pu\`o aumentare sul training.\\
 
-\`E chiaramente un metodo pi\`u robusto per\`o come viene suddiviso il dataset fa la differenza nello studio del metodo migliore. Non ho la certezza di aver usato dei dati ottimi per la stima fatta. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/holdout.png}
+	\caption{procedura di Holdout}
+\end{figure}
 
-\textbf{Cross-validation} 
-Con questa tecnica divido il fold il dataset. Vengono generati diversi fold di training e viene escluso nella divisione il foglio di dati dei test. Il test generato \`e un solo insieme e viene usato per testare tutti i modelli usati precedentemente. (NB: considero sempre solo dati non duplicati). Si provano tutte le possibili combinazioni tra insiemi di training e insieme di test e si prende la stima con la migliiore accuratezza. 
-Il K scelto in letteratura sono: 3,5,10 e non sono per forza le migliori scelte.
+La stima dell'accuratezza dipende dalla particolare scelta di divisione tra training e test set. Vi sono alcune tecniche per rendere più efficiente la divisione.
 
-LOOCV (Leave One Out Cross Validation): numero di fogli uguale al numero delle osservazioni che vado a considerare, forma pi\`u estrema di cross-validation
+\begin{defn}
+	\textbf{Iterated Holdout} consiste di ripetere iterativamente $R$ volte il metodo di holdout per cui apprendo e stimo l'accuratezza. 
+\end{defn}
+Ad ogni iterazione $r$ estraggo un campione random $D_{Tr}$ di $t$ records, e ottengo: 
+	
+$D_{TS_r} = D - D_{T_r}$
+	
+Ripeto la porcedura $R$ volte e l'accuratezza del classificatore è stimanata dalla media dei valori di accuratezza campionati $acc(D_{TS_r})$ calcolati su ogni test set $D_{TS_r}$:
+	
+\[ acc = \frac{1}{R} \sum_{r=1}^{R}acc(D_{TS_r})\]\\
+	
+Il numero di iterazioni $R$ può essere scelto tramite specifiche tecniche statistiche.
 
-Se ci troviamo in una situazione in cui una classe \`e sovrarappresentata, partizionare \`e molto pi\`u problemeatico. In questo caso utilizzo un campionamento stratificato ovvero quello che mantiene le proporzioni all'interno di ogni foglio di dati, non sempre \`e possibile. 
+L'iterated Holdout è chiaramente un metodo pi\`u robusto, le sue performance hanno un bias più piccolo rispetto al normale holdout. Comunque, non permette il controllo del numero di volte in cui un record è presente nel training e test set. Non ho la certezza di aver usato dei dati ottimi per la stima fatta. In alcuni casi si ricorre a uno schema più efficace, capace di ridurre l'impatto degli outlier. 
 
+\begin{defn}
+	La tecnica di holdout detta	\textbf{Cross-validation} garantisce che ciascun record di un dataset $D$ sia incluso nel training set con lo stesso numero di volte e esattamente una volta nel test set. 
+\end{defn}
 
-Noi in generale ci fidiamo di pi\`u del k-folds cross-validation in quanto rispetto all'holdout ho la certezza che i record non siano ripetuti.
+Il dataset $D$ viene partizionato in $K$ sottoinsiemi disgiunti detti \textbf{fold}, esaustivi e con circa lo stesso numero di record: 
 
+$D_1, D_2, ..., D_K$\\
+
+Eseguiamo $K$ iterazioni training-test. Alla k-esima iterazione avremo:
+
+$D_{T_k} = \{D_1, ...,D_{k-1},D_{k+1}, ...,D_K\} \qquad D_{TS_k} = D_k$
+
+L'insieme $D_{T_k}$ è usato per il training  mentre il $D_K$ viene usato per il test della k-esima iterazione, in pratica ho più training set e un test set.
+
+L'accuratezza viene stimata facendo la media delle $K$ iterazioni:
+
+\[acc = \frac{1}{K} \sum_{k=1}^K acc(D_k)\]\\
+
+che offre una stima più efficace dell'accuratezza del classificatore. \\
+
+Esistono diverse selezioni per il valore di $K$. I valori tipici sono $K = 3,5,10$ mentre un caso limite viene applicato quando i dati sono scarsi chiamato \textbf{Leave One Out Cross Validation} (\textbf{LOOCV}). LOOCV è ottenuto assumento che ogni record è una partizione del dataset, così il valore di $K$ equivale al numero di record del dataset $D$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/cross_validation.png}
+	\caption{procedura di cross validation}
+\end{figure}
+
+Solitamente ci chiediamo se ogni partizione del dataset contiene la \textit{stessa proporzione} di valori possibili della classe attributo. Quando le proporzioni sono fortemente differenti si adottano specifiche tecniche di campionamento,es. \textbf{campionamento stratificato}. 
+
+Noi in generale ci fidiamo di pi\`u del \textbf{k-folds cross-validation} in quanto rispetto all'\textit{iterated holdout} ho la certezza che i record non siano ripetuti.
+
+\begin{comment}
+Si provano tutte le possibili combinazioni tra insiemi di training e insieme di test e si prende la stima con la migliiore accuratezza. 
+PARAGRAFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO SOPRA
 \section{Lezione 7 - Comparing Classifiers}
 \subsection{Intervallo di confidenza}
 L'accuratezza o errore non \'e sufficiente a definire il migliore classificatore.
@@ -756,3 +932,4 @@ Per questo suddivido il dataset in train e test. Se utilizzazzi i dati di traini
 \end{itemize} 
 
 \textbf{NB} se utilizzo il test set per ottimizzare il parametro lambda allora ho bruciato il dataset e devo rifare, obiettivo \`e sempre quelo di riconoscere dati mai visti.
+\end{comment}
