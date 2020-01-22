@@ -550,96 +550,105 @@ Come negli altri casi presentiamo i passaggi dell'algoritmo in maniera schematic
 	\item Assegnare  ciascun border point al cluster associato al core point più prossimo.
 \end{enumerate}
 
-Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} è fondamentale in quanto impatta fortemente sull'esecuzione di tutto l'algoritmo. Mostriamo ora invece quali sono le differenze principali tra l'algoritmo DBSCAN e l'algoritmo K-means:
+Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} è fondamentale in quanto impatta fortemente sull'esecuzione di tutto l'algoritmo. Mostriamo ora invece quali sono le \textbf{differenze principali tra l'algoritmo DBSCAN e l'algoritmo K-means:}
 \begin{itemize}
-	\item DBSCAN and K-Means assign objects to a single cluster, but K-Means assigns all
-	objects while DBSCAN can discard noise objects
-	\item DBSCAN can handle clusters of different sizes and shapes and it is not strongly
-	affected by noise or outliers. K-means has difficulties with non-globular clusters and
-	clusters of different sizes. Both algorithms perform poorly when clusters have widely
-	differing densities
-	\item K-Means can only be used for data that has a well defined centroid, such as mean or
-	median. DBSCAN requires that its definition of density, which is based on the
-	traditional Euclidean notion of density be meaningful for the data
-	\item K-Means can be applied to sparse, high-dimensional data, such as document data.
-	DBSCAN typically performs poorly for such data because the traditional Euclidean
-	definition of density does not work well for high-dimensional data
-	\item DBSCAN makes no assumption about the distribution of the data. The basic K-means
-	is equivalent to a statistical clustering approach (Mixture Model) that assumes all
-	clusters come from spherical Gaussian distributions with different means but the
-	same covariance matrix
-	\item DBSCAN and K-Means both look for clusters using all attributes, that is, they do not
-	look for clusters that may involve only a sub-set of the attributes
-	\item K-Means can find clusters that are not well separated, even if they overlap, but
-	DBSCAN merges clusters that overlap
-	\item K-Means has complexity O(m) while DBSCAN is O(m2) (except for low dimensional
-	Euclidean data.)
-	\item DBSCAN produces the same set of clusters from one run to another while K-Means,
-	which is typically used with random initialization of centroids, does not
-	\item DBSCAN automatically determines the number of clusters, for K-Means the number
-	of clusters needs to be specified as a parameter
+	\item DBSCAN e K-Means assegnano gli oggetti ad un singolo cluster, l'algoritmo delle k-medie però assegna tutti gli oggetti mentre il DBSCAN può omettere il rumore.
+	\item DBSCAN può trattare cluster di diverse dimensioni e forme e non è affetto da rumori o outliers.. K-medie hanno difficoltà con i cluster non globulari oppure di forme diverse. Entrambi gli algoritmi performano male quando i cluster hanno significative differenze di densità.
+	\item L'algoritmo delle K-medie può essere usato per dato che hanno centroidi ben definiti come la media o la mediana. L'algoritmo DBSCAN invece richiede una definizione di densità che è basata sulla nozione tradizionale di distanza Euclidea.
+	\item L'algoritmo dell K-medie può essere applicato a dati sparsi e a multi-dimensionali come ad esempio i dati documentali. Il DBSCAN in questi casi invece non performa per niente bene in quanto la definizione di densità Euclidea non funziona bene per dati multi-dimensionali.
+	\item DBSCAN non fa assunzioni riguardo la distribuzione dei dati. L'algoritmo delle K-medie invece è equivalente ad approccio statistico di clustering che assume che tutti i cluster vengono da una distribuzione Gaussiana sferica con diverse medie ma con la stessa matrice di covarianza.
+	\item Entrambi gli algoritmi cercano di costruire cluster utilizzando tutti gli attributi, ciò implica che non cercano cluster che riguardano solo un sottoinsieme degli attributi.
+	\item L'algoritmo delle K-medie può trovare cluster che non sono ben separati, l'algoritmo di cluster invece mette insieme quelli sovrapposti.
+	
+	\item L'algoritmo delle K-medie ha complessità O(m) mentre il DBSCAN ha complessità O($m^{2}$) eccetto per i dati a poche dimensioni.
+	\item DBSCAN produce lo stesso insieme di cluster dalla prima riproduzione mentre l'algoritmo delle k-medie tipicamente non lo fa quando i centroidi sono inizializzati casualmente. 
+	\item DBSCAN determina automaticamente il numero di cluster mentre nell'algoritmo delle k-medie esso deve essere splicitato in principio come parametro.
 \end{itemize}
 
 Vi sono altri algoritmi di density-based che non tratteremo in questo momento quali: \textit{grid-based clustering}, \textit{subspace clustering}, \textit{kernel density function}.
 
-\begin{comment}
-
-\underline{DBSCAN vs K-medie}:
-
-\noindent
-
-
 \subsubsection{Graph-based Clustering Algorithm}
-Gi\`a gli algoritmi a rappresentazione gerarchica possono essere visti come graph-based. 
-
-Sparsificare: tagliare, rimuovere certi archi che non superano la verifica di una certa condizione (Es. tutti gli archi che non superano una certa soglia, oppure un concetto di vicinato). 
-
-Definire una misura di similarit\`a tra due oggetti basati sul numero di nearest neighbors. 
-
-Definire oggetti core e costruire cluster attoro ad essi. Necessita di concetti di densit\`a e prossimit\`a.
-
-Utilizza l'informazione nel grafo di prossimit\`a per fornire una maggiore valutazione di specialit\`a in cui due cluster dovrebbero essere uniti. 
-
-Grafo di prossimit\`a stabilisce dei pesi tra i vari nodi che \`e il costo da percorrere tra un nodo ed un altro, \`e rappresentazione della matrice delle distanze. 
-
-I legami di similarit\`a tra nodi vengono suddivisi in \textit{sufficientemente vicini} (superano il threshold) e \textit{non vicini} quindi con vicinanza minore rispetto al threshold. Vengono quindi rimossi gli archi che non superano il threshold, questo significa \textit{sparsificare} la matrice. Viene cos\`i generato il grafo di prossimit\`a sparsificato.
-
-Definiamo quindi il \textbf{K-Nearest Neighbor}\\
-se fisso k = 3 scelgo per ogni riga della matrice delle prossimit\`a i primi 3 valori degli archi per come vicinato. 
-
-2 modi di procedere: threshold o k neighbors.
-
-La sparsificazione riduce anche di molto il numero di elementi del dataset. Il clustering lavora molto meglio in quanto si lavora in un concetto di vicinanza. Algoritmi su grafi partizionati possono essere usati. 
-
-\subsubsection{Altri algoritmi}
-Non sempre purtroppo la sparsificazione del grafo porta ad un grafo sconnesso. L'idea \`e di ciclare la sparsificazione finch\`e non otterr\`o dei grafi partizionati ben definiti. 
-
-\textbf{Minimum spanning tree} o albero di supporto a costo minimo:
+Gli algoritmi di clustering gerarchico usano una visione dei dati basata sui \textit{grafi,} in cui i dati sono rappresentati come \textit{nodi} e la prossimità tra due istanze è rappresentata dal peso del \textit{ponte} che c'è tra i rispettivi nodi. Sono stati esplorati algoritmi di clustering graph-based che esplorano diverse caratteristiche e proprietà dei grafi. Gli approcci chiave sono i seguenti:
 \begin{itemize}
-	\item non ha cicli
-	\item contiene tutti i nodi dell'albero
-	\item ha il minimo costo totale dei pesi associati ai suoi alberi di tutti i possibili spanning tree
+	\item \textit{Sparsificare il grafo di prossimità:} tagliare, rimuovere certi archi che non superano la verifica di una certa condizione. (Es. tutti gli archi che non superano una certa soglia, oppure un concetto di vicinato). 
+	\item\textit{Definire una misura di similarità} tra due oggetti basati sul numero di oggetti vicini che condividono. Questo approccio aiuta a diminuire i problemi che nascono con cluster di dimensioni diverse e con densità diverse. 
+	\item \textit{Definire oggetti core e costruire cluster attoro ad essi:} Necessita l'introduzione di grafo di prossimità density-based.
+	\item \textit{Utilizzare l'informazione nel grafo di prossimità} per fornire una maggiore valutazione per cui due cluster dovrebbero essere uniti. 
 \end{itemize}
-\noindent
-\textbf{MST divisive hierarchical clustering Algorithm}
-\begin{enumerate}
-	\item Calcola il MST per grafo di dissimilarit\`a
-	\item \textbf{Ripeti}
-	\item Crea un nuovo cluster per rompere il collegamento corrispondente alla pi\`u grande dissimilarit\`a
-	\item \textbf{Finch\`e} rimangono solo cluster singoli
-\end{enumerate}
-\noindent
-Algoritmo \textbf{Opossum}:
-\begin{enumerate}
-	\item Caclola il grafo di similarit\`a sparso
-	\item partiziona il grafo in k componenti distinte (cluster) usando METIS
-\end{enumerate}
-\noindent
-Altro algoritmo \textbf{Camaleon}.
 
-Quando si visualizza il dendrogramma, si possono visualizzare le distanze e solitamente ha una forma a "gomito" la soluzione ottimale \`e solitamente quella che precede la salita finale del comito. Un buon dendrogramma ha grandi salti prima di aggregare insieme (salti grandi significa che se raggruppo genero un errore importante quindi \`e positivo per la valutazione del clustering). 
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.30 \linewidth]{clustering/pict/proximity_graph.png}
+	\caption{Correlazione tra matrice di prossimità e grafo di prossimità.}
+\end{figure}
+
+Come possiamo notare ogni oggetto a un certo livello di similarità con \textit{ogni} altro oggetto, per la maggior parte del dataset gli oggetti sono molto più simili ad un basso numero di oggetti e molto poco simili ad un alto numero di oggetti. Un 'operazione utile è quella di sparsificare il grafo/matrice di prossimita ossia di settare alcuni dei valori di prossimità molto bassi a 0. Il "molto bassi" viene identificato da un valore soglia. Questo serve a \textit{rompere tutti i nodi che hanno una prossimità sotto una data soglia o a tenere solo i collegamenti ai k-nearest neighbours per ogni punto}
+
+\begin{defn}
+	Definiamo quindi il \textbf{K-Nearest Neighbor} il numero di valori di archi che prendo come vicinato per ogni riga della matrice.
+\end{defn}
+Come facilmente intuibile ci sono diversi vantaggi nello sparsificare la matrice. In primo luogo \textit{la riduzione della dimensione dei dati,} settare dei valori a 0 infatti implica la non considerazione di quei collegamenti nell'algoritmo. In sercondo luogi \textit{ l'algoritmo di clustering potrebbe lavorare meglio,} questo perché la sparsificazione potrebbe eliminare degli outlier  o quelli elementi che costituiscono soltanto del rumore. Un ultimo motivo altrettanto importante è che \textit{si possono trovare anche partizioni interessanti di quel grafo.}
+
+La sparsificazione deve essere vista come lo step preliminare prima dell'uso dell'algoritmo di clustering. \textit{Raramente succede però che la sparsificazione splitti la matrice in componenti connesse ognuna corrispondente ad un dato cluster.} L'idea è quella di ripetere ciclicamente la sparsificazione fino ad ottenere dei grafi partizionati ben definiti. Sono stati sviluppati in letteratura diversi tipi di algoritmi di cluster graph-based e che rispondono a queste necessità.
+
+\paragraph{Minimum spanning tree (MST)} L'algoritmo inizia con l'albero di supporto o a costo minimo (minimum spanning tree) del grafo di prossimità e può essere visto come un'applicazione della sparsificazione per trovare i cluster. In particolare:
+\begin{defn}
+	Si definisce  \textbf{albero di supporto a costo minimo} di un grafo un sottografo che rispetta le seguenti caratteristiche:
+	\begin{itemize}
+		\item Non ha cicli, o equivalentemente è un albero.
+		\item Contiene tutti i nodi del grafo.
+		\item Ha il minimo costo totale dei pesi associati ai suoi alberi di tutti i possibili spanning tree.
+	\end{itemize}
+\end{defn}
+
+Quando parliamo di albero di supporto assumiamo che funzioni solo con le distanze o le dissimilarità.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.30 \linewidth]{clustering/pict/mst.png}
+	\caption{Albero di supporto con relativa matrice.}
+\end{figure}
+Esplicitiamo ora l'algoritmo di costruzione:
+\begin{enumerate}
+	\item Calcolare il MST per grafo di dissimilarità.
+	\item \textbf{Ripetere}
+	\begin{itemize}
+		\item Creare un nuovo cluster per rompere il collegamento corrispondente alla più grande dissimilarità.
+		\item \textbf{Finché} rimangono solo cluster singoli.
+	\end{itemize}
+	
+\end{enumerate}
+
+\paragraph{Opossum} è un algoritmo disegnato appositamente per clusterizzare dati multidimensionali e sparsi come i dati documentali o tipo il cestino della spesa. Si basa sullo stesso principio, ossia sulla sparsificazione del grafo. L'algoritmo nello specifico è il seguente:
+\begin{enumerate}
+	\item Caclola il grafo di similarità  sparsificato.
+	\item Partiziona il grafo in k componenti distinte (cluster) usando METIS.
+\end{enumerate}
+Come notiamo la misura di similarità deve essere appropriata rispetto al tipo di dati che stiamo trattando. come ad esempio la misura di Jaccard o quella del coseno. E' un algoritmo molto veloce e semplice e tende a partizionare i dati in cluster di egual dimensione.
+
+\paragraph{Chamaleon} E' un algoritmo di clustering agglomerativo che combina \textit{un iniziale partizionamento dei dati}, con un ulteriore schema di clustering gerarchico che usa la nozione di \textit{vicinanza e interconnettività.} L'idea chiave è che \textit{due cluester devono essere uniti solo se il cluster risultante è simile ai cluster di partenza.}
+L'algoritmo in particolare si articola nei seguenti passaggi:
+\begin{enumerate}
+	\item Costruire un grafo k-nearest neighbour.
+	\item Partizionare il grafo usando un algoritmo di partizionamento a multilivelli.
+	\item \textbf{Ripetere}
+	\begin{itemize}
+		\item Unire i cluster che preservano maggiormente le simiglianza rispetto alla relativa vicinanza e interconnettività..
+		\item \textbf{Finché} non possono essere uniti ulteriori cluster.
+	\end{itemize}
+	
+\end{enumerate}
+
+Questo algoritmo riesce a clusterizzare dati spaziale considerando anche il rumore e gli outlier, riesce inoltre a gestire anche cluster di diversa forma e di diversa densità. Questo algoritmo ha però problemi \textit{quando il processo di partizionamento non subisce la creazione di sotto cluster.}
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.18 \linewidth]{clustering/pict/chamaleon.png}
+	\caption{Schema di funzionamento dell'algoritmo Chamaleon.}
+\end{figure}
 
 \subsection{Clustering Evaluation}
+\begin{comment}
+
+
 
 L'efficienza di un algritmo di clustering viene valutato tramite:
 \begin{itemize}
