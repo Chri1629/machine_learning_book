@@ -449,7 +449,7 @@ Ci sono altre modifiche possibili al Tree-augmente naive bayes, presenti il lett
 \subsubsection{Summary}
 Per capire come \textit{nativamente} si differenziano i modelli di classificazione vedi tabella successiva. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/class_tecniques.png}
 	\caption{comparazione tra i principali modelli nativi}
@@ -473,78 +473,194 @@ Inoltre sempre avere attenzione sulla qualit\`a dei dati, infatti considerare se
  
 \textbf{Garbage IN Garbage OUT}\\
 
-ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
-\begin{comment}
+\begin{defn}
+	Un modello di calssificazione che si allena su un training set troppo bene (basso training error) può avere un generalization error peggiore (stimato sul test set) rispetto ad un modello con alto training error, non va bene noi puntiamo a predire bene dati che non conosciamo. Si parla allora di \textbf{Overfitting del modello}.
+\end{defn}
 
-Se un modello di classificazione fitta il \underline{training set troppo bene} potrebbe avere un generalization error povero rispetto ad un modello con alto training error, ciò non va bene perch\`e inficia sulle performace del test set: \textbf{Model Overfitting}. Il punto \`e che il modello deve funzionare bene sui dati di test non per forza in quelli di training. Nella pratica: non devo adattare troppo il mio modello sui dati di training. 
+\underline{Nella pratica}: non devo adattare troppo il mio modello sui dati di training. 
 
-Noi puntiamo ad un modello che "sbaglia" sia nel training set che nel test set in modo simile. Questa situazione significa che ho un modello che non ha overfittato. 
+Noi puntiamo ad un modello che "\textit{sbaglia}" (possibilmente poco) sia nel training set che nel test set in modo simile. Questa situazione significa che ho un modello che \textbf{non} ha overfittato. 
 
-Il fenomeno contrario \`e l'\textbf{overfitting}. La complessit\`a del modello scelto non \`e sufficiente per i dati che sto studiando. Accade quando performance del training e test sono simili e basse. Non abbiamo utilizzato tutta la flessibilit\`a che potevamo usare nella definizione del modello.
+Consideriamo il seguente esempio
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/overfitting.png}
+	\caption{esempio di overfitting}
+\end{figure}
+\begin{itemize}
+	\item linea {\color{blue}{blu}}: modello con poco training error (non overfitting)
+	\item linea {\color{orange}{arancione}}: modello con zero training error (overfitting)
+\end{itemize}
+Come si può notare il modello {\color{orange}{arancione}} si adatta troppo ai dati di training quindi c'è un forte rischio che non classifichi bene i dati di test. Al contrario il modello {\color{blue}{blu}} segue meglio la tendenza della distribuzione delle due classi di elementi.
 
-La soluzione ottimale la si evince da quello che succede nei dati di training e quello che succede nei dati di test. (leggere articolo Baias variance dilemma 2002)
+Ora vediamo come si comportano i due modelli nel test set
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/overfitting_test.png}
+	\caption{esempio di overfitting test}
+\end{figure}
+Ora si può notare come il modello {\color{blue}{blu}}: più alto training error e più basso generalization error) classifichi \textbf{più correttamente} rispetto al modello {\color{orange}{arancione}}: più basso training error e più alto generalization error).
 
-\`E impossibile avere una misurazione certa sugli errori del modello, si pu\`o avere una stima. 
+\begin{defn}
+Il fenomeno contrario \`e l'\textbf{Underfitting}, in cui sia il training error che il generation error sono elevati. Accade quando performance del training e test sono simili e basse.
+\end{defn}
+La complessit\`a del modello scelto non \`e sufficiente per i dati che sto studiando. Non abbiamo utilizzato tutta la flessibilit\`a che potevamo usare nella definizione del modello.
 
-\subsection{Performance di un modello di classificazione}
-Problema molto importante \`e comprendere la catena logica con cui un classificatore impari, perch\`e per prendere una decisione un individuo deve capire come ha fatto l'algoritmo. In particolare nei contesti delicati quali la guida autonoma in cui la macchina deve sapere come comportarsi in situazioni delicate, ecc. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/underfitting_merge.png}
+	\caption{esempio di underfitting (sinistra)}
+\end{figure}
+Guardando agli esempi in figura, il modello {\color{blue}{blu}} classifica erroneamente 6 record, non è un buon modello. Invece, nel modello {\color{orange}{arancione}} fitta meglio il training ed risponde meglio anche al test (1 errore), in questo caso però bisogna stare attenti a non incappare in overfitting.\\
+ 
+La \textbf{soluzione ottimale} la si evince da quello che succede nei dati di training e quello che succede nei dati di test.
+
+\`E impossibile avere una misurazione certa sugli errori del modello, si pu\`o solo avere una stima. 
+
+\subsubsection{Performance di un modello di classificazione}
 
 In una analisi di classificazione vogliamo sviluppare un modello che ci dia una migliore classificazione possibile. Viene valutata in termini di:
 \begin{itemize}
-	\item accuracy
-	\item speed
-	\item robustezza
-	\item scalabilit\`a
-	\item interpretabilit\`a (tema pi\`u dibattuto)
+	\item Accuracy
+	\item Speed
+	\item Robustezza
+	\item Scalabilit\`a
+	\item Interpretabilit\`a (tema pi\`u dibattuto)
 \end{itemize}
 
 \subsubsection{Accuratezza}
-importante misura perch\`e misura il modello in base a se da predizioini affidabili o meno, ci permette di selezionare l'istanza di modello che d\`a le migliori performance ad un nuovo record.
+L'accuratezza è una misura fondamentale perch\`e: 
+\begin{itemize}
+	\item misura la capacità del modello nel dare classificazioni affidabili su nuovi record
+	\item ci permette di selezionare l'istanza di modello che d\`a le migliori performance sui nuovi record
+\end{itemize}
+Consideriamo:
 
 $D_T$ training set con $t$ records
 
 $D_{TS}$ test set con $v$ records
 
-formula dell'unione ecc
+$D = D_T \cup D_{TS},D_T \cap D_{TS} = \emptyset,m = t + v$\\
 
-Viene definita una funzione di comparazione tra i valori correttamente rilevati. Viene poi specificata una funzione di accuratezza e il suo complemento, l'errore.
+Un buon indicatore è la percentale di record di test ($D_{TS}$) che sono classificati correttamente. 
 
-\subsubsection{Velocit\`a}
-Tempo di classificazione e spazio di memoria occupato sono caratteristiche che vanno considerate per il modello. Oggi per\`o si da meno importanza a queste caratteristiche in quanto devono vi sono diverse tecnologie e tecniche ottimizzare i tempi.
-
-Se l'algoritmo impega tempistiche poco accettabili, pu\`o essere fatto un campionamento del dataset originale. 
-
-\textbf{Robustezza} di un modello sono quelli in cui il modello non rispetta:
+Definiamo:
 \begin{itemize}
-	\item outliers - possono influenzare significativamente il modello
-	\item misssing data - problema centrale (i dati di base sono sporchi e soggetti a deperimento)
-	\item variazione tra training set e test set - si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
+	\item $y_i$ come il valore della variabile di classe dell'istanza $\underline{x_i} \in D_{TS}$
+	\item $f(\underline{x_i})$ valore della classe predetto per l'istanza $\underline{x_i} \in D_{TS}$ dal modello di classificazione
+\end{itemize} 
+Consideriamo quindi la seguente funzione di loss:
+\[
+L(y_i, f(\underline{x_i})) =  
+\begin{cases}
+	0 \qquad se &y_i = f(\underline{x_i}) \\
+	1 \qquad se &y_i \ne f(\underline{x_i})
+\end{cases}
+\]
+
+l'\textbf{Accuratezza} viene calcolata in questo modo:
+\[ acc(D_{TS}) = 1 - \frac{1}{v} \sum_{i=1}^{v} L(y_i, f(\underline{x_i}))\]
+
+in alcuni casi si preferisce l'\textbf{Errore} associato:
+\[err(D_{TS}) = 1 - acc(D_{TS}) = \frac{1}{v} \sum_{i=1}^{v} L(y_i, f(\underline{x_i}))\]
+
+\subsubsection{Speed}
+Gli algoritmi di classificazione differiscono per:
+\begin{itemize}
+	\item tempo di apprendimento
+	\item spazio di memoria occupato
 \end{itemize}
+Oggi per\`o si da meno importanza a queste caratteristiche in quanto vi sono diverse tecnologie e tecniche ottimizzare i tempi e lo spazio di memoria costa sempre meno (economicamente parlando).
 
-\textbf{Scalabilit\`a} \`e la capacit\`a di apprendere da enormi quantit\`a di dati. Es. le reti bayesiane scalano molto male. 
+Un algoritmo che impega molto tempo e\o una grande quantità di memoria per l'addestramento, pu\`o essere trainato dopo un campionamento del dataset originale. In questi casi accettiamo di non sfruttare tutte le informazioni disponibili invece di trainare un tipo di modello che riteniamo assicurerà buone performance.
 
-\textbf{Interpretabilit\`a} \`e un problema enorme, perch\`e noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione pu\`o essere la pi\`u dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non raggiungo il mio obiettivo di far interpretare il mio lavoro.
+\subsubsection{Robustezza, Scalabilità e Interpretabilità}
+\begin{defn}
+	Un modello/algoritmo può essere \textbf{robusto} o meno rispetto a:
+\begin{itemize}
+	\item \underline{outliers}: possono influenzare significativamente il modello
+	\item \underline{misssing data}: problema centrale (i dati di base sono sporchi e soggetti a deperimento)
+	\item \underline{variazione tra training set e test set}: si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
+\end{itemize}
+\end{defn}
+
+\begin{defn}
+	\textbf{Scalabilit\`a} \`e la capacit\`a di apprendere da enormi quantit\`a di dati. Questa proprietà è intresecamente connessa alla speed. 
+\end{defn}
+Es. le reti bayesiane scalano molto male. 
+
+\begin{defn}
+Quando la classificazione è orientata dall'\textbf{Interpretabilit\`a} di un problema per essere risolto e non ci si può limitare ad assicurare alti valori di accuratezza, è importante estrarre regole semplici e chiare per l'esperto di dominio del caso di studio.
+\end{defn}
+L'interpretabilit\`a \`e un problema enorme, perch\`e noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione pu\`o essere la pi\`u dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non raggiungo il mio obiettivo di far interpretare il mio lavoro.
 
 \subsubsection{Holdout}
-Significa lasciare fuori una porzione del dataset da dedicare al test set e il resto al training. Vi \`e la best practice 2/3 per training e 1/3 per test. Se si hanno molti dati a disposizione non \`e necessario seguire questa proporzione si pu\`o aumentare sul training.
+\begin{defn}
+L'\textbf{Holdout} è la partizione del dataset $D$ in due sottinsiemi di training e test set attraverso un procedura di campionamento. 
+\end{defn}
 
-La stima dipende dalla particolare scelta di divisione tra training e test set. Vi sono anche altre tecniche:
+\textbf{Best practice} suggerisce 2/3 per il training set e 1/3 per il test set.
 
-\textbf{Iterated Holdout} consiste di ripetere iterativamente R volte il metodo di holdout per cui apprendo e stimo. Ad ogni iterazione valuto il livello di accuratezza e in base ad esse decido il modello pi\`u preciso.
+Se si hanno molti dati a disposizione non \`e necessario seguire questa proporzione si pu\`o aumentare sul training.\\
 
-\`E chiaramente un metodo pi\`u robusto per\`o come viene suddiviso il dataset fa la differenza nello studio del metodo migliore. Non ho la certezza di aver usato dei dati ottimi per la stima fatta. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/holdout.png}
+	\caption{procedura di Holdout}
+\end{figure}
 
-\textbf{Cross-validation} 
-Con questa tecnica divido il fold il dataset. Vengono generati diversi fold di training e viene escluso nella divisione il foglio di dati dei test. Il test generato \`e un solo insieme e viene usato per testare tutti i modelli usati precedentemente. (NB: considero sempre solo dati non duplicati). Si provano tutte le possibili combinazioni tra insiemi di training e insieme di test e si prende la stima con la migliiore accuratezza. 
-Il K scelto in letteratura sono: 3,5,10 e non sono per forza le migliori scelte.
+La stima dell'accuratezza dipende dalla particolare scelta di divisione tra training e test set. Vi sono alcune tecniche per rendere più efficiente la divisione.
 
-LOOCV (Leave One Out Cross Validation): numero di fogli uguale al numero delle osservazioni che vado a considerare, forma pi\`u estrema di cross-validation
+\begin{defn}
+	\textbf{Iterated Holdout} consiste di ripetere iterativamente $R$ volte il metodo di holdout per cui apprendo e stimo l'accuratezza. 
+\end{defn}
+Ad ogni iterazione $r$ estraggo un campione random $D_{Tr}$ di $t$ records, e ottengo: 
+	
+$D_{TS_r} = D - D_{T_r}$
+	
+Ripeto la porcedura $R$ volte e l'accuratezza del classificatore è stimanata dalla media dei valori di accuratezza campionati $acc(D_{TS_r})$ calcolati su ogni test set $D_{TS_r}$:
+	
+\[ acc = \frac{1}{R} \sum_{r=1}^{R}acc(D_{TS_r})\]\\
+	
+Il numero di iterazioni $R$ può essere scelto tramite specifiche tecniche statistiche.
 
-Se ci troviamo in una situazione in cui una classe \`e sovrarappresentata, partizionare \`e molto pi\`u problemeatico. In questo caso utilizzo un campionamento stratificato ovvero quello che mantiene le proporzioni all'interno di ogni foglio di dati, non sempre \`e possibile. 
+L'iterated Holdout è chiaramente un metodo pi\`u robusto, le sue performance hanno un bias più piccolo rispetto al normale holdout. Comunque, non permette il controllo del numero di volte in cui un record è presente nel training e test set. Non ho la certezza di aver usato dei dati ottimi per la stima fatta. In alcuni casi si ricorre a uno schema più efficace, capace di ridurre l'impatto degli outlier. 
 
+\begin{defn}
+	La tecnica di holdout detta	\textbf{Cross-validation} garantisce che ciascun record di un dataset $D$ sia incluso nel training set con lo stesso numero di volte e esattamente una volta nel test set. 
+\end{defn}
 
-Noi in generale ci fidiamo di pi\`u del k-folds cross-validation in quanto rispetto all'holdout ho la certezza che i record non siano ripetuti.
+Il dataset $D$ viene partizionato in $K$ sottoinsiemi disgiunti detti \textbf{fold}, esaustivi e con circa lo stesso numero di record: 
 
+$D_1, D_2, ..., D_K$\\
+
+Eseguiamo $K$ iterazioni training-test. Alla k-esima iterazione avremo:
+
+$D_{T_k} = \{D_1, ...,D_{k-1},D_{k+1}, ...,D_K\} \qquad D_{TS_k} = D_k$
+
+L'insieme $D_{T_k}$ è usato per il training  mentre il $D_K$ viene usato per il test della k-esima iterazione, in pratica ho più training set e un test set.
+
+L'accuratezza viene stimata facendo la media delle $K$ iterazioni:
+
+\[acc = \frac{1}{K} \sum_{k=1}^K acc(D_k)\]\\
+
+che offre una stima più efficace dell'accuratezza del classificatore. \\
+
+Esistono diverse selezioni per il valore di $K$. I valori tipici sono $K = 3,5,10$ mentre un caso limite viene applicato quando i dati sono scarsi chiamato \textbf{Leave One Out Cross Validation} (\textbf{LOOCV}). LOOCV è ottenuto assumento che ogni record è una partizione del dataset, così il valore di $K$ equivale al numero di record del dataset $D$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.3 \linewidth]{classification/pict/cross_validation.png}
+	\caption{procedura di cross validation}
+\end{figure}
+
+Solitamente ci chiediamo se ogni partizione del dataset contiene la \textit{stessa proporzione} di valori possibili della classe attributo. Quando le proporzioni sono fortemente differenti si adottano specifiche tecniche di campionamento,es. \textbf{campionamento stratificato}. 
+
+Noi in generale ci fidiamo di pi\`u del \textbf{k-folds cross-validation} in quanto rispetto all'\textit{iterated holdout} ho la certezza che i record non siano ripetuti.
+
+\begin{comment}
+Si provano tutte le possibili combinazioni tra insiemi di training e insieme di test e si prende la stima con la migliiore accuratezza. 
+PARAGRAFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO SOPRA
 \section{Lezione 7 - Comparing Classifiers}
 \subsection{Intervallo di confidenza}
 L'accuratezza o errore non \'e sufficiente a definire il migliore classificatore.
