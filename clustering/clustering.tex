@@ -430,110 +430,127 @@ In particolare si ha che i centroidi che sono più vicini l'uno all'altro nella 
 \end{figure}
 
 A causa di questo vincolo i centroidi di una griglia bidimensionale possono essere visti come giacenti su una \textit{superficie bidimensionale che prova ad adattare i dati multidimensionali il meglio possibile.}
-\begin{comment}
 
-
-\paragraph{Mappe di Kohonen o SOMs}
-Detta anche mappa atorganizzante. Vi \`e una mappatura dei neuroni che mappano in uno spazio bidimensionale. Non hanno una sola direzione ma sono bi-direzionali, possono spostare i pesi sia da input ad output che viceversa.
-
-Ho uno spazio di input continuo e voglio mapparlo in uno spazio discreto di output. Vorrei che mappando un'osservazione in un neurone posso poi tornare indietro tramite un altro collegamento.
-
-Vi \`e un'informazione topografica in tutto ci\`o. Ed \`e una cosa unica rispetto agli altri algoritmi di clustering considerati. Durante la fase di apprendimento sfruttiamo la topologia considerando ogni oggetto aggiornato al centroide pi\`u vicino secondo essa. Considerando un neurone assegnato ad una osservazione, allora anche i neuroni ad esso adiacenti (vicinato - definito in vari modi) dovrebbero risentirne di questo assegnamento, in questo modo vengono trainati i neuroni e i vicini degli stessi. 
-
-Riassumendo:
+Riassumiamo ora i passaggi 	con cui una SOM crea i cluster:
 \begin{enumerate}
-	\item inizializzazione, seleziono i centroidi assocaiti a ciascun neurone
-	\item competizione tra diversi neuroni per ottenere l'istanza. Ogni neurona fa un'offerta diversa per vincere quell'oggetto e la proposta \`e proporzionata in base a quanto un neurone (in base al suo centroide) si considera "vicino" all'istanza considerata, viene poi proclamato il vincitore e gli viene assegnata l'istanza (in base a una misura di performance)
-	\item collaborazione una volta che un neurone vince distribuisce il suo vantaggi ai vicini (processo di premi-punizioni) aggiustando i centroidi
-	\item aggiornamento del centroide del vincitore e dei vicini calcolandol attraverso l'istanza appena considerata
+	\item \textit{Inizializzazione:} seleziono i centroidi assocaiti a ciascun neurone
+	\item \textit{Competizione:} i neuroni competono tra loro per ottenere l'istanza. Ogni neurone fa un'offerta diversa per vincere quell'oggetto e la proposta è proporzionale alla distanza del neurone rispetto all'istanza considerata. Viene poi proclamato il vincitore e gli viene assegnata l'istanza (in base a una misura di performance).
+	\item \textit{Collaborazione:} una volta che un neurone vince distribuisce il suo vantaggio ai vicini (processo di premi-punizioni) aggiustando i centroidi.
+	\item \textit{Aggiornamento:} il centroide del vincitore e dei vicini vengono aggiornati usando l'istanza corrente.
 \end{enumerate} 
 
-Punti di forza Interpretabilit\`a dei cluster 
+Il punto di forza maggiore di questo algoritmo è l'\textit{Interpretabilità:} i cluster che sono vicini sono più correlati tra loro rispetto ai cluster che non sono vicini. Questo aspetto facilita enormemente l'interpretazione e la visualizzazione dei cluster.
 
-Limiti:
+Questo algoritmo soffre però anche di alcune limitazioni abbastanza importanti:
 \begin{itemize}
-	\item bisogna scegliere un gran numero di parametri, funzione di vicinato ecc e varia molto nelle performance
-	\item non sempre un raggruppamento identifica un singolo cluster naturale (solitamente dopo viene applcato un k-medie sui centroidi trovati)
-	\item difficile paragonare i risultati
-	\item la convergenza non \`e garantita, \`e un'euristica
+	\item L'utente deve  scegliere un gran numero di parametri quali:funzione di vicinato, tipo di griglia e numero di centroidi. Questa scelta influenza molto le performance.
+	\item Non sempre un raggruppamento identifica un singolo cluster naturale (solitamente dopo viene applcato un k-medie sui centroidi trovati).
+	\item Mancanza di una specifica funzione oggetto: questo rende molto difficile paragonare i risultati.
+	\item \textit{Non è garantita la convergenza.}
 \end{itemize}
 
-\paragraph{Clustering Gerarchico}
+\subsubsection{Clustering Gerarchico}
+Passiamo ora alla descrizione della seconda classe di algoritmi di clustering.
+In particolare un clustering gerarchico può essere:
 \begin{itemize}
-	\item \textbf{agglomerativo}: si parte da tutti gli oggetti come cluster individuali e ad ogni step unisce le coppie di cluster pi\`u vicine.
-	\item \textbf{divisivo}: parte da un cluster unico e passo passo divide il cluster in soli cluster singleton di oggetti individuali rimanenti. Abbiamo bisogno di decidere quale cluster splittare ad ogni passo e come splittare
+	\item \textit{Agglomerativo}: si considerano inizialmente tutti gli oggetti come cluster individuali, ad ogni step vengono unite le coppie di step più vicine. Un processo di questo tipo richiede la definizione di prossimità tra i cluster.
+	 
+	\item \textit{Divisivo}: parte da un cluster unico che include tutti gli oggetti e passo passo divide il cluster in cluster di singleton (oggetti individuali). Abbiamo bisogno di decidere quale cluster splittare ad ogni passo e come splittare.
 \end{itemize}
 
-\textbf{Clustering gerarchico agglomerativo} sono i pi\`u comuni. La soluzione che si ottiene \`e il \textbf{dendrogramma} del clustering effettuato. \`E computazionalmente molto pesante.
+\paragraph{Clustering gerarchico agglomerativo} Concentriamo la nostra attenzione su questo tipo di clustering perché sono i più comuni. 
+La soluzione che si ottiene è il \textit{dendrogramma} del clustering effettuato. Il deindogramma serve a visualizzare sia le relazioni tra i cluster e i sottocluster sia l'ordine in cui sono stati divisi o agglomerati i vari cluster. Questo tipo di algoritmo è computazionalmente molto pesante.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
-	\includegraphics[height=0.45 \linewidth]{clustering/pict/cluster_aggl.png}
-	\caption{da clustering gerarchico a dendrogramma}
+	\includegraphics[height=0.25 \linewidth]{clustering/pict/cluster_aggl.png}
+	\caption{Clustering gerarchico sotto forma di deindrogramma}
 \end{figure}
 
-Si parte dai singoli elementi e pian piano vengono generati cluster sempre pi\`u inclusivi fino ad ottenere un unico cluster. \\
+Diamo ora un rapido riassunto dei passaggi dell'algoritmo:
 
-\noindent
-\textbf{Passaggi}:
 \begin{enumerate}
-	\item Calcolare la matrice di prossimit\`a
-	\item \textbf{Ripeti}
-	\item Unione di due cluster vicini
-	\item Aggiorna la matrice di prossimit\`a (o delle distanze) che riflette la prossimit\`a tra il nuovo cluster e il cluster originale
-	\item \textbf{Finch\`e} rimane un solo cluster
-\end{enumerate}
-\noindent
-La prossimit\`a tra cluster viene calcolata con:
-\begin{itemize}
-	\item  \textit{Min or Single Linkage}: minore distanza tra tutte le possibili coppie di elementi presenti nei due cluster (soluzione pi\`u ottimista)
-	\item \textit{Max or Complete Linkage}: maggiore distanza tra tutte le possibili coppie di elementi presenti nei due cluster (soluzione pi\`u robusta o pessimista)
-	\item \textit{Group Avarage or Avarage Linkage}: media distanza tra tutte le possibili coppie di elementi presenti nei due cluster (soluzione media - politically correct cit)
-	\item \textit{metodo di Ward}: assume i cluster come rappresentati dai centroidi, misura la prossimit\`a tra due cluster come somme di scarti quadratici che risulta dalla fusione di due cluster
-\end{itemize}
-\noindent
-\textit{Caratteristiche}:
-\begin{itemize}
-	\item Non risolve problemi di ottimizzazione globale
-	\item pu\`o gestire cluster con dimensioni differenti, gli elementi possono anche essere pesati o meno
-	\item le decisioni di unione sono definitive: non si pu\`o tornare indietro rispetto alla decisione (approccio greedy)
-\end{itemize}
-\noindent
-\textit{Difetti}:
-\begin{itemize}
-	\item computazionalmente molto pesante e richiede molto spazio
-	\item decisioni di unione di cluster sono subottimali quindi creano rumore
-\end{itemize}
-
-\paragraph{Density-Based Clustering}
-Densit\`a di regioni di oggetti che sono circondati da regioni con bassa densit\`a di oggetti.
-
-\textbf{DBSCAN} \`e un semplice ma efficace metodo density-based. 
-
-Vi sono diversi metodi per definire la \textit{densit\`a}, descriviamo il center-based approach: la densit\`a \`e il numero di oggetti all'interno di uno specifico raggio (\textbf{Eps}) di quell'oggetto. 
-
-\noindent
-Ci sono 3 tipi di punti:
-\begin{itemize}
-	\item \textbf{core point}: stanno all'interno della regione ad elevata densit\`a. \`E core pont se il numero di punti nel vicinato attorno ad esso eccede un certo \textit{threshold} MinPts, impostato dall'utente
-	\item \textbf{border point} (wanna be core point): un punto che include nel suo vicinato un core point, quindi lui si considera un vicino di core point
-	\item \textbf{noise point} (osservazione residuale no core o border): non \`e ne un core point ne un border point
-\end{itemize}
-
-\noindent
-\textbf{Passaggi}
-\begin{enumerate}
-	\item Etichettare tutti i core, border, noise point
-	\item Si eliminano i noise point
-	\item collegano i core point che sono all'interno dei rispettivi Eps
-	\item si fa ogni gruppo di core point connessi in cluster separati
-	\item si assegna ciascun border point in un cluster associato ai core point pi\`u prossimo
+	\item Calcolare la matrice di prossimità (se necessario).
+	\item \textbf{Ripeti:}
+	\begin{itemize}
+		\item Unione di due cluster vicini.
+		\item Aggiorna la matrice di prossimità (o delle distanze) che riflette la prossimità tra il nuovo cluster e il cluster originale		.
+	\end{itemize}
+	\item \textbf{Finché} rimane un solo cluster.
 \end{enumerate}
 
-La scelta dei parametri \textit{MinPts} e \textit{Eps} \`e fondamentale.
-\\
-\\
-\underline{DBSCAN vs K-medie}:
+Si pone ora il problema di calcolare la prossimità tra due cluster . Ci sono in particolare tre modi:
+\begin{itemize}
+	\item  \textit{Min or Single Linkage}: minore distanza tra tutte le possibili coppie di elementi presenti nei due cluster, per come è definita è ovviamente la soluzione più ottimista.
+	\item \textit{Max or Complete Linkage}: maggiore distanza tra tutte le possibili coppie di elementi presenti nei due cluster, è una soluzione più robusta o pessimista.
+	\item \textit{Group Avarage or Avarage Linkage}: media distanza tra tutte le possibili coppie di elementi presenti nei due cluster, è una soluzione abbastanza usata in quanto media le distanze.
+	\item \textit{metodo di Ward}: assume che i cluster siano rappresentati dai centroidi. Misura la prossimità tra due cluster come l'incremento della somma di scarti quadratici che risulta dalla fusione di due cluster.
+\end{itemize}
+	\begin{figure}[H]
+	\begin{minipage}[b]{0.30\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{clustering/pict/sing_linkage.png}
+		\caption{ \textit{Single}}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[b]{0.30\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{clustering/pict/complete_linkage.png}
+		\caption{\textit{Complete}}
+	\end{minipage}
+	\begin{minipage}[b]{0.30\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{clustering/pict/average_linkage.png}
+	\caption{\textit{Average}}
+\end{minipage}
+\end{figure}
+
+Le caratteristiche chiave di questi algoritmi sono le seguenti:
+\begin{itemize}
+	\item \textit{Mancanza di una funzione globale di oggetto:} per questo motivo non può risolvere problemi di ottimizzazione globale.
+	\item \textit{Abilità di gestire cluster di diverse dimensioni:} può gestire cluster con dimensioni differenti, i cluster possono anche essere pesati o meno.
+	\item \textit{Le decisioni di unione sono definitive:} non si può tornare indietro rispetto alla decisione (approccio greedy).
+\end{itemize}
+
+Le problematiche più importanti sono invece:
+\begin{itemize}
+	\item Computazionalmente molto pesante e richiede molto spazio.
+	\item Decisioni di unione di cluster sono subottimali quindi creano rumore soprattutto per dati documentali. 
+\end{itemize}
+
+\subsubsection{Density-Based Clustering}
+Passiamo ora alla descrizione della classe di algoritmi basati sulla densità. In particolare le tecniche di clustering basate sulla densità si occupano di \textit{trovare regioni con un'alta densità di oggetti circondati da regioni con una bassa densità di oggetti.}
+Passiamo ora a parlare di un algoritmo specifico, il \textit{DBSCAN.}
+
+\paragraph{DBSCAN} E' un semplice ma efficace  algoritmo density-based che mostra un gran numero di concetti fondamentali tipici dell'approccio density based. Ci sono diversi metodi per definire la densità, in particolare noi descriviamo il metodo center-based.
+\begin{defn}
+	Si definisce \textbf{densità} il numero di oggetti presenti all'interno di un raggio fissato (Eps) rispetto ad un oggetto.
+\end{defn} 
+
+Come facilmente intuibile la densità può variare fortemente al variare del raggio.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.25 \linewidth]{clustering/pict/density.png}
+	\caption{Densità rappresentata graficamente}
+\end{figure}
+
+Definita la densità in questo modo, i punti vengono classificati in tre tipologie diverse:
+\begin{itemize}
+	\item \textit{Core point}: stanno all'interno della regione ad elevata densità. In particolare un punto viene definito così se il numero di punti nel suo vicinato eccede un certo valore di soglia (MinPts) pre impostato dall'utente. 
+	\item \textit{Border point} : un punto che include nel suo vicinato un core point, quindi lui si considera un vicino di core point.
+	\item \textit{Noise point}: non è né un core point né un border point.
+\end{itemize}
+
+Come negli altri casi presentiamo i passaggi dell'algoritmo in maniera schematica:
+\begin{enumerate}
+	\item Etichettare tutti i core, border, noise point.
+	\item Eliminare i noise point.
+	\item Collegare con un ponte tutti i core point che sono all'interno dei rispettivi Eps.
+	\item Trasformare ogni gruppo di core point connessi in cluster separati.
+	\item Assegnare  ciascun border point al cluster associato al core point più prossimo.
+\end{enumerate}
+
+Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} è fondamentale in quanto impatta fortemente sull'esecuzione di tutto l'algoritmo. Mostriamo ora invece quali sono le differenze principali tra l'algoritmo DBSCAN e l'algoritmo K-means:
 \begin{itemize}
 	\item DBSCAN and K-Means assign objects to a single cluster, but K-Means assigns all
 	objects while DBSCAN can discard noise objects
@@ -562,15 +579,17 @@ La scelta dei parametri \textit{MinPts} e \textit{Eps} \`e fondamentale.
 	\item DBSCAN automatically determines the number of clusters, for K-Means the number
 	of clusters needs to be specified as a parameter
 \end{itemize}
-\noindent
-Vi sono altri algoritmi di density-based:
-\begin{itemize}
-	\item Grid-based clustering
-	\item subspace clustering
-	\item kernel density function
-\end{itemize}
 
-\paragraph{Graph-based Clustering Algorithm}
+Vi sono altri algoritmi di density-based che non tratteremo in questo momento quali: \textit{grid-based clustering}, \textit{subspace clustering}, \textit{kernel density function}.
+
+\begin{comment}
+
+\underline{DBSCAN vs K-medie}:
+
+\noindent
+
+
+\subsubsection{Graph-based Clustering Algorithm}
 Gi\`a gli algoritmi a rappresentazione gerarchica possono essere visti come graph-based. 
 
 Sparsificare: tagliare, rimuovere certi archi che non superano la verifica di una certa condizione (Es. tutti gli archi che non superano una certa soglia, oppure un concetto di vicinato). 
@@ -592,7 +611,7 @@ se fisso k = 3 scelgo per ogni riga della matrice delle prossimit\`a i primi 3 v
 
 La sparsificazione riduce anche di molto il numero di elementi del dataset. Il clustering lavora molto meglio in quanto si lavora in un concetto di vicinanza. Algoritmi su grafi partizionati possono essere usati. 
 
-\paragraph{Altri algoritmi}
+\subsubsection{Altri algoritmi}
 Non sempre purtroppo la sparsificazione del grafo porta ad un grafo sconnesso. L'idea \`e di ciclare la sparsificazione finch\`e non otterr\`o dei grafi partizionati ben definiti. 
 
 \textbf{Minimum spanning tree} o albero di supporto a costo minimo:
