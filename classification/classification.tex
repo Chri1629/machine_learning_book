@@ -658,77 +658,130 @@ Solitamente ci chiediamo se ogni partizione del dataset contiene la \textit{stes
 
 Noi in generale ci fidiamo di pi\`u del \textbf{k-folds cross-validation} in quanto rispetto all'\textit{iterated holdout} ho la certezza che i record non siano ripetuti.
 
-\begin{comment}
-Si provano tutte le possibili combinazioni tra insiemi di training e insieme di test e si prende la stima con la migliiore accuratezza. 
-PARAGRAFOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO SOPRA
-\section{Lezione 7 - Comparing Classifiers}
-\subsection{Intervallo di confidenza}
-L'accuratezza o errore non \'e sufficiente a definire il migliore classificatore.
-
-Supponiamo di avere:
+\subsection{Comparing Classifiers (*)}
+La comparazione tra due diversi \textit{classificatori} non è semplice, perchè dipende dai differenti modelli utilizzati e dalla distribuzione dei dati, nonchè la quantità. L'accuratezza ha diverso valore se ricavata da pochi record di dati. 
+es. 
 \begin{itemize}
-	\item Inducer A accuracy = 0.85 con 30 record di test
-	\item Inducer B accuracy = 0.75 con 5000 recordi di test
+	\item \textbf{Inducer A}: accuracy = 0.85 su un test set di 30 record
+	\item \textbf{Inducer B}: accuracy = 0.75 su un test set di 5 000 record
 \end{itemize}
-Qual \`e il migliore?
+Qual è il migliore?
 
-Perch\`e anche se l'inducer A ha un'accuratezza maggiore, \`e stato testato su un numero di record molto minore rispetto al B. Bisogna testare l'intervallo di confidenza per A e B.
+L'accuratezza \textbf{non} basta. Bisogna stimare l'intervallo di confidenza dell'accuratezza per i due inducer e testare l'importanza statistica delle deviazioni osservate.
+ 
+\subsubsection{Intervallo di confidenza}
+Consideriamo il problema di predire il valore di una classe attributo da un test record come esperimento \textbf{binomiale}.
 
-\`E possibile spiegare la differenza delle accuratezza dei due classificatori? Bisogna svolgere unt est di ipotesi per le deviazioni osservate.
-
-Consideriamo il problema di predire il valore di una classe attributo da un test record come esperimento \textbf{binomiale}. Dato un test set $D_N$ contenente N record, consideriamo:
-
+Dato un test set $D_N$ contenente $N$ record, consideriamo:
 \begin{itemize}
-	\item X: numero di record correttamente predetti dall'inducer (non lo conosciuamo)
-	\item p: vera accuratezza dell'inducer (probabilit\`a di successo della distribuzione binomiale)
+	\item \textbf{X}: numero di record correttamente predetti dall'inducer
+	\item \textbf{p}: vera, ma non la conosciuamo, accuratezza dell'inducer (probabilit\`a di successo della distribuzione binomiale)
 \end{itemize}
+Modelliamo il problema con X distribuita secondo una binomiale con
+\begin{itemize}
+	\item media = $N \cdot p$
+	\item varianza = $N \cdot p \cdot (1-p)$
+\end{itemize}
+Oggetto del nostro studio \`e l'\textbf{accuratezza empirica}: \[acc = \frac{X}{N} \] 
+che \`e distribuita secondo una binomiale con $\mu = p$ e $\sigma^2 = \frac{p \cdot (1-p)}{N}$
 
-X distribuita secondo una binomiale con \textit{media = $N \cdot p$} e \textit{varianza = $N \cdot p \cdot (1-p)$}. 
+Sebbene la distribuzione binomiale possa essere usata per stimare l'intervallo di confidenza per l'accuratezza, se la dimensione del test set \`e sufficientemente grande, \`e buona norma approssimarla in una \textbf{normale}. Cos\`i facendo l'intervallo di confidenza per l'\textbf{accuratezza empirica} \`e:
 
-Oggetto del nostro studio \`e l'\textbf{accuratezza empirica}: \[acc = \frac{X}{N} \] che \`e distribuita secondo una binomiale con $\mu = p$ e $\sigma^2 = \frac{p \cdot (1-p)}{N}$
+\[ P \Bigl( -Z_{1-\alpha/2} < \frac{acc - p}{\sqrt{p \cdot (1-p / N)}} < Z_{1 - \alpha/2} \Bigr) = 1 - \alpha \]\\
 
-Se la dimensione del test set \`e sufficientemente grande, \`e buona norma approssimare una distribuzione binomiale, in una \textbf{normale}. Cos\`i facendo l'intervallo di confidenza per l'\textbf{accuratezza empirica} \`e:
+Rimodellando la disuguaglianza ci porta al seguente intervallo di confidenza con confidenza $1-\alpha$ per \textbf{p}, la sconosciuta accuratezza del modello di classificazione:
 
-\[ P(-Z_{1-\alpha/2} < \frac{acc - p}{\sqrt{p \cdot (1-p / N)}} < Z_{1 - \alpha/2}) = 1 - \alpha \]
+\[ \Biggl[ \frac{acc + \frac{Z_{1-\frac{a}{2}}^2 }{2 \cdot N} - Z_{1-\frac{a}{2}} \cdot \sqrt{\frac{acc}{N} - \frac{acc^2}{N} + \frac{Z_{1-\frac{a}{2}}^2}{4 \cdot N^2}}}{\bigl(1 + \frac{Z_{1-\frac{a}{2}^2}}{N}\bigr)}
+, 
+\frac{acc + \frac{Z_{1-\frac{a}{2}}^2 }{2 \cdot N} + Z_{1-\frac{a}{2}} \cdot \sqrt{\frac{acc}{N} - \frac{acc^2}{N} + \frac{Z_{1-\frac{a}{2}}^2}{4 \cdot N^2}}}{\bigl(1 + \frac{Z_{1-\frac{a}{2}^2}}{N}\bigr)} \Biggr] \]\\
+\underline{nota}: non chiede questa formula all'esame.
 
 NB: se prendessi diversi test set indipendenti l'uno dall'altro \`e ovvio che vengono diversi intervalli di confidenza. Per\`o in questi casi fissato $\alpha$ posso stabilire statisticamente quali intervalli sono pi\`u significativi di altri. Pi\`u riduco $\alpha$ pi\`u aumenta $\beta$ ovvero il caso di errore in cui non rifiuto l'ipotesi nulla quando invece dovrei rifiutarla.
 
-(non chiede la formula gigante!!!)
+Dato un modello con acc=0.8 sul test set di $100$ record, fissiamo l'intervallo di confidenza per l'accuratezza a $0.95\%$. L'andamento dell'intervallo è il seguente:
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.5 \linewidth]{classification/pict/inter_confidence.png}
+	\caption{esempio andamento dell'intervallo di confidenza}
+\end{figure}
+
+\subsubsection{Different test set}
 Supponiamo il caso in cui ho 2 modelli e vengono valutati per forza su due test set diversi (per tanti motivi pu\`o succedere):
 \begin{itemize}
-	\item $M_1$ valtutato su test set $D_1$ contenente $n_1$ record con tasso di errore $e_1$
-	\item $M_2$ valtutato su test set $D_2$ contenente $n_2$ record con tasso di errore $e_2$
+	\item $M_1$ valutato su test set $D_1$ contenente $n_1$ record con tasso di errore $e_1$
+	\item $M_2$ valutato su test set $D_2$ contenente $n_2$ record con tasso di errore $e_2$
 \end{itemize}
-I due test set devono essere assunti \underline{indipendenti}. Il nostro obiettivo \`e testare se la \textbf{differenza} tra i due errori \`e statisticamente significativa.
+I due test set devono essere assunti \textit{indipendenti}. Il nostro obiettivo \`e testare se la \textbf{differenza} tra i due errori \`e statisticamente significativa.
 
-La differenza osservata \`e: $d = e_1 - e_2$ e sono distribuiti secondo una \textbf{normale} con $\mu = d_t$ e $\sigma^2 = \sigma^2_d$. la varianza di d pu\`o essere stimanata come segue: \[\sigma^2 = ... \]
+Assumiamo che $n_1$ e $n_2$ siano sufficientemente grandi, allora i tassi di errore $e_1$ ed $e_2$ possono essere approssimati usando distribuzioni \textit{normali}.
 
-L'intervallo di confidenza per la differenza $d_t$ \`e: \[ (d - z_{1-\alpha/2 \cdot \bar{\sigma}}, d + z_{1-\alpha/2 \cdot \bar{\sigma}}) \]
+La differenza osservata \`e denotata come: 
+\[d = e_1 - e_2\]
+sono distribuiti secondo una \textbf{normale} con 
+\[\mu = d_t \qquad \sigma^2 = \sigma^2_d\] 
 
-Se l'intervallo contiene 0 allora concludiamo che la differenza osservata non \`e statisticamente significativa ad un livello $\alpha$. 
+La varianza di d pu\`o essere stimanata come segue: 
+\[\sigma^2 \cong \hat{\sigma}_d^2 = \frac{e_1 \cdot (1-e_1)}{n_1} + \frac{e_2 \cdot (1-e_2)}{n_2}\]
 
-Se il limite superiore della confidenza \`e negativo allora il modello $M_1$ \`e migliore del modello $M_2$ a un livello $\alpha/2$
+L'intervallo di confidenza per la differenza $d_t$ \`e: 
 
-Se il limite superiore della confidenza \`e positivo allora il modello $M_2$ \`e migliore del modello $M_1$ a un livello $\alpha/2$
+\[ \bigl( d - z_{1-\alpha/2} \cdot \hat{\sigma}_d, d + z_{1-\alpha/2} \cdot \hat{\sigma}_d \bigr) \]
 
-Buona norma fare il test di ipotesi solo se prima mi faccio la domanda se sono o meno differenti, non continuare a condurre test a casaccio o a tappeto perch\`e altrimenti si rischia di raggiungere degli assurdi. Bisogno farsi la domanda e poi eseguire tutta la procedura sulla coppia di modelli. Vi \`e un \textbf{problema dei confronti multipli} devo adattarli tutti allo stesso livello di $\alpha$ altrimenti non sono confrontabili le differenze. 
+Ci possono essere sostanzialmente 3 casi:
+\begin{enumerate}
+	\item \[0 \in \bigl( d - z_{1-\alpha/2} \cdot \hat{\sigma}_d, d + z_{1-\alpha/2} \cdot \hat{\sigma}_d \bigr)\] allora concludiamo che la differenza osservata \textbf{non \`e statisticamente significativa} ad un livello $\alpha$, i modelli non sono significativamente differenti 
+	\item \[d + z_{1-\alpha/2} \cdot \hat{\sigma}_d < 0\] se il limite superiore della confidenza \`e negativo allora il modello \textbf{$M_1$ \`e migliore del modello $M_2$} a un livello $\alpha/2$
+	\item \[d - z_{1-\alpha/2} \cdot \hat{\sigma}_d > 0\] se il limite superiore della confidenza \`e positivo allora il modello \textbf{$M_2$ \`e migliore del modello $M_1$} a un livello $\alpha/2$
+\end{enumerate}
 
-Nel caso in cui ho lo stesso test set posso svolgere un test pi\`u \textbf{potente} ovvero posso valutare il caso di errore di secondo tipo: affermo che la differenza tra i due classificatori non \`e significativa quando in realt\`a lo \`e ($\beta$). 
+Buona norma fare il test di ipotesi \textbf{solo} se prima mi faccio la domanda se sono o meno differenti, non continuare a condurre test a casaccio o a tappeto perch\`e altrimenti si rischia di raggiungere degli assurdi. Bisogna farsi la domanda e poi eseguire tutta la procedura sulla coppia di modelli, in quanto vi \`e un \textbf{problema dei confronti multipli} devo adattarli tutti allo stesso livello di $\alpha$ altrimenti non sono confrontabili le differenze. \\
 
-Si confrontano $M_1$ ed $M_2$ usando il k-fold cross validation.
+\subsubsection{Same test set}
+Nel caso in cui ho lo \textbf{stesso test set} posso svolgere un test pi\`u \textbf{potente} ovvero posso valutare il caso di errore di secondo tipo: affermo che la differenza tra i due classificatori non \`e significativa quando in realt\`a lo \`e ($\beta$). 
 
-Ho il dataset D partizionato in K subset disgiunti con circa lo stesso numero di record. Vengono costriuti i modelli k-volte in cui ogni volta cambio la partizione di test set. Ottengo:
+Si confrontano $M_1$ ed $M_2$ usando il \textit{k-fold cross validation}.
+
+Ho il dataset $D$ partizionato in $K$ subset disgiunti con circa lo stesso numero di record. 
+\[D_1, D_2, ..., D_K\]
+
+Applichiamo le tecniche di classificazione per costruire i modelli $M_1$ e $M_2$ dalle $k-1$ partizioni e li testiamo con la partizione rimanente. Il passaggio deve essere ripetuto $K$ volte, ogni voltausando una differente partizione per il test set. Ottengo:
 \begin{itemize}
-	\item $M_{1k}$ inducer per il modello $M_1$ ottenuto da k iterazioni con $e_{1k}$ errore
-	\item $M_{2k}$ inducer per il modello $M_2$ ottenuto da k iterazioni con $e_{2k}$ errore
+	\item $M_{1k}$ \textbf{inducer} per il modello $M_1$ ottenuto alla k-esima iterazione con $e_{1k}$ errore
+	\item $M_{2k}$ \textbf{inducer} per il modello $M_2$ ottenuto alla k-esima iterazione con $e_{2k}$ errore
 \end{itemize}
 
-La differenza tra gli errori durante le k iterazioni sono: $d_k = e_{1k} - e_{2k}$, per K sufficientemente grande, $d_k$ \`e distribuito normalmente con: $\mu = d_t^{cv}$ e $\sigma = \sigma^{cv}$ dove la varianza osservata \`e stimata secondo la seguente formula: \[ \hat{\sigma}^2_{d^{cv}} = \frac{\sum_{k=1}^{K}(d_k - \bar{d})^2}{K \cdot (K-1)} \] con \[ \bar{d} = \frac{1}{K} \sum_{k=1}^K d_k \]
+La differenza tra gli errori durante la k-esima iterazione è:
+\[d_k = e_{1k} - e_{2k}\]
+Per K sufficientemente grande, allora $d_k$ \`e distribuito \textit{normalmente} con: 
+\[\mu = d_t^{cv} \quad \sigma = \sigma^{cv}\]
 
-\subsection{Class Imbalance}
-Consideriamo di nuovo il dataset dei Churner. In particolare sappiamo che il $14.5\%$ sono dei churner. Ricorda un modello che risponde sempre la stessa cosa \`e un \textbf{non modello}. Il modello pi\`u inutile \`e quello che risponde sempre come un \textbf{ZeroR Rule} ovvero risponde sempre con la classe pi\`u frequente.
+dove la varianza osservata \`e stimata secondo la seguente formula: 
 
+\[ \hat{\sigma}^2_{d^{cv}} = \frac{\sum_{k=1}^{K}(d_k - \bar{d})^2}{K \cdot (K-1)} \qquad \bar{d} = \frac{1}{K} \sum_{k=1}^K d_k \]
+
+Usiamo una distribuzione T di Student per calcolare l'intervallo di confidenza per il valore della vera media $d_t^{cv}$
+
+\[\biggl( \hat{d} - t_{1-\frac{\alpha}{2}}^{K-1} \cdot \hat{\sigma}_{d^{cv}}
+,
+\hat{d} + t_{1-\frac{\alpha}{2}}^{K-1} \cdot \hat{\sigma}_{d^{cv}} \biggr)\]
+
+dove 
+\[t_{1-\frac{\alpha}{2}}^{K-1}\]
+
+è ottenuta dalla tavola di probabilità, il quantile associato alla confidenza $1-\alpha$ e $K-1$ gradi di libertà.\\
+
+Ovviamente valgono \textbf{le stesse condierazioni} fatte precedentemente sull'intervallo di confidenza fatte precedentemente per la differenza tra due classificatori. 
+
+Se l'intervallo di confidenza contiene il valore 0, concludiamo che la differenza osservata \textit{non è statisticamente significativa} al livello $\alpha$ (confidenza $1-\alpha$). 
+
+\subsection{Class Imbalance Problem (*)}
+Consideriamo di nuovo il dataset dei Churner. In particolare sappiamo che il $14.5\%$ sono dei churner. Un modello di classificazione che etichetta i record come non churner avrà per forza un'alta accuracy in quanto è la classe più frequente nel dataset. 
+
+\begin{defn}
+	Il modello più inutile è quello che risponde sempre con la classe più frequente, ovvero la \textbf{ZeroR Rule}.	
+\end{defn}
+\begin{comment}
 Bisogna studiare la classe pi\`u rara (meno frequente), essa viene denotata come \textbf{classe positiva}, mentre quella pi\`u frequente \`e detta \textbf{classe negativa}.
 
 Consideriamo la \textbf{matrice di confusione}, allora possiamo calcolare:
