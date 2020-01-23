@@ -258,11 +258,11 @@ Partiamo ora della descrizione di uno dei primi algoritmi basati sul prototipo. 
 Forniamo ora una descrizione schematica dell'algoritmo:
 \begin{itemize}
 	\item Scegliere per $k = 0$ quali sono i centroidi facendo in modo che non si "pestino i piedi".
-	\item Ripetere queste cose:
+	\item \textbf{Ripetere:}
 	\begin{itemize}
 		\item Formo k cluster in modo da assegnare ad ogni record il suo centroide più vicino. E' ovviamente un meccanismo esclusivo.
 		\item Calcolo il nuovo centroide per ogni cluster .
-		\item Mi fermo fino a quando il centroide non cambia più.		 
+		\item \textbf{Finché} il centroide non cambia più.		 
 	\end{itemize}
 	
 	
@@ -646,127 +646,179 @@ Questo algoritmo riesce a clusterizzare dati spaziale considerando anche il rumo
 \end{figure}
 
 \subsection{Clustering Evaluation}
-\begin{comment}
-
-
-
-L'efficienza di un algritmo di clustering viene valutato tramite:
+La trattazione è sempre la solita, abbiamo un problema di clustering da risolvere. Quando risolviamo un problema di questo tipo l'efficienza di un algoritmo di clustering viene valutata tramite:
 \begin{itemize}
-	\item similarit\`a
-	\item esclusivit\`a dei clustering o misure fuzzy di sovrapposizione
-	\item completo o parziale clustering
+	\item Similarità.
+	\item Esclusività dei cluster o misure fuzzy di sovrapposizione.
+	\item Se i cluster sono completi o parziali.
 \end{itemize}
 
-Innanzitutto scelgo alcuni algoritmi candidati da voler implementare in base alla tipologia di dati che ho. L'utilit\`a di utilizzarne diversi e poterli confrontare. Bisogna impostare un'insieme di esperimenti equi per poterli valutare correttamente (stessi dati, chiare differenze di parametri ecc). 
-Il problema \`e che \`e molto complesso valutare i cluster visto che non so esattamente cosa sto cercando. 
-
-I problemi grossi nella valutazione sono:
+Decidiamo di impostare un piano sperimentale, selezioniamo quindi  un certo numero di algoritmi di clustering e li proviamo per vedere quali funzionino meglio. Vorremmo avere quindi gli stessi metodi dei classificatori per capire quando un algoritmo di clustering possa essere considerato migliore di un altro. Purtroppo il concetto di clustering è molto più complesso visto che non conosciamo esattamente il risultato da ottenere.
+Le problematiche più grossi nella valutazione sono:
 \begin{itemize}
-	\item determinare la tendenza dei cluster (che non siano fatti a caso)
-	\item determinare il numero corretto di cluster (qualunque cosa significhi)
+	\item Determinare la tendenza dei cluster (che non siano fatti a caso).
+	\item Determinare il numero corretto di cluster (qualunque cosa significhi).
 \end{itemize} 
-
-abbiamo 3 diversi tipi di indici:
+Abbiamo tre diversi tipi di indici che servono a validare i nostri cluster:
 \begin{itemize}
-	\item \textbf{Esterni o supervisionati}: misure che estendono i cluster scoperti con alcune strutture esterne (sapendo circa la verit\`a sul problema)
-	\item \textbf{Interni o non supervisionati}: misure di similarit\`a di cluster in particolare le strutture in base a informazioni esterne, possono essere:
+	\item \textit{Esterni o supervisionati}: misurano l'estensione per cui la struttura di clustering trovata combaci con qualche struttura esterna (presupponendo di avere una vaga idea di come i dati dovrebbero organizzarsi).
+	\item \textit{Interni o non supervisionati}: misurano la bontà di una struttura di clustering senza tener conto di informazioni esterne. In particolare essi possono essere:
 	\begin{itemize}
-		\item Misure di coesione: determina la connessione tra elementi di un cluster
-		\item misure di separazione: quanto sono ben distiniti i cluster 
+		\item Misure di coesione: determinano la connessione tra elementi di un cluster
+		\item misure di separazione: quanto sono ben distiniti i cluster. 
 	\end{itemize}
-	\item \textbf{Relativi}: compara differenti clustering
+	\item \textit{Relativi}: comparano differenti algoritmi di clustering. 
 \end{itemize}
-
 \subsubsection{Esterni o supervisionati}
-$P = \{P_1, ..., P_R\}$ partizione di un dataset di m (oggetti record) in R categorie, possono essere partizionati con algoritmi in k cluster $C= \{C_1, ..., C_K\}$.
 
-Casi:
+Supponiamo di avere un partizionamento $P = \{P_{1}, ..., P_{R}\}$ di R insiemi disgiunti con $m$ elementi. 
+
+Sia ora: $C = \{C_{1}, ..., C_{K}\}$, la partizione ottenuta con un algoritmo di clustering in $K$ cluster. Compariamo ora P con C per vedere quali siano i casi che si realizzano.
+Ci sono ovviamente quattro casi che possono verificarsi:
 \begin{enumerate}
-	\item (\textbf{a}) x e y appartengono allo \underline{stesso} cluster di C e alla \underline{stessa} categoria di P
-	\item (\textbf{b}) x e y appartengono allo \underline{stesso} cluster di C e a \textit{differenti} categorie di P
-	\item (\textbf{c}) x e y appartengono a \textit{differenti} cluster di C e alla \underline{stessa} categoria di P
-	\item (\textbf{d}) x e y appartengono a \textit{differenti} cluster di C e a \textit{differenti} categorie di P
+	\item  x e y appartengono allo \underline{stesso} cluster di C e alla \underline{stessa} categoria di P
+	\item  x e y appartengono allo \underline{stesso} cluster di C e a \textit{diverse} categorie di P
+	\item  x e y appartengono a \textit{diversi} cluster di C e alla \underline{stessa} categoria di P
+	\item  x e y appartengono a \textit{diversi} cluster di C e a \textit{diverse} categorie di P
 \end{enumerate}
+Ovviamente le coppie che possiamo formare sono:
 
-Numero totale di coppie che si possono formare:
-\[ M = \frac{m x (m-1)}{2} = a + b + c + d\]
+\[M =  \frac{m(m-1)}{2} =  a+b+c+d\]
 
-Rand: \[R = \frac{a + d}{M}\] con $R \in [0,1]$
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.40 \linewidth]{clustering/pict/partizionamenti.png}
+	\caption{Partizionamenti C e P e formazione delle coppie.}
+\end{figure}
 
-Jaccard: \[J = \frac{a}{a + b + c}\] con $J \in [0,1]$
+Definisco diverse misure di similarità:
 
-Fowlkes and Mallows: \[FM = \sqrt{\frac{a}{a + b} x \frac{a}{a + c}}\]
+	 \begin{defn}
+		Definisco \textbf{Rand} il seguente indice:
+		 \[R = \frac{a + d}{M} \quad R \in [0,1]\]
+			\end{defn}
+		\begin{defn}
+			Definisco \textbf{Jaccard} il seguente indice:
+			\[J = \frac{a}{a + b + c} \quad J \in [0,1]\]
+		\end{defn}
+		\begin{defn}
+			Definisco \textbf{Fowlkes and Mallows} il seguente indice:
+			\[FM = \sqrt{\frac{a}{a + b} \times \frac{a}{a + c}} \quad FM \in [0,1]\]
+		\end{defn}
+		 \begin{defn}
+			Definisco \textbf{$\Gamma$ statistics} il seguente indice:
+			\[R = \frac{M \times a - (a+b)\times (a+c)}{\sqrt{(a+b)\times (a+c)\times(M-a-b)\times(M-a-c)}} \quad \Gamma \in [-1,1]\]
+		\end{defn}	
 
-$\Gamma$ statistics
-
+Per come sono definiti, più è grande il valore che assumono questi indici più sono simili C e P.
 \subsubsection{Interni o non supervisionati}
+Diversi indici di interni di validità del partizionamento dei cluster si basano sulla \textit{coesione} e sulla \textit{separazione}. La nostra idea è quella quindi di ottenere un valore di coesione alto e un valore di separazione basso.
+In generale valutiamo la validità totale di un cluster fatto da un insieme di K cluster come la media pesata delle validità di ogni singolo cluster.
 
-Molte misure di validit\`a del partizionamento dei cluster si basano sulla \textbf{coesione} e sulla \textbf{separazione}. Noi di base vogliamo un valore di coesione alto ed un valore di separazione basso.
+\[ overall\_validity = \sum_{i = 1}^{K}w_{i} \cdot validity(C_{i})\]
+In cui la validità può essere la coesione, la separazione o una combinazione lineare di queste; i pesi invece variano in base alla misura di validità del clustering.
+Supponendo di avere dei cluster basati su grafi posso definire la coesione e la separazine in questo modo:
 
-Ci si basa sul concetto di grafo (graph-based), la coesione di un cluster pu\`o essre definita come a somma dei pesi degli archi inn un grafo di prossimit\`a che connette i punti all'interno del cluster. 
+\begin{defn}
+	Si definisce \textbf{coesione} la somma dei pesi dei ponti nel grafo di prossimità che connettono i punti all'interno del  cluster.
+	\[ cohesion(C_i) = \sum_{x, y \in C_i} proximity(x,y) = \sum_{x y \in C_i} similarity(x,y)\]
+\end{defn}
+Per questo motivo la coesione e la similarità sono massimizzate quando vengono minimizzate la dissimilarità/distanza.
 
-\[ cohesion(C_i) = \sum_{x, u \int C_i} proximity(x,y) = \sum_{x y \in C_i} similarity(x,y)\]
+\begin{defn}
+	Si definisce \textbf{separazione} la somma dei pesi dei ponti nel grafo di prossimità che connettono i punti di un cluster ai punti di un altro cluster.
+	\[separation(C_{i}, C_{j}) = \sum_{x \in C_{i},y\in C_{j} }proximity(x,y) = \sum_{x \in C_{i},y\in C_{j} }similarity(x,y)   \]
+\end{defn}
 
-La similarit\`a \`e quindi inversamente proporzionale alla dissimilarit\`a. 
-La separazione \`e valutata secondo la somma dell prossimit\`a di nodi che non appartengono allo stesso cluster.
+Per gli algoritmi di clustering basati sui prototipi invece le definizioni cambiano un pochino:
 
-Per i cluster prototype-based la coesione \`e valutata rispetto al centroide che ne rappresenta il prototipo; la separazione \`e misurata sulla prossimit\`a del centroide o prototipo del cluster. Altro metodo per la separazione \`e la valutazione rispetto al centroide generato dai due cluster.
+\begin{defn}
+	Si definisce \textbf{coesione} la somma delle prossimità rispetto al prototipo all'interno del  cluster.
+	\[ cohesion(C_i) = \sum_{x \in C_i} proximity(x, C_i) = \sum_{x\in C_i} similarity(x, C_i)\]
+\end{defn}
+\begin{defn}
+	Si definisce \textbf{separazione} la prossimità tra due prototipi di due cluster diversi.
+	\[separation(C_{i}, C_{j}) = proximity(C_{i}, C_{j}) = similarity(C_{i}, C_{j})   \]
+\end{defn}
+E' molto difficile dare una definizione sempre uguale dei pesi da fornire ai vari cluster nel momento in cui voglio operare una misura di validità, per semplificare il problema facciamo riferimento alla seguente tabella.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.250 \linewidth]{clustering/pict/pesi_validity.png}
+	\caption{Pesi da usare a seconda del tipo di algoritmo di clustering.}
+\end{figure}
+Durante questa trattazione ci siamo concentrati sulle misure di coesione e di separazione come valutazione totale di un gruppo di cluster, diverse di queste misure possono essere anche applicate per valutare i singoli cluster. Il nostro obiettivo è \textit{ordinare i cluster secondo il loro specifico valore di validità,} in particolare un cluster con un alto valore di coesione deve essere considerato migliore rispetto ad un cluster con un basso valore di coesione.
+Se abbiamo cluster non molto coesi potrebbe risultare utile separarli in dei cluster più fortemente coesi. Allo stesso modo se due cluster sono relativamente coesi ma non troppo ben separati potrebbe essere utile provare ad unirli.
 
-La validit\`a \`e valutata in questo modo: $overall validity = \sum_{i = 1}^{K} w_i \cdot validity(C_i)$, dobbiamo decidere per\`o il peso da applicarvi ($W_i$). 
+\textit{Risulta quindi utile valutare un oggetto all'interno del cluster secondo la misura in cui quell'oggetto contribuisce alla coesione o alla separazione.} Graficamente si otterrebbe che gli oggetti che si trovano puù "all'interno" del cluster dovrebbero contribuire in modo maggiore alla coesione, mentre quelli più esterni avranno un contributo minore. Proprio per questo motivo si definisce l'indice di Silhouette che combina coesione e separazione per l'i-esimo oggetto all'interno del cluster.
+\begin{defn}
+	Si definisce \textbf{coefficiente di Silhoutte} per l'i-esimo oggetto all'interno di un cluster la seguente espressione:
+	\[s_i = \frac{b_i - a_i}{max(a_i,b_i)} \in [-1,+1]\]
+\end{defn}
 
-
-Importante capire che alle volte separare un cluster potrebbe migliorare le misure di coesione, quando ho valori di coesione bassi.
-
-Se invece ho valori di coesione buoni ma valori di separazione alti allora provando ad unirli si raggiungono cluster pi\`u coesi. 
-
-La valutazione che sta all'interno del cluster contribuisce maggiormente informazione alla coesione e separazione, invece per le osservazioni pi\`u esterne queste valutazioni possono non essere cos\`i utili. Pertanto \`e stato definito l'\textbf{indice di Silhouette}. questo indice combina coesione e separazione per l'i-esimo oggetto e si definisce in questo modo:
-
-\[s_i = \frac{b_i - a_i}{max(a_i,b_i)} \in [-1,+1]\]
-
-dove $a_i$ \`e la media della distanza tra l'oggetto i-esimo e gli altri oggetti nel cluster, $b_i$ la minima distanza media dell'oggetto i-esimo a tutti gli altri oggetti di ogni custer diverso dal cluster di partenza dell'oggetto.
-
-(es. se $a_i = 0$ allora $s_i = 1$ perch\`e si trova nel cluster migliore. se ha invece valore $< 0$ significa che se avessi assegnato ad un altro cluster avrei avuto un indice di silhouette pi\`u alto)
-
-L'avarage Silhouette coefficient di un cluster da un valore di silhouette medio 
-
-Per il clustering gerarchico viene definito il Cophenetic Correlation Coefficient: 
-Si considera la matrice di prossimit\`a e la matrice cophenetica.
-Cophenac matrix \`e la matrice che tiene conto delle distanze tra coppie di osservazioni raggruppate all'interno di uno stesso cluster. Il valore varia da $[-1,1]$. Pi\`u il valore \`e vicino a 1 meglio l'algoritmo gerarchico fitta.
-
-\subsubsection{Paradigma di validit\`a}
-Rispondere alla domanda se il nostro dataset tende ad essere clusterizzabile.
-
-Vengono considerati criteri interni ed esterni legati a metodi statistici e test di ipotesi. 
-
-Se non ci fosse nessuna struttura dei dati (ipotesi NULLA). 
-
+Dove:
 \begin{itemize}
-	\item Random Position Hypothesis in tutte le location di m osservazioni in specifiche regioni n-dimensionali sono equamente buone $\rightarrow$ per ratio data
-	\item Random Graph Hyothesis la matrice di prossimit\`a ha rank equamente buoni $\rightarrow$ per prossimit\`a ordinali tra coppie di osservazioni
-	\item Random Level Hypothesis tutte le permutazioni delle label di m osservazioni sono equamente buone $\rightarrow$ per tutti i tipi di dati
+	\item $a_{i}$ è la distanza media dell'oggetto i-esimo rispetto a tutti gli oggetti del cluster a cui appartiene.
+	\item $b_{i}$ è il minimo delle distanze medie dell'oggetto i-esimo da tutti gli oggetti degli altri cluster.
 \end{itemize}
 
-A questo punto valuto in base alla distribuzione sotto l'ipotesi nulla e ci calcolo l'indice. Se il valore dell'indice \`e all'interno del quantile fissato ($\alpha$) posso affermare che ci sia struttura nel dataset, se invece l'ipotesi \`e rigettata allora si sa che il clustering sviluppato non ha struttura pertanto pu\`o essere mostrata al proprio interlocutore l'algoritmo sviluppato. 
+\textit{Valori negativi} di questo coefficiente significano che la distanza media dei punti nello stesso cluster è maggiore della distanza media minima di quei punti rispetto ai punti di un altro cluster.  Per come è definito vogliamo quindi che il coefficiente assuma \textit{valori positivi} poiché il coefficiente assume il valore 1 quando $a_i = 0$.
 
-\subsubsection{Selezione del numero di cluster}
-A senso porsi questa domanda se si \`e prima rilevato che vi \`e struttura di clustering. 
+Possiamo quindi calcolare il \textit{Coefficiente medio di silhouette} semplicemente calcolando la media dei coefficienti dei punti di un dato cluster. Una misura totale della vontà di un clustering può quindi essere il coefficiente medio di silhouette calcolato su tutti i punti.
+Per quanto riguarda il clustering gerarchico non si usa il coefficiente di silhouette ma il \textbf{Cophenetic Correlation Coefficient.}
 
-I criteri \textbf{relativi} \`e un uso particolare delle misure di clsustering per comprendere il numero ottimale di cluster. Si proietta lo spazio delle osservazioni in uno spazio di dimensione minore e da questo si utilizzano delle tecniche di valutazione.
+Questo coefficiente misura il grado di similarità tra la matrice di prossimità (P) e la matrice Cophenetic (Q) i cui elementi registrano il livello di prossimità tra coppie di osservazioni raggruppate all'interno dello stesso cluster.
+ Il valore varia da $[-1,1]$. Più il valore è vicino a 1 meglio l'algoritmo gerarchico si adatta ai nostri dati.
+ \subsubsection{Paradigma di validità}
 
-Gli indici principali sono:
-\begin{itemize}
-	\item Calinski and Harabasz: seleziono il numero di k che ottimizza il numero di cluster
-	\item Dunn: simile a quello sopra
-	\item Devies-Bouldin: minimizzo K per l'ottimo numero di cluster
-\end{itemize}
-
-Misure miste di probabilit\`a model-based clustering sono:
-\begin{itemize}
-	\item Akaike Information Criterion (AIC)
-	\item Minimum Description Length (MDL)
-	\item Bayesian Information Criterion (BIC)
-\end{itemize}
-
-Per l'algoritmo di clustering richiede un input di numero di clsuter K dagli utenti una sequenza di strutture di clustering ottenute eseguendo l'algoritmo motlre volte dove K spazia da $K_{min}$ a $K_{max}$.
-
-\end{comment}
+ Sia gli indici interni che quelli esterni sono strettamente correlati ai metodi statistici, in particolare ai test di ipotesi. Il paradigma di validità è un processo schematico che ci porta a dire se ci sia struttura o meno nei nostri dati e si articola nel seguente modo:
+ 
+ \paragraph{Identificare la struttura e il tipo di validazione} La struttura della nostra ricerca è basata sulla seguente ipotesi nulla:
+ \textbf{Non c'è struttura nel dataset.}
+ \paragraph{Determinare un indice di validazione} Cercare quale sia l'indice di validazione più appropriato per il nostro schema di clustering.
+ \paragraph{Definire un'ipotesi nulla di non struttura} Il tipo di ipotesi che si va a fare dipende dal tipo di problema, può essere ad esempio :
+ \begin{itemize}
+ 	\item \textit{Random Position} (i records si distribuiscono casualmente nello spazio n-dimensionale dei record). Viene usata per i dati razionali.
+ 	\item \textit{Random Graph } non mi interessa la posizione ma che ci sia una certa struttura di similarità. Viene usata per prossimità ordinali tra coppie di dati.
+ 	\item \textit{Random Label}: etichettare le osservazioni in modi differenti non cambia il tipo di coerenza che ottengo nel mio esperimento. Viene usata per tutti i tipi di dati.
+ \end{itemize}
+\paragraph{Stabilire le fondamenta della distribuzione sotto l'ipotesi nulla} Può essere operata un'analisi Monte Carlo e BootStrapping.
+\paragraph{Calcolare gli indici} Si calcolano tutti gli indici visti in precedenza.
+\paragraph{Testare l'ipotesi nulla} Si vuole arrivare ovviamente a rigettare l'ipotesi nulla. Questo rigetto non implica che ci sia necessariamente struttura nei dati ma implica che sicuramente non c'è non-struttura. 
+ 
+ \subsubsection{Selezione del numero di cluster}
+ Ha senso porsi il problema di scegliere il numero di clustering solo dopo che l'analisi precedente ci ha permesso di dedurre che è presente struttura adatta per un'analisi di clustering. In particolare si utilizzano i \textit{criteri relativi} che sono criteri che si concentrano sul confronto dei diversi risultati generati dai diversi algoritmi di clustering oppure sui risultati diversi prodotti dallo stesso algoritmo di clustering ma con parametri di input differenti.
+ Gli indici principali per calcolare il numero di cluster sono:
+ \begin{itemize}
+ 	\item \textit{Calinski and Harabasz:} Il valore di K corrispondente al massimo è preso per essere l'ottimale numero di cluster.
+ 	\item \textit{Dunn:} Il valore di K corrispondente al massimo è preso per essere l'ottimale numero di cluster.
+ 	\item \textit{Devies-Bouldin:} Il valore di K corrispondente al minimo è preso per essere l'ottimale numero di cluster.
+ \end{itemize}
+ 
+Gli indici per gli algoritmi di cluster basati sulle misture probabilistiche sono invece:
+ \begin{itemize}
+ 	\item \textit{Akaike Information Criterion (AIC):} Il valore di K corrispondente al minimo è preso per essere l'ottimale numero di cluster.
+ 	\item \textit{Minimum Description Length (MDL):} Il valore di K corrispondente al minimo è preso per essere l'ottimale numero di cluster.
+ 	\item \textit{Bayesian Information Criterion (BIC):}Il valore di K corrispondente al minimo è preso per essere l'ottimale numero di cluster.
+ \end{itemize}
+ 
+ Per un algoritmo di clustering che richiede come input un numero di cluster inserito dall'utente posso ottenere una sequenza di struttura di clustering iterando l'algoritmo di clustering $r$ volte dove $K$ spazia da $K_{min}$ a $K_{max}$.
+ Forniamo ora  l'algoritmo che genera la sequenza delle strutture di clustering:
+ \begin{itemize}
+ 	\item Scegliere un algoritmo di clustering e un indice di validazione.
+ 	\item \textbf{FOR $K_{min}$ to $K_{max}$:}
+ 	\begin{itemize}
+ 		\item \textbf{FOR $i = 1$ to $r$:}
+ 		\begin{itemize}
+ 			\item Lanciare l'algoritmo di clustering con k cluster e cambiare i parametri rispetto al lancio precedente.
+ 			\item Calcolare il valore $q$ dell'indice di validità e imporre $q(i) = q$
+ 		\end{itemize}
+ 		\item Scegliere il miglior valore $q^{*}$ tra ${q_1, q_2,...,q_r}$.
+ 		\item Imporre $Q(K) = q^{*}$.		 
+ 	\end{itemize}
+ \end{itemize}
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[height=0.250 \linewidth]{clustering/pict/cluster_validity.png}
+ 	\caption{Scelta del numero di cluster a seconda dell'indice.}
+ \end{figure}
