@@ -779,59 +779,106 @@ Se l'intervallo di confidenza contiene il valore 0, concludiamo che la differenz
 Consideriamo di nuovo il dataset dei Churner. In particolare sappiamo che il $14.5\%$ sono dei churner. Un modello di classificazione che etichetta i record come non churner avrà per forza un'alta accuracy in quanto è la classe più frequente nel dataset. 
 
 \begin{defn}
-	Il modello più inutile è quello che risponde sempre con la classe più frequente, ovvero la \textbf{ZeroR Rule}.	
+	Il modello più inutile è quello che risponde sempre con la classe più frequente, ovvero la \textbf{ZeroR Rule} (nel nostro caso la classe "no churner").	
 \end{defn}
-\begin{comment}
-Bisogna studiare la classe pi\`u rara (meno frequente), essa viene denotata come \textbf{classe positiva}, mentre quella pi\`u frequente \`e detta \textbf{classe negativa}.
-
-Consideriamo la \textbf{matrice di confusione}, allora possiamo calcolare:
+La misura di \textit{Accuracy} tratta classi equamente importanti, non è adatta ad analizzzare \textbf{dataset sbilanciati},  dove la classe più rara è considerata \textit{più interessante} di quella più frequente. Per la classificazione binaria si distingue:
 \begin{itemize}
-	\item specificit\`a (tasso veri negativi) $TNR = \frac{TN}{TN + FP}$
-	\item sensitivit\`a (tasso veri positivi) $TPR = \frac{TP}{TP + FN}$
-	\item tasso falsi positivi $FPR = \frac{FP}{TN + FP}$
-	\item tasso falsi negativi $TNR = \frac{FN}{TP + FN}$
+	\item la \textbf{classe positiva} ovvero la classe più rara (o meno frequente)
+	\item la \textbf{classe negativa} ovvero la classe più frequente
 \end{itemize}
+Consideriamo la \textbf{matrice di confusione}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.25 \linewidth]{classification/pict/matrconf.png}
+	\caption{matrice di confusione binaria}
+\end{figure}
+Dalla matrice calcoliamo i seguenti indicatori:
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{10cm}c}
+		\textbf{TNR, specificit\`a} (\textit{tasso veri negativi}): \\ \quad frazione di record negativi correttamente predetti dal modello & $TNR = \frac{TN}{TN + FP}$\\
+		\textbf{TPR, sensitivit\`a} (\textit{tasso veri positivi}):\\ \quad frazione dei record positivi correttamente predetti dal modello & $TPR = \frac{TP}{TP + FN}$\\
+		\textbf{FPR, tasso falsi positivi}:\\ \quad frazione dei record negativi predetti come classe positiva dal modello & $FPR = \frac{FP}{TN + FP}$\\
+		\textbf{FNR, tasso falsi negativi}:\\ \quad frazione dei record positivi predetti come classe negativa dal modello & $TNR = \frac{FN}{TP + FN}$\\
+	\end{tabular}
+\end{table}
+Le metriche che si calcolano nella ricerca di una classe più importante delle altre sono la \textbf{Precision} e il \textbf{Recall}.
 
-Viene definito un indice chiamato \textbf{precisione}: $p = \frac{TP}{TP+FP}$, ovvero il punto di vista del classificatore. Valuto quanti di quelli positivi ha valutato come effettivamente positivi. 
+\begin{defn}
+	La \textbf{Precision} determina la frazione di record che effettivamente si rivela essere positiva nel gruppo che il classificatore definisce come classe positiva. 
+	\[p = \frac{TP}{TP+FP}\]
+\end{defn}
+Si prende il punto di vista del classificatore. Valuto quanti di quelli positivi ha valutato come effettivamente positivi. Più \textit{alta} è la precisione più è \textit{basso} il numero di falsi positivi commessi.
 
-Viene anche definito il \textbf{recall} (richiamo): $r = \frac{TP}{TP+FN}$, in questo caso ho il punto di vista della realt\`a. Sotto ho quelli effettivamente positivi, sopra ho quelli che il classificatore ritiene positivi. \`E la capacit\`a del classificatore di richiamare i risultati positivi (quanti dei positivi \`e riuscito ad aspirare?). 
+\begin{defn}
+	Il \textbf{Recall} misura la frazione di record positivi correttamente predetti dal modello di classificazione.
+	\[r = \frac{TP}{TP+FN}\]
+\end{defn}
+In questo caso si prende il punto di vista della realt\`a. Al denominatore ho quelli effettivamente positivi, al numeratore ho quelli che il classificatore ritiene positivi. Un \textit{alto} Recall signfica \textit{pochi} record positivi \textit{erroneamente} classificati come classe negativa. Infatti, il Recall è equivalente al $TPR$.
 
-Vi \`e un legame molto stretto tra questi due indici, posso avere una recall molto alta ma allora probabilmente avrò una precisione bassa. Oppure potrò puntare ad avere una precisione alta ma in quei casi probabilmente avrò una recall bassa.
+\underline{In pratica}: \`E la capacit\`a del classificatore di richiamare i risultati positivi (quanti dei positivi \`e riuscito ad aspirare). \\
 
-\underline{NB} queste due misure per convenzione sono calcolate sulla classe positiva (quella pi\`u frequente) non \`e per\`o detto che non vadano utilizzate su quella negativa. Inoltre non \`e sempre detto che queste quantit\`a siano sempre calcolabili (vedi es. slide).
+Vediamo un esempio sul problema del churn:
+\begin{figure}[H]
+	\hspace{-0.2cm}
+	\includegraphics[height=0.6 \linewidth]{classification/pict/esPrecisionRecall_merge.png}
+	\caption{esempio calcolo precision e recall}
+\end{figure}
+Vi \`e un \textit{legame molto stretto tra questi due indici}, posso avere una recall molto alta ma allora probabilmente avrò una precisione bassa. Oppure potrò puntare ad avere una precisione alta ma in quei casi probabilmente avrò una recall bassa.
 
-Siccome queste due misure sono legate (pensa alla coperta corta). Si utilizza una misura che le riassume chiamata $F_1$ measure:
+\underline{NB} queste due misure per convenzione sono calcolate sulla classe positiva (quella meno frequente) non \`e per\`o detto che non vadano utilizzate su quella negativa. Inoltre \textit{non} \`e sempre detto che queste quantit\`a siano sempre calcolabili (possibile divisione $0/0$).
 
-\[ F_1 = \frac{2 \cdot r \cdot p}{r + p}\]
+Siccome queste due misure sono legate (pensa alla problema della coperta corta). Si utilizza una misura che le riassume.
+\begin{defn}
+	La \textbf{$F_1$ mesure} misura la media armonica tra \textbf{Recall} e \textbf{Precision}. 
+	\[ F_1 = \frac{2 \cdot r \cdot p}{r + p}\]
+	Un alto valore di $F_1$ implica alti valori di recall e precision.
 
-$F_1$ \`e una misura media armonica tra recall e precision. Un alto valore di $F_1$ implica alti valori di recall e precision.
-
-Generalizzazione:
-
-\[ F_\beta = \frac{(\beta^2 + 1) \cdot r \cdot p}{r + \beta^2 \cdot p} \]
-
+\end{defn}	
+Esiste una generalizzazione sotto il nome di \textbf{$F_\beta$ mesure} per esaminare il tradeoff tra Precision e Recall:
+	\[ F_\beta = \frac{(\beta^2 + 1) \cdot r \cdot p}{r + \beta^2 \cdot p} \]
 \begin{itemize}
 	\item $F_\beta$ con $\beta = 0$ \`e la Precisione
 	\item $F_\beta$ con $\beta = \infty$ \`e la Precisione	
 \end{itemize}
 
-\section{Lezione 8}
 
-\subsection{Matrice di costo}
-Se pensiamo al nostro problema del churner, l'azienda ha interesse ad evitare quello che si prevede, ovvero che il cliente se ne vada, in sostanza cerco di prevedere chi vuole andarsene e cerco di evitare che questa previsione sia effettiva. L'azienda pu\`o spendere un tot budget per invertire questo fenomeno, devo fare il meglio per identificare i possibili churner e attuare SOLO su di loro le politiche di dissuasione (se lo facessi per tutti i clienti non avrebbe senso per quanto riguarda i costi).
+\subsection{Counting the cost (*)}
 
-Bisogna convincere il proprio interlocutore che il modello da me sviluppato sia migliore rispetto al modello che storicamente hanno utilizzato. Con l'accouracy \`e facile. Bisogna associarci la \textbf{matrice di costo} che stabilisce in base a falsi positivi e negativi quanto costo (in soldi) sostiene l'azienda in base alla situazione. 
+\subsubsection{Matrice di costo}
+Se pensiamo al nostro problema del churner, l'azienda ha interesse ad evitare quello che si prevede, ovvero che il cliente se ne vada, in sostanza cerco di prevedere chi vuole andarsene e cerco di evitare che questa previsione sia effettiva applicando politiche di dissuasione. L'azienda pu\`o spendere un tot budget per invertire questo fenomeno, devo fare il meglio per identificare i possibili churner e attuare \textbf{solo} su di loro le politiche di dissuasione (se lo facessi per tutti i clienti non avrebbe senso per quanto riguarda i costi).
 
-Costo: $Cost = C_{--} \cdot TN + C_{-+} \cdot FP + C_{+-} \cdot FN + C_{++} \cdot TP$
+Bisogna convincere il proprio interlocutore che il modello da me sviluppato sia migliore rispetto al modello che storicamente hanno utilizzato. La misura più utilizzata per questo è l'accuracy legata alla matrice di confusione. In aggiunta, però, bisogna associarci la \textbf{matrice di costo}. 
 
-\textbf{NB} se matrice di costo \`e simmetrica allora il costo corrisponde all'accuratezza.
+\begin{defn}
+	La \textbf{Matrice di Costo} stabilisce in base a falsi positivi e negativi quanto costo (in soldi/lavoro) sostiene l'azienda per classificare un certo soggetto (es. come churner o non churner). 
+	
+	Il costo è così calcolato:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=0.55 \linewidth]{classification/pict/matr_costo.png}
+		\caption{legame tra matrice di confusione (sn) e matrice di costo (dx)}
+	\end{figure}
+	\[Cost = C_{--} \cdot TN + C_{-+} \cdot FP + C_{+-} \cdot FN + C_{++} \cdot TP\]
+\end{defn}
+\textbf{NB} se matrice di costo \`e simmetrica allora il costo corrisponde all'accuratezza.\\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[height=0.55 \linewidth]{classification/pict/matr_costo.png}
-	\caption{legame tra matrice di confusione (sn) e matrice di costo (dx)}
+Per comprenderlo vediamo il seguente \textbf{esempio}. Confrontiamo le performance di accuracy e costo tra lo \textit{Standard Mailout Procedure} (\textbf{SMP}), procedura già utilizzata per dissuadere i clienti, con il modello nuovo di classificazione \textbf{M} da noi costruito:
+
+\begin{figure}[H]
+	\hspace{-0.3cm}
+	\includegraphics[height=0.3 \linewidth]{classification/pict/esConfMatr.png}
+	\caption{matrici di confusione: a sinistra SMP, a destra il modello M}
 \end{figure}
+Ora però bisogna associarci la \textbf{matrice di costo} per le rilevazioni e ne risulta:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.2 \linewidth]{classification/pict/esMatrCosto.png}
+	\caption{matrice di costo churner}
+\end{figure}
+Come si può denotare nonostante il nostro modello abbia una misura di \textbf{accuratezza} migliore, ha un \textbf{costo} (in termini di soldi) superiore rispetto al modello storicamente utilizzato dall'azienda. Pertanto, in questo caso, preferirà la vecchia procedura SMP piuttosto che la nostra soluzione.
 
+\begin{comment}
 \subsection{Cumulative Gains}
 \`E importante notare per\`o che ci sono situazioni nelle quali perdere un cliente \`e pi\`u grave che perderne un'altro. Devo capire se sto utilizzando la matrice dei costi vera oppure se \`e solo rappresentativa. Se essa non \`e certa posso ragionare in un altro modo. 
 
