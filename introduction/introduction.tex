@@ -7,9 +7,7 @@
 \section{Dati}
 Gli ambiti più importanti nei quali vengono applicate tecniche di machine learning nella vita reale sono diversi, in particolare si usano in:
 finanza, sanità, agricoltura, e-commerce, social, chatbot, sensoristica (come i veicoli a guida autonoma).
-
-Vista la grande mole di dati la necessità è capire come trattare i dati.
-
+\\ Vista la grande mole di dati la necessità è quella di capire come trattare i dati.
 \textbf{L'obiettivo del Machine Learning è sviluppare metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo facendo.}
 
 Tipicamente le tecninche di machine learning si dividono nelle seguenti tre macro categorie:
@@ -40,15 +38,13 @@ A confermare questa visione in cui il modello per una certa trattazione dati è 
 \textbf{Paradosso di Simpson:} Se uso solo i dati senza modello no c'è alcun modo di scoprire la verità.
 
 
-\subsection{Data types}
+\subsection{Data types(*)}
 
-Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura intrinseca dei dati che abbiamo a disposizione, di solito essi sono organizzati in strutture che chiamiamo \textbf{dataset}. Per le analisi con le tecniche di Machine Learning esse non sono altro che tabelle fatte da righe e da colonne.
+Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura intrinseca dei dati che abbiamo a disposizione per risolvere in modo efficace un problema, in particolare questi sono solitamente organizzati in strutture che chiamiamo \textbf{dataset}. Per le analisi con le tecniche di Machine Learning esse non sono altro che tabelle fatte da righe e da colonne.
+\\Le colonne del dataset sono chiamate \textbf{Attributi.}
+\\Le righe del dataset sono chiamate \textbf{Istanze.}
 
-Le colonne del dataset sono chiamate \textbf{Attributi.}
-
-Le righedel dataset sono chiamate \textbf{Istanze.}
-
-Ogni attributo è caratterizzato dal fatto di avere un tipo, la sua conoscenza è fondamentale perché ci permette di sapere le proprietà che questo possiede.
+Ogni attributo è caratterizzato dal fatto di avere un \textit{tipo}, la sua conoscenza è fondamentale perché ci permette di sapere le proprietà che questo possiede.
 In particolare gli attributi si dividono in due grandi gruppi:
 \begin{itemize}
 	\item Categorici:
@@ -67,12 +63,11 @@ In particolare gli attributi si dividono in due grandi gruppi:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.5 \linewidth]{introduction/pict/attributi.png}
-	\caption{Distinzione degli attributi con le relative proprietà}
+	\caption{Distinzione degli attributi con le relative proprietà in cui è presente almeno un esempio per ogni categoria.}
 \end{figure}
 Dall'alto al basso il livello gerarchico sale e le proprietà aumentano.
 
 C'è un'ulteriore divisione che può essere fatta ed è quella in:
-Si possono anche dividere in attributi \textit{discreti} che possono essere:
 \begin{itemize}
 	\item Discreti (in cui la serie dei valori è finita o una infinità numerabile), che a loro volta si suddividono in:
 	\begin{itemize}
@@ -83,9 +78,9 @@ Si possono anche dividere in attributi \textit{discreti} che possono essere:
 	\item Continui, i cui valori sono numeri reali.
 \end{itemize}
 
-\subsection{Data exploration}
+\subsection{Data exploration(*)}
 
-Dobbiamo però anche sapere come esplorare i dati in modo intelligente usando tutti i nostri strumenti a nostra disposizione. Diamo ora un elenco degli strumenti statistici più utili che ci permetton di avere un'analisi completa dei dati.
+E' utile sapere come esplorare i dati in modo intelligente usando tutti gli strumenti a disposizione. Di seguito un elenco degli strumenti statistici più utili che permettono di avere un'analisi completa dei dati.
 
 \subsubsection{Definizioni}
 \begin{defn}
@@ -144,7 +139,7 @@ Essendo queste due grandezze definite a partire dalla media esse soffrono dello 
 E' utile anche definire il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
 
 \begin{defn}
-	Si definisce \textbf{deviazione mediana assoluta} il seguente valore:
+	Si definisce \textbf{Range InterQuartile} il seguente valore:
 	\[ IQR = q_{75\%} - q_{25\%}\]
 \end{defn}
 
@@ -205,7 +200,7 @@ Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafic
 \end{figure}
 
 
-\subsection{Missing replacement}
+\subsection{Missing replacement(*)}
 
 E' il problema che si occupa di studiare come sostituire i valori mancanti di certi attributi  in un dataset. Essendo un problema di così larga portata possiamo capire bene che una trattazione esaustiva riempirebbe le ore di un intero corso, tuttavia ne forniamo le basi per essere in grado di poter effettuare una analisi dati efficace. 
 
@@ -233,9 +228,9 @@ Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di se
 
 E' ora chiaro che il confine tra l'esplorazione dati e la modellizzazione degli stessi è molto sottile.
 
-\subsection{Data Preprocessing}
+\subsection{Data Preprocessing(*)}
 
-Il preprocessing è un'area dell'analisi dati che consiste nel \textbf{rendere i dati più fruibile per una analisi dati.}
+Il preprocessing è una fase dell'analisi dati che consiste nel \textbf{rendere i dati più fruibili per una analisi dati.}
 
 \subsubsection{Aggregation}
 \textit{L'aggregazione consiste nel combinare due o più record in un unico oggetto.}

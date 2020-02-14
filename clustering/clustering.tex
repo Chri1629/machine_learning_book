@@ -6,7 +6,7 @@
 
  
 \section{Clustering}
-\subsection{Introduzione}
+\subsection{Introduzione(*)}
 
 L'analisi di cluster è usata per risolvere moltissimi problemi pratici. In particolare l'\textbf{analisi di cluster tratta due diversi scopi generali:}
 
@@ -94,7 +94,7 @@ Il secondo passo è quello di \textit{determinare la misura di prossimità e cos
 Bisogna ricordare sempre che diversi algoritmi di dati permettono di avere conclusioni anche totalmente diverse, questo è il motivo per cui in principio non bisogna prediligere alcun algoritmo ma confrontare i risultati ottenuti e trarne conclusioni.
 
 
-\subsection{ Proximity}
+\subsection{Proximity(*)}
 
 La proximity è uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. Questa nfluenza quindi in modo pesante la nostra soluzione di un nostro problema di clustering. Bisogna fare una scelta della misura con cui approssimiamo quanto sono simili gli elementi appartenenti allo stesso cluster.
 \subsubsection{Introduzione}
@@ -645,7 +645,7 @@ Questo algoritmo riesce a clusterizzare dati spaziale considerando anche il rumo
 	\caption{Schema di funzionamento dell'algoritmo Chamaleon.}
 \end{figure}
 
-\subsection{Clustering Evaluation}
+\subsection{Clustering Evaluation(*)}
 La trattazione è sempre la solita, abbiamo un problema di clustering da risolvere. Quando risolviamo un problema di questo tipo l'efficienza di un algoritmo di clustering viene valutata tramite:
 \begin{itemize}
 	\item Similarità.
@@ -669,7 +669,7 @@ Abbiamo tre diversi tipi di indici che servono a validare i nostri cluster:
 	\end{itemize}
 	\item \textit{Relativi}: comparano differenti algoritmi di clustering. 
 \end{itemize}
-\subsubsection{Esterni o supervisionati}
+\subsubsection{Esterni o supervisionati(*)}
 
 Supponiamo di avere un partizionamento $P = \{P_{1}, ..., P_{R}\}$ di R insiemi disgiunti con $m$ elementi. 
 
@@ -711,7 +711,7 @@ Definisco diverse misure di similarità:
 		\end{defn}	
 
 Per come sono definiti, più è grande il valore che assumono questi indici più sono simili C e P.
-\subsubsection{Interni o non supervisionati}
+\subsubsection{Interni o non supervisionati(*)}
 Diversi indici di interni di validità del partizionamento dei cluster si basano sulla \textit{coesione} e sulla \textit{separazione}. La nostra idea è quella quindi di ottenere un valore di coesione alto e un valore di separazione basso.
 In generale valutiamo la validità totale di un cluster fatto da un insieme di K cluster come la media pesata delle validità di ogni singolo cluster.
 
@@ -768,7 +768,7 @@ Per quanto riguarda il clustering gerarchico non si usa il coefficiente di silho
 
 Questo coefficiente misura il grado di similarità tra la matrice di prossimità (P) e la matrice Cophenetic (Q) i cui elementi registrano il livello di prossimità tra coppie di osservazioni raggruppate all'interno dello stesso cluster.
  Il valore varia da $[-1,1]$. Più il valore è vicino a 1 meglio l'algoritmo gerarchico si adatta ai nostri dati.
- \subsubsection{Paradigma di validità}
+ \subsubsection{Paradigma di validità(*)}
 
  Sia gli indici interni che quelli esterni sono strettamente correlati ai metodi statistici, in particolare ai test di ipotesi. Il paradigma di validità è un processo schematico che ci porta a dire se ci sia struttura o meno nei nostri dati e si articola nel seguente modo:
  
@@ -785,7 +785,7 @@ Questo coefficiente misura il grado di similarità tra la matrice di prossimità
 \paragraph{Calcolare gli indici} Si calcolano tutti gli indici visti in precedenza.
 \paragraph{Testare l'ipotesi nulla} Si vuole arrivare ovviamente a rigettare l'ipotesi nulla. Questo rigetto non implica che ci sia necessariamente struttura nei dati ma implica che sicuramente non c'è non-struttura. 
  
- \subsubsection{Selezione del numero di cluster}
+ \subsubsection{Selezione del numero di cluster(*)}
  Ha senso porsi il problema di scegliere il numero di clustering solo dopo che l'analisi precedente ci ha permesso di dedurre che è presente struttura adatta per un'analisi di clustering. In particolare si utilizzano i \textit{criteri relativi} che sono criteri che si concentrano sul confronto dei diversi risultati generati dai diversi algoritmi di clustering oppure sui risultati diversi prodotti dallo stesso algoritmo di clustering ma con parametri di input differenti.
  Gli indici principali per calcolare il numero di cluster sono:
  \begin{itemize}
