@@ -272,10 +272,10 @@ Una volta scelta la tecnica di campionamento dobbiamo occuparci di scegliere la 
 
 \subsubsection{Dimensionality reduction}
 
-In diversi casici capiterà di analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
+In diversi casi capiterà di dover analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
 
 \begin{itemize}
-	\item Molti algoritmi lavorano se la dimensionalità è minore.
+	\item Molti algoritmi lavorano meglio se la dimensionalità è minore.
 	\item L'interpretabilità del modello implementato aumenta perché dipende da un numero minore di attributi.
 	\item La rappresentazione grafica dei dati è facilitata.
 	\item L'ammontare di tempo e memoria diminuisce drasticamente.
@@ -304,11 +304,11 @@ In particolare la \textbf{Singular Value Decomposition (SVD)} è una tecnica di 
 \begin{defn}
 	Si chiama \textbf{binarizzazione} la tecnica di trasformazione di attributi continui e categorici in uno o più attributi binari
 \end{defn}
-Per farlo associamo $k$ possibili valori a $k$ valori interi nell'intervallo $[0, k-1]$. Successivamente trasformiamo questi k interi in un numero binario, come sappiamo il numero di cifre necessarie per rappresentare un numero intero son le sguenti:
+Per farlo si associano $k$ possibili valori a $k$ valori interi nell'intervallo $[0, k-1]$. Successivamente si trasformano questi k interi in un numero binario, come è noto il numero di cifre necessarie per rappresentare un numero intero son le sguenti:
 \[s = [\log_{2}k]\] 
  In questo caso è necessario introdurre un attributo binario per ogni attributo categorico con cui il dato può manifestarsi. Ovviamente si è più interessati ai casi in cui si manifesta il valore 1 perché indica la presenza di tale attributo.
  
- Quando invece abbiamo a che fare con attributi durante un'analisi di classificazione o di associazione ricorrdiamo alla tecninca di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
+ Quando invece si ha a che fare con attributi durante un'analisi di classificazione o di associazione bisogna ricorrere alla tecnica di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
 
  La discritezzazione può essere:
  
