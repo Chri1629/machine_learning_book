@@ -10,10 +10,10 @@ finanza, sanità, agricoltura, e-commerce, social, chatbot, sensoristica (come i
 \\ Vista la grande mole di dati la necessità è quella di capire come trattare i dati.
 \textbf{L'obiettivo del Machine Learning è sviluppare metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo facendo.}
 
-Tipicamente le tecninche di machine learning si dividono nelle seguenti tre macro categorie:
+Tipicamente le tecniche di machine learning si dividono nelle seguenti tre macro categorie:
 \begin{itemize}
 	\item Apprendimento supervisionato o predittivo: qualcuno ha gia catalogato ad esempio delle immagini o dei dati e noi prendendo questi modelli dovremmo essere in grado di predire.
-	\item Apprendimento descrittivo: ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
+	\item Apprendimento non supervisionato o descrittivo: ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
 	\item Apprendimento rinforzato: E' quello più utile in questa epoca: funziona sui premi.
 \end{itemize}
 
@@ -35,7 +35,7 @@ Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però
 
 A confermare questa visione in cui il modello per una certa trattazione dati è fondamentale è il cosidetto paradosso di Simpson.
 
-\textbf{Paradosso di Simpson:} Se uso solo i dati senza modello no c'è alcun modo di scoprire la verità.
+\textbf{Paradosso di Simpson:} Se uso solo i dati senza modello non c'è alcun modo di scoprire la verità.
 
 
 \subsection{Data types(*)}
@@ -136,7 +136,7 @@ Essendo queste due grandezze definite a partire dalla media esse soffrono dello 
 	\[ MAD = mediana(x_{1}-mean, x_{2}-mean, ..., x_{n0}-mean )\]
 \end{defn}
 
-E' utile anche definire il range interquartile (IQR) sempre per ovviare alla presenza di outliar.
+E' utile anche definire il range interquartile (IQR) sempre per ovviare alla presenza di outlier.
 
 \begin{defn}
 	Si definisce \textbf{Range InterQuartile} il seguente valore:
@@ -223,7 +223,7 @@ Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di se
 	\item  \textbf{Moda replacement:} consiste nel rimpiazzare tutti i missing values con la moda di quel dato attributo, valgono le stesse considerazioni fatte per il metodo della global constant. Qualora gli attributi fossero continui si effettuerebbe la stessa cosa ma sostituendo la media.
 	\item \textbf{Conditional mean replacement:} consiste nel rimpiazzare tutti i missing values con la media a condizione del fatto che sia presente un'ulteriore condizione posta su un secondo attributo. E' un po' più efficace degli altri elementi ma presenta anch'esso delle criticità.
 	
-	\item \textbf{Most probable:} consiste nell'eseguire una regressione sul nostro dataset utilizzando un altro attributo. In questo caso è possibile usare deei modelli di regressione anche molto complessi ed è possibile lavorare anche con dati qualitativi.
+	\item \textbf{Most probable:} consiste nell'eseguire una regressione sul nostro dataset utilizzando un altro attributo. In questo caso è possibile usare dei modelli di regressione anche molto complessi ed è possibile lavorare anche con dati qualitativi.
 \end{itemize}
 
 E' ora chiaro che il confine tra l'esplorazione dati e la modellizzazione degli stessi è molto sottile.
@@ -238,7 +238,7 @@ Ci sono diversi vantaggi ottenibili nell'aggregare i dati, in particolare ne ele
 
 \begin{itemize}
 	\item Dataset più piccoli: durante un'analisi dati abbiamo bisogno di usare il minor quantitativo di memoria e di tempo, l'aggregazione in particolare diminuisce il tempo di esecuzione di un algoritmo.
-	\item Cambiamento di scopo: ci permette di avere una visione più ampia dei dati qualora cambiassimo lo scopo della nostra nalisi in corso d'opera.
+	\item Cambiamento di scopo: ci permette di avere una visione più ampia dei dati qualora cambiassimo lo scopo della nostra analisi in corso d'opera.
 	\item Varianza ridotta: gli attributi calcolati su record aggregati sono più stabili rispetto a quelli associati ai records nativi, questo per un effetto statistico.
 \end{itemize}
 
@@ -272,7 +272,7 @@ Una volta scelta la tecnica di campionamento dobbiamo occuparci di scegliere la 
 
 \subsubsection{Dimensionality reduction}
 
-In diversi casici capiterà di analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
+In diversi casi ci capiterà di analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
 
 \begin{itemize}
 	\item Molti algoritmi lavorano se la dimensionalità è minore.
@@ -308,7 +308,7 @@ Per farlo associamo $k$ possibili valori a $k$ valori interi nell'intervallo $[0
 \[s = [\log_{2}k]\] 
  In questo caso è necessario introdurre un attributo binario per ogni attributo categorico con cui il dato può manifestarsi. Ovviamente si è più interessati ai casi in cui si manifesta il valore 1 perché indica la presenza di tale attributo.
  
- Quando invece abbiamo a che fare con attributi durante un'analisi di classificazione o di associazione ricorrdiamo alla tecninca di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
+ Quando invece abbiamo a che fare con attributi durante un'analisi di classificazione o di associazione ricordiamo alla tecnica di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
 
  La discritezzazione può essere:
  
