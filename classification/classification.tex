@@ -524,12 +524,12 @@ In una analisi di classificazione vogliamo sviluppare un modello che ci dia una 
 	\item Accuracy
 	\item Speed
 	\item Robustezza
-	\item Scalabilit\`a
-	\item Interpretabilit\`a (tema pi\`u dibattuto)
+	\item Scalabilità
+	\item Interpretabilità (tema più dibattuto)
 \end{itemize}
 
 \subsubsection{Accuratezza}
-L'accuratezza è una misura fondamentale perch\`e: 
+L'accuratezza è una misura fondamentale perché: 
 \begin{itemize}
 	\item misura la capacità del modello nel dare classificazioni affidabili su nuovi record
 	\item ci permette di selezionare l'istanza di modello che d\`a le migliori performance sui nuovi record
@@ -542,7 +542,7 @@ $D_{TS}$ test set con $v$ records
 
 $D = D_T \cup D_{TS},D_T \cap D_{TS} = \emptyset,m = t + v$\\
 
-Un buon indicatore è la percentale di record di test ($D_{TS}$) che sono classificati correttamente. 
+Un buon indicatore è la percentuale di record di test ($D_{TS}$) che sono classificati correttamente. 
 
 Definiamo:
 \begin{itemize}
@@ -570,9 +570,9 @@ Gli algoritmi di classificazione differiscono per:
 	\item tempo di apprendimento
 	\item spazio di memoria occupato
 \end{itemize}
-Oggi per\`o si da meno importanza a queste caratteristiche in quanto vi sono diverse tecnologie e tecniche ottimizzare i tempi e lo spazio di memoria costa sempre meno (economicamente parlando).
+Oggi però si da meno importanza a queste caratteristiche in quanto vi sono diverse tecnologie e tecniche ottimizzare i tempi e lo spazio di memoria costa sempre meno (economicamente parlando).
 
-Un algoritmo che impega molto tempo e\o una grande quantità di memoria per l'addestramento, pu\`o essere trainato dopo un campionamento del dataset originale. In questi casi accettiamo di non sfruttare tutte le informazioni disponibili invece di trainare un tipo di modello che riteniamo assicurerà buone performance.
+Un algoritmo che impega molto tempo e/o una grande quantità di memoria per l'addestramento, pu\`o essere trainato dopo un campionamento del dataset originale. In questi casi accettiamo di non sfruttare tutte le informazioni disponibili invece di trainare un tipo di modello che riteniamo assicurerà buone performance.
 
 \subsubsection{Robustezza}
 \begin{defn}
@@ -676,7 +676,7 @@ Consideriamo il problema di predire il valore di una classe attributo da un test
 Dato un test set $D_N$ contenente $N$ record, consideriamo:
 \begin{itemize}
 	\item \textbf{X}: numero di record correttamente predetti dall'inducer
-	\item \textbf{p}: vera, ma non la conosciuamo, accuratezza dell'inducer (probabilit\`a di successo della distribuzione binomiale)
+	\item \textbf{p}: vera, ma non la conosciuamo, accuratezza dell'inducer (probabilità di successo della distribuzione binomiale)
 \end{itemize}
 Modelliamo il problema con X distribuita secondo una binomiale con
 \begin{itemize}
@@ -772,7 +772,7 @@ dove
 
 è ottenuta dalla tavola di probabilità, il quantile associato alla confidenza $1-\alpha$ e $K-1$ gradi di libertà.\\
 
-Ovviamente valgono \textbf{le stesse condierazioni} fatte precedentemente sull'intervallo di confidenza fatte precedentemente per la differenza tra due classificatori. 
+Ovviamente valgono \textbf{le stesse considerazioni} fatte precedentemente sull'intervallo di confidenza per la differenza tra due classificatori. 
 
 Se l'intervallo di confidenza contiene il valore 0, concludiamo che la differenza osservata \textit{non è statisticamente significativa} al livello $\alpha$ (confidenza $1-\alpha$). 
 

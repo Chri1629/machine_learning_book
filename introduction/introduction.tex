@@ -358,10 +358,10 @@ Una trasformazione di variabile sè una trasformazione che è applicata a tutti 
 
 Ci sono due tipi di trasformazione di variabile:
 \begin{itemize}
-	\item \textbf{Funzioni semplici}: una semplice funzione matematica è applicata a tutti i valori di una variabile individualmente. Bisogna stare attenti all'ordine in cui la applichiamo e soprattutto a come si comporta la funzione per valori negativi e vicini allo 0.
+	\item \textbf{Funzioni semplici}: una semplice funzione matematica è applicata a tutti i valori di una variabile individualmente. Bisogna stare attenti all'ordine in cui vengono applicate e soprattutto a come si comporta la funzione per valori negativi e vicini allo 0.
 	\item \textbf{Standardizzazione:} trasforma tutto il dataset in modo che acquisiscano una particolare proprietà.
 	\[Z = \frac{x - \mu}{\sigma}\]
-	E' molto importante perché il nuovo dataset avrà $\mu = 0$ e $\sigma = 1$ per come l'ho costruito. In questo modo la somma di diversi attributi continui permette ad uno o a pochi attributi di prendere grandi valori e di dominare il nuovo attributo somma. E' molto utile quindi perché fa saltare immediatamente all'occhio la presenza di outlier.
+	E' molto importante perché il nuovo dataset viene trasformato in modo da avere $\mu = 0$ e $\sigma = 1$. In questo modo la somma di diversi attributi continui permette ad uno o a pochi attributi di prendere grandi valori e di dominare il nuovo attributo somma. E' molto utile quindi perché fa saltare immediatamente all'occhio la presenza di outlier.
 	
 	In questo caso la media è sostituita dalla mediana, e la deviazione standard è sostituita dalla AAD che ricordiamo essere definita come:
 	\[\sigma_{x} = \frac{1}{m} \sum_{i = 1}^{m}|x_{i}- \mu|\]

@@ -96,16 +96,16 @@ Bisogna ricordare sempre che diversi algoritmi di dati permettono di avere concl
 
 \subsection{Proximity(*)}
 
-La proximity è uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. Questa nfluenza quindi in modo pesante la nostra soluzione di un nostro problema di clustering. Bisogna fare una scelta della misura con cui approssimiamo quanto sono simili gli elementi appartenenti allo stesso cluster.
+La proximity è uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. Questa nfluenza quindi in modo pesante la soluzione di un problema di clustering. Bisogna fare una scelta della misura con cui si approssima la similarità degli elementi appartenenti allo stesso cluster.
 \subsubsection{Introduzione}
-\textit{La analisi dei cluster affonda le sue radici nel concetto di cosa sia simile e cosa sia dissimile,} quando cerchiamo di esprimere questo concetto  in termini formali diventa abbastanza difficile. Questo avviene perché la similitudine dipende fortemente dal contesto analizzato .
+\textit{La analisi dei cluster affonda le sue radici nel concetto di cosa sia simile e cosa sia dissimile,} quando cerchiamo di esprimere questo concetto  in termini formali diventa abbastanza difficile. Questo avviene perché la similitudine dipende fortemente dal contesto analizzato.
 
 In generale la similarità è nulla se i due oggetti sono totalmente differenti sotto la caratteristica che stiamo valutando ed è uguale a 1 se sono completamente uguali, è comune però trovare misure di similitudine che hanno come valori:.  $[0,\inf]$. Useremo il termine \textbf{proximity} per indicare sia la similarità che la dissimilarità. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.45 \linewidth]{clustering/pict/simil_diss.png}
-	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
+	\caption{Relazione tra similarità e dissimilarità}
 \end{figure}
 
 Non c'è ortogonalità tra la scelta della misura e l'esito che otterrò. Nasce per questo motivo l'esigenza di poter passare da una misura all'altra, in particolare per trasformare una misura di similarità dall'intervallo $[0,\inf]$ all'intervallo $[0,1]$ si opera la seguente trasformazione:
