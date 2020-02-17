@@ -2,7 +2,7 @@
 
 \subsection{Introduction (*)}
 Entriamo un po' più nella componente di validazione nei modelli di classificazione supervisionata.
-La cosa più importante è \textbf{capire cosa stiamo facendo} in quanto quando sia applicano algoritmi di machine learning è facile perdersi.
+La cosa più importante è \textbf{capire cosa stiamo facendo} in quanto quando si applicano algoritmi di machine learning è facile perdersi.
 
 Nel solito dataset vogliamo determinare se un cliente abbandonerà o meno il nostro servizio, per farlo cerchiamo di utilizzare una particolare combinazione di attributi. Bisogna innanzitutto vedere di che tipo siano le variabili presenti nel nostro database.
 
@@ -43,7 +43,7 @@ Il classificatore segue il seguente processo:
 
 \begin{defn}
 	Il \textbf{training set} consiste in dei record in cui tutti i valori degli attributi sono noti.
-\end{defn}.  
+\end{defn}
 
 \begin{defn}
 	Il \textbf{test set} consiste in dei record i cui valori dell'attributo di classe sono sconosciuti (o presunti tali).
@@ -119,7 +119,7 @@ Cerchiamo di capire come si forma questo albero: ad ogni nodo è associato un de
 Ogni record viene classificato partendo \textbf{dall'alto} (radice) fino \textbf{al basso} (nodi foglia).
 
 Leggo il primo nodo (radice) abbiamo l'indicazione di un attributo: nell'esempio se 'day charge' sia $\le 41,665$ o  $>$ e dividere l'albero in due nodi. Se la risposta è vera allora mi muovo in un nodo altrimenti nell'altro. All'interno del nuovo nodo ho di nuovo la valutazione di una variabile, e proseguo cos\`i finch\`e raggiungo un nodo foglia.
-Quando arriviamo ad una foglia devo fornire una risposta, ovvero conto la classe più frequente ed rispondo al chiamante con essa (es. churn = n).
+Quando si arriva ad una foglia devo fornire una risposta, ovvero conto la classe più frequente e rispondo al chiamante con essa (es. churn = n).
 
 Il decision tree può essere usato per attributi nominali, ordinali così come intervalli numerici e coefficienti.
  
@@ -137,13 +137,17 @@ Il risultato di queste rette fa la differenza sulla capacità di evidenziare dov
 
 Non c'è alcuna ragione per cui io non possa usare degli splitting multipli e non solo su binari, posso farlo anche su valori nominali.
 
+Vi sono poi diversi modelli derivati dal decision tree, come il Random Forest.
+
+\textbf{Random forest}: \`e un comitato di alberi di decisione. Sostanzialmente usa degli attributi che sono in generale sottoinsiemi degli attributi, ogni albero può avere un sottoinsieme differente di attributi. Ogni albero usa attributi in modo randomico. Ogni albero apprende a modo suo e il random forest in base a dei parametri (regione dello spazio) decide a quale albero ascoltare per la decisione.
+
 \subsubsection{Regressione Logistica Binomiale}
 La regressione logistica è un metodo di classificazione basato sulla regressione.
 
-Assumiamo che la variabile di classe Y sia compresa tra $\{0,1\}$, allora la regressione logistica binaria calcola a posteriori la probabilità che Y dia il valore dell'input ovvero le variabili esplicative 
+Assumiamo che la variabile di classe Y sia compresa tra $\{0,1\}$, allora la regressione logistica binaria calcola a posteriori la probabilità che Y dia il valore dell'input ovvero le variabili esplicative.
 Servono per risolvere problemi di regressione binaria a diversi livelli. E' applicabile ad attributi continui e con certe accuratezze anche ad attributi nominali.
 
-Si assume l'attributo di classe $Y = \{0,1\}$, allora il classificatore a regressione logistica binomiale calcola a posteriore la probabilit\`a che $Y$ assuma il valore di un input esplicativo \underline{$X$}. Si cacola come segue:
+Si assume l'attributo di classe $Y = \{0,1\}$, allora il classificatore a regressione logistica binomiale calcola a posteriori la probabilit\`a che $Y$ assuma il valore di un input esplicativo \underline{$X$}. Si cacola come segue:
 
 \[P(Y = 0 | \underline{X}= \underline{x}) = \frac{1}{1+exp(\underline{x} \cdot \underline{w})}\]
 
@@ -157,11 +161,7 @@ dove $\underline{w}$ \`e chiamato il vettore parametro.
 	\caption{regressione logistica}
 \end{figure}
 
-In questo modo vengono portate le probabilità di appartenere ad una certa classe.	
-
-Vi sono poi diversi modelli derivati dal decision tree, come il Random Forest.
- 
-\textbf{Random forest}: \`e un comitato di alberi di decisione. Sostanzialmente usa degli attributi che sono in generale sottoinsiemi degli attributi, ogni albero può avere un sottoinsieme differente di attributi. Ogni albero usa attributi in modo randomico. Ogni albero apprende a modo suo e il random forest in base a dei parametri (regione dello spazio) decide a quale albero ascoltare per la decisione. 
+In questo modo vengono portate le probabilità di appartenere ad una certa classe.	 
 
 \subsubsection{Support Vector Machines}
 La tecnica Support Vector Machines è un metodo di classificazione con separazione. Lo scopo \`e separare o "apprendere" classi che vogliamo classificare. 
@@ -242,7 +242,7 @@ le $\epsilon$ devono essere non negative (variabili di slack), se utilizzo quest
 
 In questo modo posso sfruttare tutta la metodologia precedente ma in uno spazio "controllato". Bisogna trovare però una trasformazione $\phi()$ che mappi X in F.
 
-La nuova Linear Deision Boundary nello spazio delle feature F è definito dalla seguente equazione: $\phi$: $underline{w} \cdot \phi(\underline{x}) + b = 0$. 
+La nuova Linear Deision Boundary nello spazio delle feature F è definito dalla seguente equazione: $\underline{w} \cdot \phi(\underline{x}) + b = 0$. 
 
 Il modello diventa:
 
@@ -264,7 +264,7 @@ Il Multi-Layer Perceptron (MLP) è una tecnica di classificazione che si basa su
 	\caption{modello MLP}
 \end{figure}
 
-In figura vi sono 3 neuroni di parametri continui, viene aggiunto un quarto neurone che calcola una funzione. Ogni input nel neurone ha associato in peso $w$.
+In figura vi sono 3 neuroni di parametri continui, viene aggiunto un quarto neurone che calcola una funzione. Ogni input nel neurone ha associato un peso $w$.
 Il neurone calcola una \textbf{combinazione lineare} tra gli input ed il peso dato ad esso, il j-esimo neurone calcola: 
 
 \[ y_j = f(\sum_{i=1}^{n} w_{i,j} \cdot x_i - \theta_j)\] 
@@ -408,7 +408,7 @@ i cui parametri sono: \[\mu_{ik} = E[X_i | Y = y_k] \qquad \sigma_{ik}^2 = E[(X_
 Naive bayes si comporta generalmente bene ma richiede \textit{\underline}{una enorme premessa} per essere applicato correttamente, (\textbf{indipendenza condizionata}). Quindi \`e stata creata una versione pi\`u flessibile mantenendo la stessa capacit\`a computazionale.
 
 \subsubsection{Reti bayesiane}
-Il classificatore Naive bayes \`e generalizzata dalla \textbf{Rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata ma sfrutta il concetto di \textbf{Sparsity}. 
+Il classificatore Naive bayes viene generalizzato dalla \textbf{Rete bayesiana} che \`e meno forzata dall'assunzione di indipendenza condizionata ma sfrutta il concetto di \textbf{Sparsity}. 
 
 Un esempio di rete bayesiana è il seguente:
 
@@ -746,7 +746,7 @@ Si confrontano $M_1$ ed $M_2$ usando il \textit{k-fold cross validation}.
 Ho il dataset $D$ partizionato in $K$ subset disgiunti con circa lo stesso numero di record. 
 \[D_1, D_2, ..., D_K\]
 
-Applichiamo le tecniche di classificazione per costruire i modelli $M_1$ e $M_2$ dalle $k-1$ partizioni e li testiamo con la partizione rimanente. Il passaggio deve essere ripetuto $K$ volte, ogni voltausando una differente partizione per il test set. Ottengo:
+Applichiamo le tecniche di classificazione per costruire i modelli $M_1$ e $M_2$ dalle $k-1$ partizioni e li testiamo con la partizione rimanente. Il passaggio deve essere ripetuto $K$ volte, ogni volta usando una differente partizione per il test set. Ottengo:
 \begin{itemize}
 	\item $M_{1k}$ \textbf{inducer} per il modello $M_1$ ottenuto alla k-esima iterazione con $e_{1k}$ errore
 	\item $M_{2k}$ \textbf{inducer} per il modello $M_2$ ottenuto alla k-esima iterazione con $e_{2k}$ errore
@@ -956,7 +956,7 @@ Queste valutazioni ci fanno comprendere \textit{quando} il nostro classificatore
 \noindent
 Assomiglia molto alla cumulative gains ma sugli assi ho:
 \begin{itemize}
-	\item \textbf{asse x} ho la percentuale dei recrod falsi positivi sopportabili (\textbf{FPR})
+	\item \textbf{asse x} ho la percentuale dei record falsi positivi sopportabili (\textbf{FPR})
 	\item \textbf{asse y} ho la percentuale dei record veri positivi (\textbf{TPR})
 \end{itemize}
 Entrambi i valori espressi in \textit{percentuale sul totale}. 
@@ -1048,7 +1048,7 @@ Flowchart da seguire:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.45 \linewidth]{classification/pict/feature_flowchart.png}
-	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
+	\caption{flowchart per la feature selection}
 \end{figure}
 
 È spesso possibile creare, dagli attributi originali, un nuovo insieme di attributi che cattura informazioni rilevanti nel dataset in modo più efficace. Inoltre il numero di nuovi attributi puo essere più picolo rispetto al numero di attributi originali.\\
@@ -1097,7 +1097,7 @@ Quando uso i \textbf{Wrappers} per la feature selection solitamente si usa uno s
 \begin{itemize}
 	\item il Validation set viene usato per ottimizzare le performance quando uso diversi attributi per il modello (i wrapper)
 	\item Selezionare sottoinsiemi ottimali di attributi è lo stesso che selezionare il valore ottimo del parametro regolarizzato $\lambda$
-	\item una volta selezionati gli attributi, il Train set e il Validation set vengono uniti e usati per allnare il classificatore (tipicamente lo stesso tipo di classificatore usato per la feature selection)
+	\item una volta selezionati gli attributi, il Train set e il Validation set vengono uniti e usati per addestrare il classificatore (tipicamente lo stesso tipo di classificatore usato per la feature selection)
 	\item le stime delle performance sono ottenute applicando il classificatore al Test set
 \end{itemize}
 
@@ -1118,7 +1118,7 @@ L'idea \`e quella di trasformare un problema multi-classe in tanti attributi di 
 
 In questa modalit\`a si verifica se il set corrente verifica o meno ciascuna delle caratteristiche da valutare. 
 
-Ricorda che non sempre binarizzare \`e necessario, in particolare per quanto riguarda i naive bayes non serve, invece per un decition tree s\`i. 
+Ricorda che non sempre binarizzare \`e necessario, in particolare per quanto riguarda i naive bayes non serve, invece per un decision tree s\`i. 
 
 Nel \textbf{One-vs-all} creo un numero di \textit{classificatori binari} diverso in base al numero di modalit\`a dell'attributo di classe. Inoltre bisogna normalizzare poi gli output dei classificatori. 
 
