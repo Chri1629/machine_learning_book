@@ -3,9 +3,9 @@
 \section{Association Analysis}
 \subsection{Introduction (*)}
 
-L'analisi di associazione ci riporta al concetto di causalit\`a di variabili: dati certi valori di attributi cosa posso dire del valore di un altro attributo?
+L'analisi di associazione riporta al concetto di causalità di variabili: dati certi valori di attributi cosa posso dire del valore di un altro attributo?
 
-Le regole associative ci permettono di prendere delle scelte molto operative in diversi ambiti, in particolare in quello che viene chiamato \textit{market busket analysis}. 
+Le regole associative permettono di prendere delle scelte molto operative in diversi ambiti, in particolare in quello che viene chiamato \textit{market busket analysis}. 
 Il problema del carrello tratta il posizionamento di prodotti in un negozio. Si sa che all'acquisto di un certo prodotto si tende a acquistare altri prodotti connessi, quindi si cercano queste associazioni basandosi sul carrello della spesa dei clienti (appunto market basket) per poi capire come impostare la disposizione sugli scaffali.
 
 \textbf{Obiettivo}: identificare quali siano gli \textbf{item associati} per poter prendere delle decisioni. In sostanza si generano \textbf{Regole associative} formate da coppie di insiemi \textit{antecedente} e \textit{conseguente}.
@@ -91,23 +91,23 @@ Allora il support e la confidence della regola $X \rightarrow Y$ sono:
 
 \[c\{x \rightarrow Y\} = \frac{\sigma(X \cup Y)}{\sigma(X)} = \frac{6}{8} = 0.75\]
 
-Perch\`e utiliziamo il supporto:
+Perché utiliziamo il supporto:
 \begin{itemize}
 	\item se troppo basso potrebbe esserci un'associazione casuale
 	\item potrebbe non valere la pena seguire associazioni che si applicano in modo poco significativo dal punto di vista dei profitti 
 \end{itemize}
-Supporto utilizzato per eliminare regole non desiderate e condivide interessanti propriet\`a che possono essere sfruttate per la ricerca di regole associative efficaci.
+Il concetto di supporto è utilizzato per eliminare regole non desiderate e condivide interessanti proprietà che possono essere sfruttate per la ricerca di regole associative efficaci.
 
-La confidenza \`e molto importante perch\`e misura l'affidabilità dell'inferenza e:
+La confidenza \`e molto importante perché misura l'affidabilità dell'inferenza e:
 \begin{itemize}
-	\item un alta confidenza significa che Y sar\`a molto presente in transazioni con X 
+	\item un' alta confidenza significa che Y sarà molto presente in transazioni con X 
 	\item si stima la probabilit\`a condizionata di Y dato X
 \end{itemize}
 \begin{defn}
 \textbf{Association Rule Mining Problem} può essere formalmente definito come: dato un set di transazioni T, trovare tutte le regole con $support \ge minsup$ e $confidence \ge minconf$, dove $minsup$ e $minconf$ sono i threshold corrispondenti alle due misure.
 \end{defn}
 
-\textit{Approccio a forza bruta} di association rule non \`e molto praticabile in quanto i tempi di computazione aumentano in modo esponenziale: 
+\textit{Approccio a forza bruta} di association rule non è molto praticabile in quanto i tempi di computazione aumentano in modo esponenziale: 
 
 $R = 3^d - 2^{d+1} + 1$.
 
@@ -117,7 +117,7 @@ $R = 3^d - 2^{d+1} + 1$.
 	\caption{numero di regole calcolate in base al numero di itemset}
 \end{figure}
 
-Una strategia comunemente adottata in molti algoritmi \`e decomporre il problema in 2 grandi supertask:
+Una strategia comunemente adottata in molti algoritmi è quella di decomporre il problema in 2 grandi supertask:
 \begin{itemize}
 	\item\textit{Generazione dei frequenti itemset}: specifichiamo tutte e sole quelle regole per cui il supporto è maggiore del $minsup$, gli itemset generati sono chiamati \textbf{Frequent Itemset}
 	\item \textit{Generazione delle regole}: estriamo tutte le regole con alta confidenza (maggiore di $minconf$) dai Frequent Itemset trovati precedentemente, queste regole vengono chiamate \textbf{Strong Rules}
@@ -276,7 +276,7 @@ dove:
 \begin{itemize}
 	\item $f_{1+}$ = support count di A
 	\item $f_{+1}$ = support count di B
-	\item $N$ = nro di transazioni totali
+	\item $N$ = numero di transazioni totali
 \end{itemize}
 
 Supponiamo che un direttore di un minimarket voglia analizzare la relazione tra le persone che bevono tè e persone che bevono caffè. La seguente contingency table è ottenuta considerando le transazioni disponibili:

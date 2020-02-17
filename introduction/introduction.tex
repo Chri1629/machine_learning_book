@@ -215,7 +215,7 @@ Le motivazioni principali del perché un database presenta delle mancanze sono l
 Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di seguito diamo una rapida trattazione dei più usati:
 
 \begin{itemize}
-	\item \textbf{Record removal:} è il metodo più drastico e consistere nell'eliminare tutta l'istanza che contiene quel valore. Non viene usato frequentemente perché si rischia di perdere valori che possono essere fondamentali per l'analisi dati.
+	\item \textbf{Record removal:} è il metodo più drastico e consistere nell'eliminare tutta l'istanza che contiene quel valore. Non viene usato frequentemente perché si rischia di perdere valori che possono essere fondamentali per l'analisi dati. \\ \textit{In particolare se la probabilità che un attributo abbia un valore nullo è: 0.01 se ho un record con 9 attributi allora la probabilità di non avere dati nulli diventa: $(0.99)^9$}
 	
 	\item \textbf{Global constant:} consiste nel sostituire tutti i missing values con un valore costante chiamato \textit{place holder.} Tale metodo non è molto efficiente perché un valore costante non può essere rappresentativo di una distribuzione.
 	
