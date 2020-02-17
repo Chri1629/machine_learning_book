@@ -1,0 +1,50 @@
+\documentclass[12pt, a4paper,titlepage,openany]{article}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[table]{xcolor}
+\usepackage{float}
+\restylefloat{table,figure}
+\usepackage{graphicx}	
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\renewcommand{\footrulewidth}{0.25pt}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{a4paper,top=2cm,bottom=2cm,left=2.5cm,right=2.5cm,%
+	heightrounded,bindingoffset=5mm}
+\usepackage{nopageno}
+
+\begin{document}
+	\begin{center}
+		\huge\textbf{Domande Machine Learning}
+	\end{center}
+\section{Data}
+\begin{itemize}
+	\item Given the following set of values for the attribute Yearly Income (Euro) \{2,651; 1,610; 2,994; 1,667; 2,434; 1,845; 1,570; 2,182; 2,234\} the absolute average deviation is ...? \textbf{\[AAD = \frac{1}{n}\sum_{i=1}^{n}|x_i- x_m| = \]}
+	\item Assume you are given a data base containing an attribute Food Quality which can take the following values {excellent, very good, good, average, bad, terrible}. Assume you want to apply binarization to the Food Quality attribute, How many new attributes do you need to create to achieve this goal, in case you can accept to induce correlation among them? \textbf{}
+	\item Assume you are given a data base containing an attribute Payment Category which can take the following values {excellent, good, average, bad, terrible}. Assume that the first 10 records of the database are associated wirh the following values of the Payment Category attribute; {excellent, good, average, average, average, bad, terrible, excellent, good, average}. Which are the mode of the Payment Category attribute and the associated relative frequency value? \textbf{(average; 0.4) Bisogna prendere la moda e valutarne la frequenza relativa: \[fr =\frac{count}{N}\]}
+	\item Given the following set of values for the attribute Yearly Income (Euro) {2,651; 1,610; 2,994; 1,667; 2,434; 1,845; 1,570; 2,182; 2,234} the standard deviation is ...? \textbf{500.4 (prima cifra decimale arrotondata verso il basso)}
+	\item Assume you are given a data base containing the following attribute, Credit Card owner. Assume that Credit Card owner can take values {yes, no}. Assume you have the following 10 records for the Credit Card owner attribute \{yes, yes, no, yes, no, no, no, no, no, no\}. Assume you want to form a sample contisting of 4 records. Then, you apply random sampling with stratification (stratified sampling) using the equal number option. Which of the following samples is a valid one? \textbf{}
+	\item Given the following set of values for the attribute Yearly Income (Euro) \{2,651; 1,610; 2,994; 1,667; 2,434; 1,845; 1,570; 2,182; 2,234\} which are the values of the mean and trimmed mean? \textbf{(2,133; 2,090) La trimmed mean è la media calcolata togliendo il valore più alto e quello più basso.}
+	\item Given the attribute named "car color", which of the following operations and/or quantities is/are meaningful? \textbf{(mode, entropy)  poichè è un attributo categorico esse sono le due quantità interessanti.}
+	\item Assume you are given a data base containing an attribute Payment Category which can take the following values {excellent, good, average, bad, terrible}. Assume that the first 10 records of the database are associated with the following values of the Payment Category attribute; {excellent, good, average, average, average, bad, ?, excellent, good, average}, where "?" stands for missing value. In case you apply mode replacement which is the value used to replace "?"? \textbf{(average) poiché la moda è l'elemento con la frequenza più alta.}
+	\item You have applied the procedure for supervised discretization of the Yearly Income attribute. In particular, you made the decision to use Entropy to find the optimal discretization for the Yearly Income attribute. Which of the following statements is/are true? \textbf{The optimal discretization is the one which achieves the minimum value of Entropy.\\ Achieving the optimal value of Entropy means you are implementing the purest possible discretization solution.\\ Any valid discretization is associated with a non negative value of Entropy.
+	}
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+	\item
+\end{itemize}
+
+
+\end{document}
