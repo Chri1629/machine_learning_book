@@ -335,12 +335,12 @@ Elenchiamo ora una serie di limiti riferiti alla ricerca dei cluster con l'algor
 \end{itemize}
 Come possiamo notare queste tre problematiche ci portano a considerare cluster notevolmenti differenti. Esiste un modo di risolvere parzialmente queste problematiche: \textit{accettare un clustering che rompe i cluster naturali in un numero variabile di sottocluster.}
 
-Forniamo un rapido elenco rùche riassume punti di forza e debolezze dell'algoritmo delle k-medie:
+Forniamo un rapido elenco che riassume punti di forza e debolezze dell'algoritmo delle k-medie:
 \begin{itemize}
 	\item Semplice e si applica a tanti tipi di dati.
 	\item Abbastanza efficiente anche se vengono ripetute molte cose.
 	\item Vi sono varianti più efficienti e meno problmatiche come ad esempio l'algoritmo \textit{bisecting k-means.}
-	\item Non adatto a tutti i tipi di dat e non può gstire cluster non sferici, con size e densità diverse.
+	\item Non adatto a tutti i tipi di dati e non può gstire cluster non sferici, con size e densità diverse.
 	\item Problemi con outliers.
 	\item Strettamente legato al concetto di centroide. Vi sono delle varianti che utilizzano il \textit{medoide} e che sono più efficienti.
 	
@@ -408,11 +408,11 @@ Questa classe di algoritmi presenta però diversi svantaggi:
 \begin{itemize}
 	\item L'apprendimento risulta essere molto lento.
 	\item Non è pratico per i modelli con un gran numero di componenti.
-	\item Non funziona bene quanto i cluster conengono  poche osservazioni.
+	\item Non funziona bene quando i cluster conengono  poche osservazioni.
 	\item Non funziona bene quando gli oggetti sono co-lineari.
 \end{itemize}
 
-Questi algoritmi presentano però anche una serie di vantaggi non indifferente rispetto a quelli delle k-medie:
+Questi algoritmi presentano però anche una serie di vantaggi non indifferenti rispetto a quelli delle k-medie:
 \begin{itemize}
 	\item Sono più generali rispetto alle k-medie e alle fuzzy perché usano distribuzioni di vario tipo, possono trovare cluster di diversa grandezza e di forma ellittica.
 	\item Disciplina il metodo di eliminazione delle complessità associate ad alcuni tipi di dati.
@@ -459,12 +459,12 @@ In particolare un clustering gerarchico può essere:
 \end{itemize}
 
 \paragraph{Clustering gerarchico agglomerativo} Concentriamo la nostra attenzione su questo tipo di clustering perché sono i più comuni. 
-La soluzione che si ottiene è il \textit{dendrogramma} del clustering effettuato. Il deindogramma serve a visualizzare sia le relazioni tra i cluster e i sottocluster sia l'ordine in cui sono stati divisi o agglomerati i vari cluster. Questo tipo di algoritmo è computazionalmente molto pesante.
+La soluzione che si ottiene è il \textit{dendrogramma} del clustering effettuato. Il dendogramma serve a visualizzare sia le relazioni tra i cluster e i sottocluster sia l'ordine in cui sono stati divisi o agglomerati i vari cluster. Questo tipo di algoritmo è computazionalmente molto pesante.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.25 \linewidth]{clustering/pict/cluster_aggl.png}
-	\caption{Clustering gerarchico sotto forma di deindrogramma}
+	\caption{Clustering gerarchico sotto forma di dendrogramma}
 \end{figure}
 
 Diamo ora un rapido riassunto dei passaggi dell'algoritmo:
@@ -555,14 +555,14 @@ Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} 
 	\item DBSCAN e K-Means assegnano gli oggetti ad un singolo cluster, l'algoritmo delle k-medie però assegna tutti gli oggetti mentre il DBSCAN può omettere il rumore.
 	\item DBSCAN può trattare cluster di diverse dimensioni e forme e non è affetto da rumori o outliers.. K-medie hanno difficoltà con i cluster non globulari oppure di forme diverse. Entrambi gli algoritmi performano male quando i cluster hanno significative differenze di densità.
 	\item L'algoritmo delle K-medie può essere usato per dato che hanno centroidi ben definiti come la media o la mediana. L'algoritmo DBSCAN invece richiede una definizione di densità che è basata sulla nozione tradizionale di distanza Euclidea.
-	\item L'algoritmo dell K-medie può essere applicato a dati sparsi e a multi-dimensionali come ad esempio i dati documentali. Il DBSCAN in questi casi invece non performa per niente bene in quanto la definizione di densità Euclidea non funziona bene per dati multi-dimensionali.
+	\item L'algoritmo delle K-medie può essere applicato a dati sparsi e a multi-dimensionali come ad esempio i dati documentali. Il DBSCAN in questi casi invece non performa per niente bene in quanto la definizione di densità Euclidea non funziona bene per dati multi-dimensionali.
 	\item DBSCAN non fa assunzioni riguardo la distribuzione dei dati. L'algoritmo delle K-medie invece è equivalente ad approccio statistico di clustering che assume che tutti i cluster vengono da una distribuzione Gaussiana sferica con diverse medie ma con la stessa matrice di covarianza.
 	\item Entrambi gli algoritmi cercano di costruire cluster utilizzando tutti gli attributi, ciò implica che non cercano cluster che riguardano solo un sottoinsieme degli attributi.
 	\item L'algoritmo delle K-medie può trovare cluster che non sono ben separati, l'algoritmo di cluster invece mette insieme quelli sovrapposti.
 	
 	\item L'algoritmo delle K-medie ha complessità O(m) mentre il DBSCAN ha complessità O($m^{2}$) eccetto per i dati a poche dimensioni.
 	\item DBSCAN produce lo stesso insieme di cluster dalla prima riproduzione mentre l'algoritmo delle k-medie tipicamente non lo fa quando i centroidi sono inizializzati casualmente. 
-	\item DBSCAN determina automaticamente il numero di cluster mentre nell'algoritmo delle k-medie esso deve essere splicitato in principio come parametro.
+	\item DBSCAN determina automaticamente il numero di cluster mentre nell'algoritmo delle k-medie esso deve essere esplicitato in principio come parametro.
 \end{itemize}
 
 Vi sono altri algoritmi di density-based che non tratteremo in questo momento quali: \textit{grid-based clustering}, \textit{subspace clustering}, \textit{kernel density function}.
@@ -587,7 +587,7 @@ Come possiamo notare ogni oggetto a un certo livello di similarità con \textit{
 \begin{defn}
 	Definiamo quindi il \textbf{K-Nearest Neighbor} il numero di valori di archi che prendo come vicinato per ogni riga della matrice.
 \end{defn}
-Come facilmente intuibile ci sono diversi vantaggi nello sparsificare la matrice. In primo luogo \textit{la riduzione della dimensione dei dati,} settare dei valori a 0 infatti implica la non considerazione di quei collegamenti nell'algoritmo. In sercondo luogi \textit{ l'algoritmo di clustering potrebbe lavorare meglio,} questo perché la sparsificazione potrebbe eliminare degli outlier  o quelli elementi che costituiscono soltanto del rumore. Un ultimo motivo altrettanto importante è che \textit{si possono trovare anche partizioni interessanti di quel grafo.}
+Come facilmente intuibile ci sono diversi vantaggi nello sparsificare la matrice. In primo luogo \textit{la riduzione della dimensione dei dati,} settare dei valori a 0 infatti implica la non considerazione di quei collegamenti nell'algoritmo. In secondo luogo \textit{ l'algoritmo di clustering potrebbe lavorare meglio,} questo perché la sparsificazione potrebbe eliminare degli outlier  o quegli elementi che costituiscono soltanto del rumore. Un ultimo motivo altrettanto importante è che \textit{si possono trovare anche partizioni interessanti di quel grafo.}
 
 La sparsificazione deve essere vista come lo step preliminare prima dell'uso dell'algoritmo di clustering. \textit{Raramente succede però che la sparsificazione splitti la matrice in componenti connesse ognuna corrispondente ad un dato cluster.} L'idea è quella di ripetere ciclicamente la sparsificazione fino ad ottenere dei grafi partizionati ben definiti. Sono stati sviluppati in letteratura diversi tipi di algoritmi di cluster graph-based e che rispondono a queste necessità.
 
@@ -632,13 +632,13 @@ L'algoritmo in particolare si articola nei seguenti passaggi:
 	\item Partizionare il grafo usando un algoritmo di partizionamento a multilivelli.
 	\item \textbf{Ripetere}
 	\begin{itemize}
-		\item Unire i cluster che preservano maggiormente le simiglianza rispetto alla relativa vicinanza e interconnettività..
+		\item Unire i cluster che preservano maggiormente la somiglianza rispetto alla relativa vicinanza e interconnettività..
 		\item \textbf{Finché} non possono essere uniti ulteriori cluster.
 	\end{itemize}
 	
 \end{enumerate}
 
-Questo algoritmo riesce a clusterizzare dati spaziale considerando anche il rumore e gli outlier, riesce inoltre a gestire anche cluster di diversa forma e di diversa densità. Questo algoritmo ha però problemi \textit{quando il processo di partizionamento non subisce la creazione di sotto cluster.}
+Questo algoritmo riesce a clusterizzare dati spaziali considerando anche il rumore e gli outlier, riesce inoltre a gestire anche cluster di diversa forma e di diversa densità. Questo algoritmo ha però problemi \textit{quando il processo di partizionamento non subisce la creazione di sotto cluster.}
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.18 \linewidth]{clustering/pict/chamaleon.png}
@@ -749,7 +749,7 @@ E' molto difficile dare una definizione sempre uguale dei pesi da fornire ai var
 Durante questa trattazione ci siamo concentrati sulle misure di coesione e di separazione come valutazione totale di un gruppo di cluster, diverse di queste misure possono essere anche applicate per valutare i singoli cluster. Il nostro obiettivo è \textit{ordinare i cluster secondo il loro specifico valore di validità,} in particolare un cluster con un alto valore di coesione deve essere considerato migliore rispetto ad un cluster con un basso valore di coesione.
 Se abbiamo cluster non molto coesi potrebbe risultare utile separarli in dei cluster più fortemente coesi. Allo stesso modo se due cluster sono relativamente coesi ma non troppo ben separati potrebbe essere utile provare ad unirli.
 
-\textit{Risulta quindi utile valutare un oggetto all'interno del cluster secondo la misura in cui quell'oggetto contribuisce alla coesione o alla separazione.} Graficamente si otterrebbe che gli oggetti che si trovano puù "all'interno" del cluster dovrebbero contribuire in modo maggiore alla coesione, mentre quelli più esterni avranno un contributo minore. Proprio per questo motivo si definisce l'indice di Silhouette che combina coesione e separazione per l'i-esimo oggetto all'interno del cluster.
+\textit{Risulta quindi utile valutare un oggetto all'interno del cluster secondo la misura in cui quell'oggetto contribuisce alla coesione o alla separazione.} Graficamente si otterrebbe che gli oggetti che si trovano più "all'interno" del cluster dovrebbero contribuire in modo maggiore alla coesione, mentre quelli più esterni avranno un contributo minore. Proprio per questo motivo si definisce l'indice di Silhouette che combina coesione e separazione per l'i-esimo oggetto all'interno del cluster.
 \begin{defn}
 	Si definisce \textbf{coefficiente di Silhoutte} per l'i-esimo oggetto all'interno di un cluster la seguente espressione:
 	\[s_i = \frac{b_i - a_i}{max(a_i,b_i)} \in [-1,+1]\]
@@ -763,7 +763,7 @@ Dove:
 
 \textit{Valori negativi} di questo coefficiente significano che la distanza media dei punti nello stesso cluster è maggiore della distanza media minima di quei punti rispetto ai punti di un altro cluster.  Per come è definito vogliamo quindi che il coefficiente assuma \textit{valori positivi} poiché il coefficiente assume il valore 1 quando $a_i = 0$.
 
-Possiamo quindi calcolare il \textit{Coefficiente medio di silhouette} semplicemente calcolando la media dei coefficienti dei punti di un dato cluster. Una misura totale della vontà di un clustering può quindi essere il coefficiente medio di silhouette calcolato su tutti i punti.
+Possiamo quindi calcolare il \textit{Coefficiente medio di silhouette} semplicemente calcolando la media dei coefficienti dei punti di un dato cluster. Una misura totale della bontà di un clustering può quindi essere il coefficiente medio di silhouette calcolato su tutti i punti.
 Per quanto riguarda il clustering gerarchico non si usa il coefficiente di silhouette ma il \textbf{Cophenetic Correlation Coefficient.}
 
 Questo coefficiente misura il grado di similarità tra la matrice di prossimità (P) e la matrice Cophenetic (Q) i cui elementi registrano il livello di prossimità tra coppie di osservazioni raggruppate all'interno dello stesso cluster.
@@ -786,7 +786,7 @@ Questo coefficiente misura il grado di similarità tra la matrice di prossimità
 \paragraph{Testare l'ipotesi nulla} Si vuole arrivare ovviamente a rigettare l'ipotesi nulla. Questo rigetto non implica che ci sia necessariamente struttura nei dati ma implica che sicuramente non c'è non-struttura. 
  
  \subsubsection{Selezione del numero di cluster(*)}
- Ha senso porsi il problema di scegliere il numero di clustering solo dopo che l'analisi precedente ci ha permesso di dedurre che è presente struttura adatta per un'analisi di clustering. In particolare si utilizzano i \textit{criteri relativi} che sono criteri che si concentrano sul confronto dei diversi risultati generati dai diversi algoritmi di clustering oppure sui risultati diversi prodotti dallo stesso algoritmo di clustering ma con parametri di input differenti.
+ Ha senso porsi il problema di scegliere il numero di cluster solo dopo che l'analisi precedente ci ha permesso di dedurre che è presente struttura adatta per un'analisi di clustering. In particolare si utilizzano i \textit{criteri relativi} che sono criteri che si concentrano sul confronto dei diversi risultati generati dai diversi algoritmi di clustering oppure sui risultati diversi prodotti dallo stesso algoritmo di clustering ma con parametri di input differenti.
  Gli indici principali per calcolare il numero di cluster sono:
  \begin{itemize}
  	\item \textit{Calinski and Harabasz:} Il valore di K corrispondente al massimo è preso per essere l'ottimale numero di cluster.

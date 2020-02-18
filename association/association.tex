@@ -139,7 +139,7 @@ Per comprendere l'inefficienza della generazione con l'approccio forza bruta pen
 \end{defn}
 Nel nostro caso il numero di itemset candidato è: $M = 2^{d} - 1 = 2^5 -1 = 31$
 
-Come si può notare abbiamo un sistema a doppio cono che è tipica delle distribuzioni binomiali. Una volta che gli abbiamo considerati tutti ci interessano solo i più frequenti. \\
+Come si può notare abbiamo un sistema a doppio cono che è tipica delle distribuzioni binomiali. Una volta che li abbiamo considerati tutti ci interessano solo i più frequenti. \\
 Se usassimo la forza bruta dovremmo calcolare per ogni itemset candidato il suo support count, e vedere se il suo supporto lo configura come un itemset frequente (molto dispendioso). 
 
 I confronti da effettuare sono nell'ordine di $O(NMw)$, dove:
@@ -149,7 +149,7 @@ I confronti da effettuare sono nell'ordine di $O(NMw)$, dove:
 	\item $w$ = massima lunghezza delle transazioni
 \end{itemize} 
 
-È decisamente troppo come numeri confronti contando che molti dei quali sono inutili o poco significativi.
+È decisamente troppo come numero di confronti contando che molti dei quali sono inutili o poco significativi.
 
 Vi sono due approcci per ridurre il costo computazionale della generazione di itemset frequenti:
 \begin{itemize}
@@ -215,9 +215,9 @@ In pratica, il numero di itemset frequenti prodotti da transazioni possono esser
 Per costruzione \textit{per\`o} non ci dice quanto \`e il supporto rispetto ai suoi sottoinsiemi. In alcuni casi potrebbe servire avere una minima rappresentazione degli itemset frequenti che preservano l'informazione sul supporto.
 
 \begin{defn}
-	Un itemset X è \textbf{Closed Frequent Itemset} se nessun immediato superinsieme ha esattamente lo stesso support count di X. In ogni caso il suo spporto deve essere $\ge minsup$.
+	Un itemset X è \textbf{Closed Frequent Itemset} se nessun immediato superinsieme ha esattamente lo stesso support count di X. In ogni caso il suo supporto deve essere $\ge minsup$.
 \end{defn}
-Importante qunado vi sono gruppi di prodotti venduti a blocco ignorando gli altri.
+Importante quando vi sono gruppi di prodotti venduti a blocco ignorando gli altri.
 
 \textbf{Es}
 \begin{figure}[H]
