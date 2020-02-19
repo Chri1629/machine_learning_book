@@ -734,11 +734,11 @@ Per gli algoritmi di clustering basati sui prototipi invece le definizioni cambi
 
 \begin{defn}
 	Si definisce \textbf{coesione} la somma delle prossimità rispetto al prototipo all'interno del  cluster.
-	\[ cohesion(C_i) = \sum_{x \in C_i} proximity(x, C_i) = \sum_{x\in C_i} similarity(x, C_i)\]
+	\[ cohesion(C_i) = \sum_{x \in C_i} proximity(x, c_i) = \sum_{x\in C_i} similarity(x, c_i)\]
 \end{defn}
 \begin{defn}
 	Si definisce \textbf{separazione} la prossimità tra due prototipi di due cluster diversi.
-	\[separation(C_{i}, C_{j}) = proximity(C_{i}, C_{j}) = similarity(C_{i}, C_{j})   \]
+	\[separation(C_{i}, C_{j}) = proximity(c_{i}, c_{j}) = similarity(c_{i}, c_{j})   \]
 \end{defn}
 E' molto difficile dare una definizione sempre uguale dei pesi da fornire ai vari cluster nel momento in cui voglio operare una misura di validità, per semplificare il problema facciamo riferimento alla seguente tabella.
 \begin{figure}[H]
@@ -751,7 +751,7 @@ Se abbiamo cluster non molto coesi potrebbe risultare utile separarli in dei clu
 
 \textit{Risulta quindi utile valutare un oggetto all'interno del cluster secondo la misura in cui quell'oggetto contribuisce alla coesione o alla separazione.} Graficamente si otterrebbe che gli oggetti che si trovano più "all'interno" del cluster dovrebbero contribuire in modo maggiore alla coesione, mentre quelli più esterni avranno un contributo minore. Proprio per questo motivo si definisce l'indice di Silhouette che combina coesione e separazione per l'i-esimo oggetto all'interno del cluster.
 \begin{defn}
-	Si definisce \textbf{coefficiente di Silhoutte} per l'i-esimo oggetto all'interno di un cluster la seguente espressione:
+	Si definisce \textbf{coefficiente di Silhouette} per l'i-esimo oggetto all'interno di un cluster la seguente espressione:
 	\[s_i = \frac{b_i - a_i}{max(a_i,b_i)} \in [-1,+1]\]
 \end{defn}
 
