@@ -1,12 +1,12 @@
 \section{Classification}
 
 \subsection{Introduction (*)}
-Entriamo un po' più nella componente di validazione nei modelli di classificazione supervisionata.
+Entriamo nel dettaglio della componente di validazione nei modelli di classificazione supervisionata.
 La cosa più importante è \textbf{capire cosa stiamo facendo} in quanto quando si applicano algoritmi di machine learning è facile perdersi.
 
-Nel solito dataset vogliamo determinare se un cliente abbandonerà o meno il nostro servizio, per farlo cerchiamo di utilizzare una particolare combinazione di attributi. Bisogna innanzitutto vedere di che tipo siano le variabili presenti nel nostro database.
+Nel solito dataset dei churn vogliamo determinare se un cliente abbandonerà o meno il nostro servizio; per farlo, cerchiamo di utilizzare una particolare combinazione di attributi. Bisogna innanzitutto vedere di che tipo sono le variabili presenti nel nostro database.
 
-Dobbiamo essere in grado sia di prevederlo che di capire \textbf{perché} qualcuno ha abbandonato. Svolgiamo questo compito con un modello di \textbf{classificazione}. Un modello di classificazione è un modello che sfrutta alcuni attributi del dataset (\textbf{attributi esplicativi}) per prevedere un valore di un altro attributo (\textbf{attributo di classe}).
+Lo scopo è di essere  in grado sia di prevedere quando un cliente abbandonerà un determinato servizio, che di capire \textbf{le motivazioni} che l'hanno spinto a farlo. Questo tipo di compiti può essere portato a termine con l'utilizzo di un modello di \textbf{classificazione}. Un modello di classificazione è un modello che sfrutta alcuni attributi del dataset (\textbf{attributi esplicativi}) per prevedere un valore di un altro attributo (\textbf{attributo di classe}).
 
 \begin{figure}[H]
 	\hspace{-0.5cm}
@@ -14,16 +14,17 @@ Dobbiamo essere in grado sia di prevederlo che di capire \textbf{perché} qualcu
 	\caption{processo di classificazione}
 \end{figure}
 
+Forniamo di seguito delle definizioni utili per poter parlare più nel dettaglio dei metodi di classificazione:
 \begin{defn}
-	Le variabili in input si chiamano \textbf{variabili esplicative}.
+	Si definiscono \textbf{variabili esplicative} le variabili in input.
 \end{defn}
 
 \begin{defn}
-	Le variabili in output si chiamano \textbf{variabili di classe}.
+	Si definiscono \textbf{variabili di classe}	Le variabili in output.
 \end{defn}
 
 \begin{defn}
-	 Un \textbf{modello di classificazione} è qualcosa che risolve un problema di classificazione:
+	 Si definisce \textbf{modello di classificazione} un modello in grado di risolvere un problema di classificazione; i modelli di classificazione si dividono in:
 	\begin{itemize}
 		\item \textbf{Modello descrittivo}: serve come strumento di spiegazione per distinguere tra oggetti di classi diverse
 		\item \textbf{Modello predittivo}: predice la classe di un record sconosciuto, pu\`o essere visto come una \underline{scatola nera} che asssegna una label di una classe al record sconosciuto
@@ -31,33 +32,33 @@ Dobbiamo essere in grado sia di prevederlo che di capire \textbf{perché} qualcu
 \end{defn}
 
 \begin{defn}
-	La tecnica di classificazione o \textbf{classificatore} è un approccio sistematico per costruire un modello di classificazione su un dataset.
+	Si definisce \textbf{classificatore} l' approccio sistematico per costruire un modello di classificazione su un dataset.
 \end{defn}
-Il classificatore segue il seguente processo:
-
+La costruzione di un classificatore segue il seguente processo:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.6 \linewidth]{classification/pict/class_process.png}
-	\caption{processo di creazione della classificazione}
+	\caption{Processo di creazione della classificazione}
 \end{figure}
 
 \begin{defn}
-	Il \textbf{training set} consiste in dei record in cui tutti i valori degli attributi sono noti.
+	Si definisce \textbf{training set}  l'insieme dei record in cui tutti i valori degli attributi sono noti.
 \end{defn}
 
 \begin{defn}
-	Il \textbf{test set} consiste in dei record i cui valori dell'attributo di classe sono sconosciuti (o presunti tali).
+	Si definisce \textbf{test set} l'insieme dei record i cui valori dell'attributo di classe sono sconosciuti (o presunti tali).
 \end{defn}
 
 Si utilizza quindi un algorimo di learning (\textbf{Learner}) sul training set, passaggio definito come \textbf{Classification Model Learning}. 
 
 \begin{defn}
-	L'output di questa operazione è un'istanza del modello di classificazione chiamato \textbf{Inducer}. All'inducer è chiesto di predire il valore della classe attributo per il test set. 
+	Si definisce \textbf{Inducer} l'output di questa operazione.
 \end{defn}
 
-La chiave di tutto è la scelta dell'algoritmo learner per l'apprendimento. Inoltre la scelta degli attributi esplicativi è fondamentale, infatti alcuni di essi possono essere solo ridondanti nel processo e generare solo rumore. Tramite l'analisi delle performace si possono valutare queste due scelte. 
+Il ruolo dell'inducer è quello di predire il valore dell'attributo di classe per il test set. 
+La chiave di tutto è la scelta dell'algoritmo learner per l'apprendimento; la scelta degli attributi esplicativi è fondamentale, alcuni di essi possono, infatti, essere solo ridondanti nel processo e generare solo rumore. Tramite l'analisi delle performace si possono valutare queste due scelte. 
 
-Bisogna valutare ora le performance del modello inducer. Uno dei modi per analizzare se è efficace è la \textbf{matrice di confusione}. 
+Bisogna valutare le performance del modello inducer. Uno dei modi per analizzare se è efficace è la \textbf{matrice di confusione}. 
 
 Nelle righe vi sono i veri valori delle classi, nelle colonne i valori predetti dall'inducer. Il numero di righe è uguale al numero di colonne e corrispondono al numero di classi da predire.
 
@@ -79,7 +80,7 @@ All'interno sono identificati i risultati dei test e sono così classificati:
 	
 	\[accuracy = \frac{\sum_{i = 1}^{n} diagonal}{\sum_{i=1}^{n}elements} = \frac{\#CorrPrediction}{\#Prediction} = \frac{TN + TP}{TN + TP + FN + FP}\] 
 	
-	La misura complementare che troveremo indicata è quella degli elementi:
+	La misura complementare che troveremo indicata è quella dell'errore:
 	
 	\[error = \frac{FN + FP}{TN + FN + FP + TP} =  1 - accuracy\]
 \end{defn}
@@ -88,13 +89,15 @@ All'interno sono identificati i risultati dei test e sono così classificati:
 
 Una tecnica di classificazione è un modo sistematico di aggredire un dataset e costruire i modelli di classificazione, in particolare possiamo dividerle in 4 macro categorie:
 \begin{itemize}
-	\item \textbf{Euristiche}: ispezionano il suo vicinato come (Decision Trees, Random Forest, Nearest Neighboor)
-	\item \textbf{Regression Based}: usa la probabilità condizionata parametrica, es regressione logica
+	\item \textbf{Euristiche}: ispezionano il suo vicinato come ad esempio: Decision Trees, Random Forest, Nearest Neighboor
+	\item \textbf{Regression Based}: usa la probabilità condizionata parametrica, ad esempio: regressione logica
 	\item \textbf{Separazione}: partiziona lo spazio degli attributi, fa riferimento alle Support Vector Machine e alle Artificial Neural Network
 	\item \textbf{Probabilistici}: usano la formula di Bayes (Naive Bayes ecc...).
 \end{itemize}
 
 Forniremo una overview di tutte queste, non le tratteremo nel dettaglio, partiamo da quelli \textbf{Euristici}.
+
+\textbf{ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA}
 
 \subsubsection{Decision Tree}
 I modelli decision tree sono bodelli basati euristici. 
