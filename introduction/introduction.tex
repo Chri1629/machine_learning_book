@@ -1,21 +1,15 @@
-\restylefloat{table,figure}
-\pagestyle{fancy}
-\cfoot{\thepage}
-\renewcommand{\footrulewidth}{0.25pt}
-
-
 \section{Dati}
 Gli ambiti più importanti nei quali vengono applicate tecniche di machine learning nella vita reale sono diversi, in particolare si usano in:
 finanza, sanità, agricoltura, e-commerce, social, chatbot, sensoristica (come i veicoli a guida autonoma).
 \\ Vista la grande mole di dati la necessità è quella di capire come trattare i dati.
-\textbf{L'obiettivo del Machine Learning è sviluppare metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo facendo.}
+\textbf{L'obiettivo del Machine Learning è sviluppare una metodologia per dare valore ai dati in funzione di una particolare domanda che ci stiamo ponendo.}
 
 Tipicamente le tecniche di machine learning si dividono nelle seguenti tre macro categorie:
-\begin{itemize}
-	\item Apprendimento supervisionato o predittivo: qualcuno ha gia catalogato ad esempio delle immagini o dei dati e noi prendendo questi modelli dovremmo essere in grado di predire.
-	\item Apprendimento non supervisionato o descrittivo: ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
-	\item Apprendimento rinforzato: E' quello più utile in questa epoca: funziona sui premi.
-\end{itemize}
+\begin{enumerate}
+	\item \textit{Apprendimento supervisionato o predittivo:} qualcuno ha gia catalogato ad esempio delle immagini o dei dati e noi prendendo questi modelli dovremmo essere in grado di predire.
+	\item \textit{Apprendimento non supervisionato o descrittivo:} ci sono delle funzioni obiettivo che vanno ottimizzate. Non usiamo etichette della singola istanza ma in qualche modo sappiamo dove arrivare.
+	\item \textit{Apprendimento rinforzato:} E' quello più utile in questa epoca; il suo funzionamento è basato sui premi.
+\end{enumerate}
 
 In questo corso ci concentreremo sui primi due tipi di apprendimento.
 
@@ -31,28 +25,31 @@ L' \textit{apprendimento non supervisionato} si divide a sua volta in:
 	\item Associativa: Quando il problema consiste nel scoprire pattern che descrivono bene caratteristiche associate ad un certo fenomeno.
 \end{itemize}
 
-Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però essa è addirittura deleteria.  Se infatti provassi a vedere la correlazione tra il numero di omicidi in america e il numero di fondi investiti sulla ricerca scientifica vedrei che statisticamente sono strettamente correlate. Questo è un no-sense ed è il classico esempio di \textit{correlazione spuria.}
-
-A confermare questa visione in cui il modello per una certa trattazione dati è fondamentale è il cosidetto paradosso di Simpson.
-
-\textbf{Paradosso di Simpson:} Se uso solo i dati senza modello non c'è alcun modo di scoprire la verità.
+Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però essa è addirittura deleteria.  Se infatti provassi a vedere la correlazione tra il numero di omicidi in America e il numero di fondi investiti sulla ricerca scientifica vedrei che statisticamente sono strettamente correlate. Questo è un no-sense ed è il classico esempio di \textit{correlazione spuria.}
+A confermare questa visione in cui il modello per una certa trattazione dati è fondamentale è il famoso paradosso di Simpson. \\
+\textbf{Paradosso di Simpson:} Utilizzare i dati senza un modello valido non porta alla scoperta della verità.
 
 
 \subsection{Data types(*)}
 
-Il primo passo fondamentale è sicuramente quello di prendere confidenza coi dati. E' fondamentale capire la natura intrinseca dei dati che abbiamo a disposizione per risolvere in modo efficace un problema, in particolare questi sono solitamente organizzati in strutture che chiamiamo \textbf{dataset}. Per le analisi con le tecniche di Machine Learning esse non sono altro che tabelle fatte da righe e da colonne.
-\\Le colonne del dataset sono chiamate \textbf{Attributi.}
-\\Le righe del dataset sono chiamate \textbf{Istanze.}
+Il primo passo fondamentale è quello di prendere confidenza coi dati. E' quindi molto importante capire la natura intrinseca dei dati che abbiamo a disposizione per risolvere in modo efficace un problema, in particolare, questi sono solitamente organizzati in strutture che chiamiamo \textbf{dataset}. Per le analisi con le tecniche di Machine Learning esse non sono altro che tabelle fatte da righe e da colonne.
+
+\begin{defn}
+	Definiamo \textbf{attributi} le colonne del dataset
+\end{defn}
+\begin{defn}
+	Definiamo \textbf{istanze} le righe del dataset
+\end{defn}
 
 Ogni attributo è caratterizzato dal fatto di avere un \textit{tipo}, la sua conoscenza è fondamentale perché ci permette di sapere le proprietà che questo possiede.
-In particolare gli attributi si dividono in due grandi gruppi:
+In particolare, gli attributi si dividono in due grandi gruppi:
 \begin{itemize}
-	\item Categorici:
+	\item \textit{Categorici:}
 	\begin{itemize}
 		\item Nominali: ad esempio il colore degli occhi.
 		\item Ordinali: ad esempio possono essere i giudizi.
 	\end{itemize}
-	\item Numerici:
+	\item \textit{Numerici:}
 	\begin{itemize}
 		\item Intervallo: ammettono operazioni di somma e sottrazione. 
 		\item Ratio: possiamo applicare tutte le operazioni logico/matematiche.
@@ -63,7 +60,7 @@ In particolare gli attributi si dividono in due grandi gruppi:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.5 \linewidth]{introduction/pict/attributi.png}
-	\caption{Distinzione degli attributi con le relative proprietà in cui è presente almeno un esempio per ogni categoria.}
+	\caption{Esempi di attributi divisi per categoria con le relative proprietà.}
 \end{figure}
 Dall'alto al basso il livello gerarchico sale e le proprietà aumentano.
 
@@ -75,19 +72,19 @@ C'è un'ulteriore divisione che può essere fatta ed è quella in:
 		\item Numerici
 		\item Binari: sono i più particolari da trattare, e hanno una serie di proprietà strane.
 	\end{itemize}
-	\item Continui, i cui valori sono numeri reali.
+	\item Continui: i cui valori sono numeri reali.
 \end{itemize}
 
 \subsection{Data exploration(*)}
 
-E' utile sapere come esplorare i dati in modo intelligente usando tutti gli strumenti a disposizione. Di seguito un elenco degli strumenti statistici più utili che permettono di avere un'analisi completa dei dati.
+E' utile sapere come esplorare i dati in modo intelligente usando tutti gli strumenti a disposizione. Di seguito un elenco degli strumenti statistici più utili che permettono di effettuare un'esplorazione completa dei dati.
 
 \subsubsection{Definizioni}
 \begin{defn}
-	Si definisce \textbf{quantile} $\alpha$ il valore $q_{\alpha}$ che divide la popolazione in due parti proporzionali rispettivamente ad $\alpha$ e a $(1 - \alpha)$ e caratterizzate da valori rispettivamente minori e maggiori di $q_{\alpha}$
+	Si definisce \textbf{quantile} di ordine $\alpha$ il valore $q_{\alpha}$ che divide la popolazione in due parti proporzionali rispettivamente ad $\alpha$ e a $(1 - \alpha)$ e caratterizzate da valori rispettivamente minori e maggiori di $q_{\alpha}$
 \end{defn}
 
-Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama \textbf{mediana} che è quello che ha esattamente minori di lui  metà dei dati.
+Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ che viene definito \textbf{mediana}, per come costruito questo è il valore che ha esattamente minori di lui  metà dei dati.
 
 \begin{defn}
 	Si definisce \textbf{media} il seguente valore:
@@ -95,7 +92,7 @@ Un quantile molto importante è il quantile di ordine $\frac{1}{2}$ e si chiama 
 \end{defn}
 
 
-La media non è un buon modo di visualizzare i dati perché dice poco riguardo alla loro distribuzione. Siccome la media è basata su singole osservazioni è fortemente soggetta a variazioni quando si hanno valori fortemente discostati dalla distribuzione dei dati.
+La media non è un buon modo di visualizzare i dati perché dice poco riguardo alla loro distribuzione. Essendo la media basata su singole osservazioni è fortemente soggetta a variazioni quando si hanno valori fortemente discostati dalla distribuzione dei dati.
 Tali valori si chiamano \textit{outlier} e sono particolarmente interessanti da trattare.
 
 Per ovviare a questo problema si è soliti usare  la \textbf{media trimmed} in cui si buttano via il valore più piccolo e il valore più grande. 
@@ -111,7 +108,7 @@ Se si trova un grosso scostamento tra la media e la media trimmed probabilmente 
 	\[ range = \max{x}- \min{x}\]
 \end{defn}
 
-Esso serve a quantificare la dispersione dei dati, ovviamente questo valore può essere fuorviante qualora i valori siano concentrati in una stretta banda di valori. Per ovviare a questo problema si usa la varianza.
+Questo valore serve a quantificare la dispersione dei dati, ovviamente può essere fuorviante qualora i valori siano concentrati in una stretta banda. Per ovviare a questo problema si usa la varianza.
 
 \begin{defn}
 	Si definisce \textbf{varianza} il seguente valore:
@@ -124,7 +121,7 @@ E' preferibile però usare la deviazione standard in quanto per come è definita
 	\[ std = \sigma =  \sqrt{\sigma^{2}} \]
 \end{defn}
 
-Essendo queste due grandezze definite a partire dalla media esse soffrono dello stesso problema: sono fortemente condizionate dagli outlier, con lo stesso metodo precedente si definiscono quindi altre due grandezze in grado di ovviare a questo problema.
+Essendo queste due grandezze definite a partire dalla media esse soffrono dello stesso problema: \textit{sono fortemente condizionate dagli outlier}; con lo stesso metodo precedente si definiscono, quindi, altre due grandezze in grado di ovviare a questo problema.
 
 \begin{defn}
 	Si definisce \textbf{deviazione media assoluta} il seguente valore:
@@ -136,21 +133,21 @@ Essendo queste due grandezze definite a partire dalla media esse soffrono dello 
 	\[ MAD = mediana(x_{1}-mean, x_{2}-mean, ..., x_{n0}-mean )\]
 \end{defn}
 
-E' utile anche definire il range interquartile (IQR) sempre per ovviare alla presenza di outlier.
+E' utile anche definire il range interquartile (IQR) per le stesse ragioni precedenti.
 
 \begin{defn}
 	Si definisce \textbf{Range InterQuartile} il seguente valore:
 	\[ IQR = q_{75\%} - q_{25\%}\]
 \end{defn}
 
-Ci sono anche diverse grandezze utili da definire nei casi in cui si ha a che fare con copppie di attributi, in tal caso:
+Ci sono anche diverse grandezze utili da definire nei casi in cui si ha a che fare con coppie di attributi, in tal caso:
 
 \begin{defn}
 	Si definisce \textbf{covarianza} il seguente valore:
 \[cov(X,Y) = \frac{1}{m -1}\sum_{i = 1}^{m} (x_{i} - \bar{x})(y_{i} - \bar{y})\]
 \end{defn}
 
-Per come è costruita questa matrice è necessariamente quadrata, e il suo valore $ij ^{th}$ rappresenta la covarianza tra il valore $i^{th}$ dell'attributo x e il valore $j^{th}$ dell'attributo y.
+Per come è costruita questa matrice è necessariamente quadrata, e il suo valore $ij$-esimo rappresenta la covarianza tra il valore $i$-esimo dell'attributo x e il valore $j$-esimo dell'attributo y.
 
 Un'ulteriore misura dell'associazione tra le coppie di attributi quantitativi che non dipende dalla varianza di ciascun attributo è la seguente:
 
@@ -160,6 +157,7 @@ Un'ulteriore misura dell'associazione tra le coppie di attributi quantitativi ch
 \end{defn} 
 Per come è definita si ha ovviamente che: $cov(x,y) \in [-1,1]$.
 
+\subsubsection{Visualization}
 E' molto utile visualizzare i dati quando bisogna lavorarci, questo fondamentalmente per due motivi:
 \begin{itemize}
 	\item Ci permette di trovare pattern tra le variabili che valori puntuali non ci permetterebbero di trovare.
@@ -168,9 +166,7 @@ E' molto utile visualizzare i dati quando bisogna lavorarci, questo fondamentalm
 
 Di seguito proponiamo un rapido elenco dei grafici più utili e descriviamone le varie caratteristiche.
 
-\subsubsection{Visualization}
-
-Possono organizzare i dati in istogrammi caratterizzati dalla presenza di bin: essi indicano la larghezza in cui i dati sono organizzati. A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi come mostrato in figura.
+I dati possono essere organizzati in istogrammi caratterizzati dalla presenza di bin(indicano la larghezza in cui i dati sono organizzati). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi come mostrato in figura.
 
 
 \begin{figure}[H]
@@ -185,13 +181,13 @@ Si possono allo stesso modo creare istogrammi per dati qualitativi. La differenz
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{introduction/pict/istogramma_qual.png}
-	\caption{Istogramma di dati qualitativi.}
+	\caption{Istogramma fatto su  dati qualitativi.}
 \end{figure}
 
 In questo caso la linea blu disegnata sopra è una linea cumulativa, ossia rappresenta dove si trova il livello sommando tutti i dati che man mano incontro, per come è costruita ovviamente dovrà finire sul valore $100\%$
 
 
-Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi. Rispetto agli istogrammi questo è decisamente più utilizzato perché permette di estrarre decisamente più informazioni. In particolare proponiamo un grafico in cui sono esplicitate le informazioni ottenibili:
+Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafico Box and Whiskers} applicato solo ad attributi quantitativi. Rispetto agli istogrammi questo è decisamente più utilizzato perché permette di estrarre  più informazioni. In particolare, proponiamo un grafico in cui sono esplicitate le informazioni ottenibili:
 
 \begin{figure}[H]
 	\centering
@@ -202,20 +198,21 @@ Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafic
 
 \subsection{Missing replacement(*)}
 
-E' il problema che si occupa di studiare come sostituire i valori mancanti di certi attributi  in un dataset. Essendo un problema di così larga portata possiamo capire bene che una trattazione esaustiva riempirebbe le ore di un intero corso, tuttavia ne forniamo le basi per essere in grado di poter effettuare una analisi dati efficace. 
+E' la parte dell'analisi dati che si occupa di studiare come sostituire i valori mancanti di certi attributi in un dataset. Essendo un problema di così larga portata possiamo capire bene che una trattazione esaustiva riempirebbe le ore di un intero corso, tuttavia ne forniamo le basi per essere in grado di poter effettuare una analisi dati efficace. 
 
 Le motivazioni principali del perché un database presenta delle mancanze sono le seguenti:
 \begin{itemize}
 	\item Tale valore non è stato possibile misurarlo.
 	\item Non si conosce con esattezza tale valore.
 	\item Si è verificato qualche errore durante la presa dati.
-	\item Quel determinato attributo fino ad un certo punto dell'analisi non è mai stato considerati importante e quindi non è mai stato registrato.
+	\item Quel determinato attributo fino ad un certo punto dell'analisi non è mai stato considerato importante e quindi non è mai stato registrato.
 \end{itemize}
 
 Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di seguito diamo una rapida trattazione dei più usati:
 
 \begin{itemize}
-	\item \textbf{Record removal:} è il metodo più drastico e consistere nell'eliminare tutta l'istanza che contiene quel valore. Non viene usato frequentemente perché si rischia di perdere valori che possono essere fondamentali per l'analisi dati. \\ \textit{In particolare se la probabilità che un attributo abbia un valore nullo è: 0.01 se ho un record con 9 attributi allora la probabilità di non avere dati nulli diventa: $(0.99)^9$}
+	\item \textbf{Record removal:} è il metodo più drastico e consistere nell'eliminare tutta l'istanza che contiene quel valore. Non viene usato frequentemente perché si rischia di perdere valori che possono essere fondamentali per l'analisi dati. \\ \textit{In particolare se la probabilità che un attributo abbia un valore nullo è: p(NULL) ed è un record con $m$ attributi allora la probabilità di non avere dati nulli in quel record diventa: 
+		\[(1-p(NULL))^m\]}
 	
 	\item \textbf{Global constant:} consiste nel sostituire tutti i missing values con un valore costante chiamato \textit{place holder.} Tale metodo non è molto efficiente perché un valore costante non può essere rappresentativo di una distribuzione.
 	
@@ -230,27 +227,26 @@ E' ora chiaro che il confine tra l'esplorazione dati e la modellizzazione degli 
 
 \subsection{Data Preprocessing(*)}
 
-Il preprocessing è una fase dell'analisi dati che consiste nel \textbf{rendere i dati più fruibili per una analisi dati.}
+Il preprocessing è una fase dell'analisi dati che consiste nel \textbf{rendere i dati più fruibili per una analisi dati.} Elenchiamo di seguito le tecniche più utilizzate nella data preprocessing.
 
 \subsubsection{Aggregation}
 \textit{L'aggregazione consiste nel combinare due o più record in un unico oggetto.}
-Ci sono diversi vantaggi ottenibili nell'aggregare i dati, in particolare ne elenchiamo alcuni:
+Ci sono diversi vantaggi ottenibili nell'aggregare i dati, in particolare:
 
 \begin{itemize}
-	\item Dataset più piccoli: durante un'analisi dati abbiamo bisogno di usare il minor quantitativo di memoria e di tempo, l'aggregazione in particolare diminuisce il tempo di esecuzione di un algoritmo.
-	\item Cambiamento di scopo: ci permette di avere una visione più ampia dei dati qualora cambiassimo lo scopo della nostra analisi in corso d'opera.
-	\item Varianza ridotta: gli attributi calcolati su record aggregati sono più stabili rispetto a quelli associati ai records nativi, questo per un effetto statistico.
+	\item \textit{Dataset più piccoli:} durante un'analisi dati abbiamo bisogno di usare il minor quantitativo di memoria e di tempo; l'aggregazione diminuisce il tempo di esecuzione di un algoritmo.
+	\item \textit{Cambiamento di scopo:} ci permette di avere una visione più ampia dei dati qualora cambiassimo lo scopo della nostra analisi in corso d'opera.
+	\item \textit{Varianza ridotta:} gli attributi calcolati su record aggregati sono più stabili rispetto a quelli associati ai record nativi, questo per un effetto statistico.
 \end{itemize}
 
 
 \subsubsection{Sampling}
 In molti casi avere una quantità enorme di dati può essere deleterio dal punto di vista computazionale, questo perché bisognerebbe usare algoritmi più semplificati in modo che la computazione possa essere svolta su un maggior numero di dati. Ciò che dobbiamo preferire è invece usare un algoritmo migliore su un dataset ridotto. Per questo entra in gioco il concetto di \textbf{campionamento.}
 
-Il problema diventa quindi: \textit{quando un campione è rappresentativo?}
+Il problema si traduce nella seguente domanda: \textit{quando un campione è rappresentativo?}
 
 \begin{defn}
 	Un campione si dice \textbf{rappresentativo} quando ha approssimativamente le stesse proprietà del dataset di partenza.
-
 \end{defn}
 
 Dobbiamo quindi trovare uno schema che ci permetta di scegliere \textit{con grande probabilità} dei campioni rappresentativi. In questo caso il problema si riduce a trovare le appropriate:
@@ -258,22 +254,20 @@ Dobbiamo quindi trovare uno schema che ci permetta di scegliere \textit{con gran
 	\item Dimensioni del campione.
 	\item Tecniche di campionamento.
 \end{itemize}
-Esistono moltissime tecniche di campionamento ma di seguito  mostreremo solo le più basilari:
+Esistono moltissime tecniche di campionamento e di seguito  mostriamo le più basilari:
 
 \begin{itemize}
-	\item \textbf{Simple Random Sampling:} Ogni record del dataset ha la stessa probabilità di essere incluso nel campione. Tale record può essere rimosso o meno dal dataset di partenza. Quando i campioni sono molto piccoli rispetto al dataset di partenza la rimozione o meno genera due campioni che sono molto simili.
-	
+	\item \textbf{Simple Random Sampling:} Ogni record del dataset ha la stessa probabilità di essere incluso nel campione. Tale record può essere rimosso o meno dal dataset di partenza. Quando i campioni sono molto piccoli rispetto al dataset di partenza la rimozione o meno genera due campioni che sono molto simili.	
 	Questo metodo fallisce quando il datset consiste di attributi qualitativi in modo che i possibili valori che possono avere hanno frequenze fortemente diverse.
 	
 	\item \textbf{Stratified Sampling:} Vengono presi record in modo che all'interno del campione vengano rispettate le proporzioni tra gli attributi presenti nel dataset di partenza.
 \end{itemize}
 
-Una volta scelta la tecnica di campionamento dobbiamo occuparci di scegliere la grandezza del campione. Ovviamente tenere un campione di grande ampiezza aumenta la probabilità che un campione sia rappresentativo, di contro elimina la maggior parte dei vantaggi computazionali di avere un campionamento. Avere un campione troppo piccolo invece manda in contro al rischio di eliminare pattern potenzialmente importanti o addirittura di mantenere pattern erronei. La giusta dimensione del campionamento va scelta in base al nostro dataset di riferimento effettuando delle prove.
+Una volta scelta la tecnica di campionamento dobbiamo occuparci di scegliere la grandezza del campione. Tenere un campione di grande ampiezza aumenta la probabilità che un campione sia rappresentativo, di contro elimina la maggior parte dei vantaggi computazionali di avere un campionamento. Avere un campione troppo piccolo invece manda in contro al rischio di eliminare pattern potenzialmente importanti o addirittura di mantenere pattern erronei. La giusta dimensione del campionamento va scelta in base al nostro dataset di riferimento effettuando delle prove.
 
 \subsubsection{Dimensionality reduction}
 
 In diversi casi capiterà di dover analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
-
 
 \begin{itemize}
 	\item Molti algoritmi lavorano meglio se la dimensionalità è minore.
@@ -303,20 +297,20 @@ La \textbf{Principal Component Analysis (PCA)} trova nuovi attributi in modo che
 In particolare la \textbf{Singular Value Decomposition (SVD)} è una tecnica di algebra lineare correlata alla PCA ed è largamente usata per ridurre la dimensionalità dei dataset.
 
 \begin{defn}
-	Si chiama \textbf{binarizzazione} la tecnica di trasformazione di attributi continui e categorici in uno o più attributi binari
+	Si definisce \textbf{binarizzazione} la tecnica di trasformazione di attributi continui e categorici in uno o più attributi binari.
 \end{defn}
-Per farlo si associano $k$ possibili valori a $k$ valori interi nell'intervallo $[0, k-1]$. Successivamente si trasformano questi k interi in un numero binario, come è noto il numero di cifre necessarie per rappresentare un numero intero son le sguenti:
-\[s = [\log_{2}k]\] 
+Per binarizzare un attributo si associano $k$ possibili valori a $k$ valori interi nell'intervallo $[0, k-1]$. Successivamente si trasformano questi k interi in un numero binario; come è noto il numero di cifre necessarie per rappresentare un numero intero son le seguenti:
+\[s = \lfloor \log_{2}k \rfloor\] 
  In questo caso è necessario introdurre un attributo binario per ogni attributo categorico con cui il dato può manifestarsi. Ovviamente si è più interessati ai casi in cui si manifesta il valore 1 perché indica la presenza di tale attributo.
 
- Quando invece si ha a che fare con attributi durante un'analisi di classificazione o di associazione bisogna ricorrere alla tecnica di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
- La discritezzazione può essere:
+ Quando, invece, si ha a che fare con attributi durante un'analisi di classificazione o di associazione bisogna ricorrere alla tecnica di \textbf{discretizzazione.} Come facilmente intuibile la miglior discretizzazione dipende dal tipo di algoritmo che sto utilizzando.
+ La discretizzazione può essere:
  
  \begin{itemize}
  	\item \textbf{Supervisionata.}
  	\item \textbf{Non-supervisionata.}
  \end{itemize}
-La \textit{discritezzizazione supervisionata} utilizza ulteriori informazioni (attributi di classe) per discretizzare gli attributi. Questa tecninca divide i punti in modo che qualche misura di \textit{purità} sia massimizzata. La misura di purità più spesso applicata è l'\textbf{entropia.}
+La \textit{discritezzizazione supervisionata} utilizza ulteriori informazioni (attributi di classe) per discretizzare gli attributi. Questa tecnica divide i punti in modo che qualche misura di \textit{purità} sia massimizzata. La misura di purità più spesso applicata è l'\textbf{entropia.}
  	
  	\[e_{i} = - \sum_{k = 1}^{K}p_{ki}\log_{2}p_{ki}\]
  	
@@ -326,7 +320,7 @@ Per come è costruita si ha che:
 	\item Se contiene egualmente spesso tutte le class $\implies e_{i} = \max$, minima purità. 
 \end{itemize}
 
-La discretizzazione supervisionata basata sull'entropia permette di trovare i punti di divisione degli attributi \textit{continui} tali che l'entropia totale sia minimizzata.
+La discretizzazione supervisionata basata sull'entropia permette di trovare i punti di divisione degli attributi \textit{continui} tali che l'entropia totale sia \textit{minimizzata.}
 
 \begin{defn}
 	Si definisce entropia totale la seguente espressione:
@@ -344,8 +338,8 @@ La discretizzazione supervisionata basata sull'entropia permette di trovare i pu
  	
 La \textit{discretizzazione non-supervisionata} non utilizza alcuna informazione eccetto il valore dell'attributo continuo da discretizzare. Possono essere a loro volta divisi in due categorie:
  	\begin{itemize}
- 		\item \textbf{equal width unsupervised discretization:}  gli intervalli in cui viene discretizzati hanno tutti la stessa ampiezza
- 		\item  \textbf{equal frequency unsupervised discretization:} gli intervalli in cui viene discretizzato hanno approssimativamente la stessa frequenza.
+ 		\item \textbf{Equal width unsupervised discretization:}  gli intervalli in cui viene discretizzato hanno tutti la stessa ampiezza.
+ 		\item  \textbf{Equal frequency unsupervised discretization:} gli intervalli in cui viene discretizzato hanno approssimativamente la stessa frequenza.
  	\end{itemize}
  
  
@@ -353,7 +347,7 @@ La \textit{discretizzazione non-supervisionata} non utilizza alcuna informazione
 \subsubsection{Variable transformation}
 
 \begin{defn}
-Una trasformazione di variabile sè una trasformazione che è applicata a tutti i valori di quella variabile.
+Si definisce \textbf{trasformazione di variabile} qualsiasi trasformazione applicata a tutti i valori di quella variabile.
 \end{defn}
 
 Ci sono due tipi di trasformazione di variabile:
