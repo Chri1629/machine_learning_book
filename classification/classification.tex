@@ -464,25 +464,21 @@ Vi sono due diversi tipi di \textit{errori}:
 \end{itemize}
 \textit{Un buon classificatore non deve fittare troppo bene il training set ma deve anche classificare accuratamente i record che non ha mai visto prima.}
 
-
-\textbf{ARRIVATO QUAAAAAAAAAAAAAAAAAAAAAA}
 \begin{defn}
-	Un modello di calssificazione che si allena su un training set troppo bene (basso training error) può avere un generalization error peggiore (stimato sul test set) rispetto ad un modello con alto training error, non va bene noi puntiamo a predire bene dati che non conosciamo. Si parla allora di \textbf{Overfitting del modello}.
+	Si parla di \textbf{Overfitting del modello} quando un modello di classificazione ottiene delle performance molto alte sul training set ma ha un generalization error molto alto.
 \end{defn}
 
-\underline{Nella pratica}: non devo adattare troppo il mio modello sui dati di training. 
+\underline{Nella pratica}: non bisogna adattare troppo il modello sui dati di training ma bisogna puntare ad un buon compromesso tra l'errore fatto sul training set e quello fatto sul test set. 
 
-Noi puntiamo ad un modello che "\textit{sbaglia}" (possibilmente poco) sia nel training set che nel test set in modo simile. Questa situazione significa che ho un modello che \textbf{non} ha overfittato. 
-
-Consideriamo il seguente esempio
+Consideriamo il seguente esempio:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/overfitting.png}
-	\caption{esempio di overfitting}
+	\caption{Esempio di overfitting}
 \end{figure}
 \begin{itemize}
-	\item linea {\color{blue}{blu}}: modello con poco training error (non overfitting)
-	\item linea {\color{orange}{arancione}}: modello con zero training error (overfitting)
+	\item Linea {\color{blue}{blu}}: modello con poco training error (non overfitting)
+	\item Linea {\color{orange}{arancione}}: modello con zero training error (overfitting)
 \end{itemize}
 Come si può notare il modello {\color{orange}{arancione}} si adatta troppo ai dati di training quindi c'è un forte rischio che non classifichi bene i dati di test. Al contrario il modello {\color{blue}{blu}} segue meglio la tendenza della distribuzione delle due classi di elementi.
 
@@ -490,59 +486,58 @@ Ora vediamo come si comportano i due modelli nel test set
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/overfitting_test.png}
-	\caption{esempio di overfitting test}
+	\caption{Esempio di overfitting test}
 \end{figure}
 Ora si può notare come il modello {\color{blue}{blu}}: più alto training error e più basso generalization error) classifichi \textbf{più correttamente} rispetto al modello {\color{orange}{arancione}}: più basso training error e più alto generalization error).
 
 \begin{defn}
-Il fenomeno contrario \`e l'\textbf{Underfitting}, in cui sia il training error che il generation error sono elevati. Accade quando performance del training e test sono simili e basse.
+Il fenomeno contrario è definito \textbf{Underfitting}, in cui sia il training error che il generation error sono elevati. Accade quando performance del training e test sono simili e basse.
 \end{defn}
-La complessit\`a del modello scelto non \`e sufficiente per i dati che sto studiando. Non abbiamo utilizzato tutta la flessibilit\`a che potevamo usare nella definizione del modello.
+La complessità del modello scelto non è sufficiente per i dati che sto studiando. Non abbiamo utilizzato tutta la flessibilità che potevamo usare nella definizione del modello.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/underfitting_merge.png}
-	\caption{esempio di underfitting (sinistra)}
+	\caption{Esempio di underfitting (sinistra)}
 \end{figure}
-Guardando agli esempi in figura, il modello {\color{blue}{blu}} classifica erroneamente 6 record, non è un buon modello. Invece, nel modello {\color{orange}{arancione}} fitta meglio il training ed risponde meglio anche al test (1 errore), in questo caso però bisogna stare attenti a non incappare in overfitting.\\
+Guardando agli esempi in figura, il modello {\color{blue}{blu}} classifica erroneamente 6 record, per questo non è un buon modello. Invece, il modello {\color{orange}{arancione}} fitta meglio il training ed risponde meglio anche al test (1 errore), in questo caso però bisogna stare attenti a non incappare in overfitting.
  
-La \textbf{soluzione ottimale} la si evince da quello che succede nei dati di training e quello che succede nei dati di test.
+La \textbf{soluzione ottimale} la si evince tenendo conto di quello che succede sia nei dati di training che nei dati di test.
 
-\`E impossibile avere una misurazione certa sugli errori del modello, si pu\`o solo avere una stima. 
+\textit{\`E impossibile avere una misurazione certa sugli errori del modello, si può solo avere una stima. }
 
 \subsubsection{Performance di un modello di classificazione}
 
-In una analisi di classificazione vogliamo sviluppare un modello che ci dia una migliore classificazione possibile. Viene valutata in termini di:
+In una analisi di classificazione l'obiettivo è sviluppare un modello che dia una migliore classificazione possibile. Viene valutata in termini di:
 \begin{itemize}
-	\item Accuracy
-	\item Speed
-	\item Robustezza
-	\item Scalabilità
-	\item Interpretabilità (tema più dibattuto)
+	\item \textit{Accuracy}
+	\item \textit{Speed}
+	\item \textit{Robustezza}
+	\item \textit{Scalabilità}
+	\item \textit{Interpretabilità} (tema più dibattuto)
 \end{itemize}
 
 \subsubsection{Accuratezza}
 L'accuratezza è una misura fondamentale perché: 
 \begin{itemize}
-	\item misura la capacità del modello nel dare classificazioni affidabili su nuovi record
-	\item ci permette di selezionare l'istanza di modello che d\`a le migliori performance sui nuovi record
+	\item Misura la capacità del modello nel dare classificazioni affidabili su nuovi record
+	\item Permette di selezionare l'istanza di modello che fornisce le migliori performance sui nuovi record
 \end{itemize}
 Consideriamo:
 
-$D_T$ training set con $t$ records
+$D_T$ training set con $t$ record.
 
-$D_{TS}$ test set con $v$ records
+$D_{TS}$ test set con $v$ record.
 
 $D = D_T \cup D_{TS},D_T \cap D_{TS} = \emptyset,m = t + v$\\
-
-Un buon indicatore è la percentuale di record di test ($D_{TS}$) che sono classificati correttamente. 
+\textit{Un buon indicatore è la percentuale di record di test ($D_{TS}$) che sono classificati correttamente. }
 
 Definiamo:
 \begin{itemize}
 	\item $y_i$ come il valore della variabile di classe dell'istanza $\underline{x_i} \in D_{TS}$
 	\item $f(\underline{x_i})$ valore della classe predetto per l'istanza $\underline{x_i} \in D_{TS}$ dal modello di classificazione
 \end{itemize} 
-Consideriamo quindi la seguente funzione di loss:
+Consideriamo quindi la seguente funzione di Loss:
 \[
 L(y_i, f(\underline{x_i})) =  
 \begin{cases}
@@ -550,47 +545,47 @@ L(y_i, f(\underline{x_i})) =
 	1 \qquad se &y_i \ne f(\underline{x_i})
 \end{cases}
 \]
-
-l'\textbf{Accuratezza} viene calcolata in questo modo:
+L'\textbf{Accuratezza} viene calcolata in questo modo:
 \[ acc(D_{TS}) = 1 - \frac{1}{v} \sum_{i=1}^{v} L(y_i, f(\underline{x_i}))\]
-
-in alcuni casi si preferisce l'\textbf{Errore} associato:
+In alcuni casi si preferisce l'\textbf{Errore} associato:
 \[err(D_{TS}) = 1 - acc(D_{TS}) = \frac{1}{v} \sum_{i=1}^{v} L(y_i, f(\underline{x_i}))\]
 
 \subsubsection{Speed}
 Gli algoritmi di classificazione differiscono per:
 \begin{itemize}
-	\item tempo di apprendimento
-	\item spazio di memoria occupato
+	\item Tempo di apprendimento
+	\item Spazio di memoria occupato
 \end{itemize}
-Oggi però si da meno importanza a queste caratteristiche in quanto vi sono diverse tecnologie e tecniche ottimizzare i tempi e lo spazio di memoria costa sempre meno (economicamente parlando).
+Oggi però si dà meno importanza a queste caratteristiche in quanto vi sono diverse tecnologie e tecniche per ottimizzare i tempi e lo spazio di memoria costa sempre meno (economicamente parlando).
 
-Un algoritmo che impega molto tempo e/o una grande quantità di memoria per l'addestramento, pu\`o essere trainato dopo un campionamento del dataset originale. In questi casi accettiamo di non sfruttare tutte le informazioni disponibili invece di trainare un tipo di modello che riteniamo assicurerà buone performance.
+Un algoritmo che impiega molto tempo e/o una grande quantità di memoria per l'addestramento, può essere trainato dopo un campionamento del dataset originale. In questi casi accettiamo di non sfruttare tutte le informazioni disponibili invece di trainare un tipo di modello che riteniamo assicurerà buone performance.
 
 \subsubsection{Robustezza}
 \begin{defn}
 	Un modello/algoritmo può essere \textbf{robusto} o meno rispetto a:
 \begin{itemize}
-	\item \underline{outliers}: possono influenzare significativamente il modello
-	\item \underline{misssing data}: problema centrale (i dati di base sono sporchi e soggetti a deperimento)
-	\item \underline{variazione tra training set e test set}: si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
+	\item \textit{Outliers}: possono influenzare significativamente il modello
+	\item \textit{Misssing data}: problema centrale (i dati di base sono sporchi e soggetti a deperimento)
+	\item \textit{Variazione tra training set e test set}: si parte dal presupposto che i dati di training siano simili e utili per quelli di test, se questa affermazione decade non \`e pi\`u robusto l'algoritmo
 \end{itemize}
 \subsubsection{Scalabilità}
 \end{defn}
 
 \begin{defn}
-	\textbf{Scalabilit\`a} \`e la capacit\`a di apprendere da enormi quantit\`a di dati. Questa proprietà è intresecamente connessa alla speed. 
+	Si definisce \textbf{scalabilità} la capacità di apprendere da enormi quantità di dati. Questa proprietà è intresecamente connessa alla speed. 
 \end{defn}
 Es. le reti bayesiane scalano molto male. 
+
+
 \subsubsection{Interpretabilità}
 \begin{defn}
-Quando la classificazione è orientata dall'\textbf{Interpretabilit\`a} di un problema per essere risolto e non ci si può limitare ad assicurare alti valori di accuratezza, è importante estrarre regole semplici e chiare per l'esperto di dominio del caso di studio.
+Quando la classificazione è orientata dall'\textbf{Interpretabilità} di un problema per essere risolto  non ci si può limitare ad assicurare alti valori di accuratezza, è importante estrarre regole semplici e chiare per l'esperto di dominio del caso di studio.
 \end{defn}
-L'interpretabilit\`a \`e un problema enorme, perch\`e noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione pu\`o essere la pi\`u dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non raggiungo il mio obiettivo di far interpretare il mio lavoro.
+L'interpretabilità è un problema enorme, perché noi umani non ragioniamo in termini quantitativi, ma qualitativi. Una spiegazione può essere la più dettagliata e precisa possibile ma se non intercetta il linguaggio e il contesto in cui vive il soggetto che voglio raggiungere, non viene raggiunto l'obiettivo di far interpretare il lavoro.
 
 \subsubsection{Holdout}
 \begin{defn}
-L'\textbf{Holdout} è la partizione del dataset $D$ in due sottinsiemi di training e test set attraverso un procedura di campionamento. 
+	Si definisce \textbf{Holdout} la partizione del dataset $D$ in due sottinsiemi di training e test set attraverso un procedura di campionamento. 
 \end{defn}
 
 \textbf{Best practice} suggerisce 2/3 per il training set e 1/3 per il test set.
@@ -602,58 +597,50 @@ Se si hanno molti dati a disposizione non \`e necessario seguire questa proporzi
 	\includegraphics[height=0.3 \linewidth]{classification/pict/holdout.png}
 	\caption{procedura di Holdout}
 \end{figure}
-
-La stima dell'accuratezza dipende dalla particolare scelta di divisione tra training e test set. Vi sono alcune tecniche per rendere più efficiente la divisione.
+\textit{La stima dell'accuratezza dipende fortemente dalla particolare scelta di divisione tra training e test set.} Vi sono alcune tecniche per rendere più efficiente la divisione.
 
 \begin{defn}
-	\textbf{Iterated Holdout} consiste di ripetere iterativamente $R$ volte il metodo di holdout per cui apprendo e stimo l'accuratezza. 
+	Si definisce\textbf{Iterated Holdout} la tecnica che consiste nel ripetere iterativamente $r$ volte il metodo di holdout per cui apprendo e stimo l'accuratezza. 
 \end{defn}
-Ad ogni iterazione $r$ estraggo un campione random $D_{Tr}$ di $t$ records, e ottengo: 
+Ad ogni iterazione $r$ si estrae un campione random $D_{Tr}$ di $t$ record,  ottenendo: 
 	
-$D_{TS_r} = D - D_{T_r}$
+\[D_{TS_r} = D - D_{T_r}\]
 	
-Ripeto la porcedura $R$ volte e l'accuratezza del classificatore è stimanata dalla media dei valori di accuratezza campionati $acc(D_{TS_r})$ calcolati su ogni test set $D_{TS_r}$:
+Si ripete la procedura $r$ volte e l'accuratezza del classificatore è stimanata dalla media dei valori di accuratezza campionati $acc(D_{TS_r})$ calcolati su ogni test set $D_{TS_r}$:
 	
 \[ acc = \frac{1}{R} \sum_{r=1}^{R}acc(D_{TS_r})\]\\
 	
-Il numero di iterazioni $R$ può essere scelto tramite specifiche tecniche statistiche.
+Il numero di iterazioni $r$ può essere scelto tramite specifiche tecniche statistiche.
 
-L'iterated Holdout è chiaramente un metodo pi\`u robusto, le sue performance hanno un bias più piccolo rispetto al normale holdout. Comunque, non permette il controllo del numero di volte in cui un record è presente nel training e test set. Non ho la certezza di aver usato dei dati ottimi per la stima fatta. In alcuni casi si ricorre a uno schema più efficace, capace di ridurre l'impatto degli outlier. 
+\textit{L'iterated Holdout è chiaramente un metodo più robusto, le sue performance hanno un bias più piccolo rispetto al normale holdout; tuttavia, non permette il controllo del numero di volte in cui un record è presente nel training e test set.} Non si ha la certezza di aver usato dei dati ottimi per la stima fatta. In alcuni casi si ricorre a uno schema più efficace, capace di ridurre l'impatto degli outlier. 
 
 \begin{defn}
-	La tecnica di holdout detta	\textbf{Cross-validation} garantisce che ciascun record di un dataset $D$ sia incluso nel training set con lo stesso numero di volte e esattamente una volta nel test set. 
+	Si definisce \textbf{Cross-validation} la tecnica di holdout che garantisce che ciascun record di un dataset $D$ sia incluso nel training set con lo stesso numero di volte ed esattamente una volta nel test set. 
 \end{defn}
+\textit{Il dataset $D$ viene partizionato in $K$ sottoinsiemi disgiunti detti \textbf{fold}, esaustivi e con circa lo stesso numero di record: }
 
-Il dataset $D$ viene partizionato in $K$ sottoinsiemi disgiunti detti \textbf{fold}, esaustivi e con circa lo stesso numero di record: 
-
-$D_1, D_2, ..., D_K$\\
+\[D_1, D_2, ..., D_K\]
 
 Eseguiamo $K$ iterazioni training-test. Alla k-esima iterazione avremo:
 
-$D_{T_k} = \{D_1, ...,D_{k-1},D_{k+1}, ...,D_K\} \qquad D_{TS_k} = D_k$
+\[D_{T_k} = \{D_1, ...,D_{k-1},D_{k+1}, ...,D_K\} \qquad D_{TS_k} = D_k\]
 
-L'insieme $D_{T_k}$ è usato per il training  mentre il $D_K$ viene usato per il test della k-esima iterazione, in pratica ho più training set e un test set.
+L'insieme $D_{T_k}$ è usato per il training  mentre il $D_K$ viene usato per il test della k-esima iterazione, in pratica ho più training set e un test set.; l'accuratezza viene, quindi, stimata facendo la media delle $K$ iterazioni:
 
-L'accuratezza viene stimata facendo la media delle $K$ iterazioni:
-
-\[acc = \frac{1}{K} \sum_{k=1}^K acc(D_k)\]\\
-
-che offre una stima più efficace dell'accuratezza del classificatore. \\
-
-Esistono diverse selezioni per il valore di $K$. I valori tipici sono $K = 3,5,10$ mentre un caso limite viene applicato quando i dati sono scarsi chiamato \textbf{Leave One Out Cross Validation} (\textbf{LOOCV}). LOOCV è ottenuto assumento che ogni record è una partizione del dataset, così il valore di $K$ equivale al numero di record del dataset $D$.
+\[acc = \frac{1}{K} \sum_{k=1}^K acc(D_k)\]
+Esistono diverse selezioni per il valore di $K$. I valori tipici sono $K = 3,5,10$ mentre un caso limite viene applicato quando i dati sono scarsi chiamato \textbf{Leave One Out Cross Validation} (\textbf{LOOCV}). \textit{LOOCV è una tecnica che assume che ogni record sia una partizione del dataset, così il valore di $K$ equivale al numero di record del dataset $D$.}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.4 \linewidth]{classification/pict/cross_validation.png}
-	\caption{procedura di cross validation}
+	\caption{Procedura di cross validation}
 \end{figure}
 
-Solitamente ci chiediamo se ogni partizione del dataset contiene la \textit{stessa proporzione} di valori possibili della classe attributo. Quando le proporzioni sono fortemente differenti si adottano specifiche tecniche di campionamento,es. \textbf{campionamento stratificato}. 
-
-Noi in generale ci fidiamo di pi\`u del \textbf{k-folds cross-validation} in quanto rispetto all'\textit{iterated holdout} ho la certezza che i record non siano ripetuti.
+Solitamente ci si chiede se ogni partizione del dataset contenga la \textit{stessa proporzione} di valori possibili della classe attributo. Quando le proporzioni sono fortemente sbilanciate si adottano specifiche tecniche di campionamento,es. \textbf{campionamento stratificato}. 
+\`E buona norma fidarsi di più del \textbf{k-folds cross-validation} in quanto rispetto all'\textit{iterated holdout} si ha la certezza che i record non siano ripetuti.
 
 \subsection{Comparing Classifiers (*)}
-La comparazione tra due diversi \textit{classificatori} non è semplice, perchè dipende dai differenti modelli utilizzati e dalla distribuzione dei dati, nonchè la quantità. L'accuratezza ha diverso valore se ricavata da pochi record di dati. 
+La comparazione tra due diversi \textit{classificatori} non è semplice, perché dipende dai differenti modelli utilizzati e dalla distribuzione dei dati, nonché dalla loro quantità. L'accuratezza ha diverso valore se ricavata da pochi record di dati. 
 es. 
 \begin{itemize}
 	\item \textbf{Inducer A}: accuracy = 0.85 su un test set di 30 record
@@ -661,7 +648,7 @@ es.
 \end{itemize}
 Qual è il migliore?
 
-L'accuratezza \textbf{non} basta. Bisogna stimare l'intervallo di confidenza dell'accuratezza per i due inducer e testare l'importanza statistica delle deviazioni osservate.
+\textit{L'accuratezza da sola non basta. Bisogna stimare l'intervallo di confidenza dell'accuratezza per i due inducer e testare l'importanza statistica delle deviazioni osservate.}
  
 \subsubsection{Intervallo di confidenza}
 Consideriamo il problema di predire il valore di una classe attributo da un test record come esperimento \textbf{binomiale}.
@@ -676,249 +663,223 @@ Modelliamo il problema con X distribuita secondo una binomiale con
 	\item media = $N \cdot p$
 	\item varianza = $N \cdot p \cdot (1-p)$
 \end{itemize}
-Oggetto del nostro studio \`e l'\textbf{accuratezza empirica}: \[acc = \frac{X}{N} \] 
-che \`e distribuita secondo una binomiale con $\mu = p$ e $\sigma^2 = \frac{p \cdot (1-p)}{N}$
+L'oggetto del nostro studio è l'\textbf{accuratezza empirica} calcolata come:
+ \[acc = \frac{X}{N} \] 
+Che è distribuita secondo una binomiale con $\mu = p$ e $\sigma^2 = \frac{p \cdot (1-p)}{N}$
 
-Sebbene la distribuzione binomiale possa essere usata per stimare l'intervallo di confidenza per l'accuratezza, se la dimensione del test set \`e sufficientemente grande, \`e buona norma approssimarla in una \textbf{normale}. Cos\`i facendo l'intervallo di confidenza per l'\textbf{accuratezza empirica} \`e:
+Sebbene la distribuzione binomiale possa essere usata per stimare l'intervallo di confidenza per l'accuratezza, se la dimensione del test set è sufficientemente grande, è buona norma approssimare la distribuzione con una \textbf{normale}. Così facendo l'intervallo di confidenza per l'\textbf{accuratezza empirica} diventa:
 
 \[ P \Bigl( -Z_{1-\alpha/2} < \frac{acc - p}{\sqrt{p \cdot (1-p / N)}} < Z_{1 - \alpha/2} \Bigr) = 1 - \alpha \]\\
 
-Rimodellando la disuguaglianza ci porta al seguente intervallo di confidenza con confidenza $1-\alpha$ per \textbf{p}, la sconosciuta accuratezza del modello di classificazione:
+Rimodellando, la disuguaglianza ci porta al seguente intervallo di confidenza con confidenza $1-\alpha$ per \textbf{p}:
 
 \[ \Biggl[ \frac{acc + \frac{Z_{1-\frac{a}{2}}^2 }{2 \cdot N} - Z_{1-\frac{a}{2}} \cdot \sqrt{\frac{acc}{N} - \frac{acc^2}{N} + \frac{Z_{1-\frac{a}{2}}^2}{4 \cdot N^2}}}{\bigl(1 + \frac{Z_{1-\frac{a}{2}^2}}{N}\bigr)}
 , 
-\frac{acc + \frac{Z_{1-\frac{a}{2}}^2 }{2 \cdot N} + Z_{1-\frac{a}{2}} \cdot \sqrt{\frac{acc}{N} - \frac{acc^2}{N} + \frac{Z_{1-\frac{a}{2}}^2}{4 \cdot N^2}}}{\bigl(1 + \frac{Z_{1-\frac{a}{2}^2}}{N}\bigr)} \Biggr] \]\\
-\underline{nota}: non chiede questa formula all'esame.\\
-
-\textbf{NB}: se prendessi diversi test set indipendenti l'uno dall'altro \`e ovvio che vengono diversi intervalli di confidenza. Per\`o in questi casi fissato $\alpha$ posso stabilire statisticamente quali intervalli sono pi\`u significativi di altri. Pi\`u riduco $\alpha$ pi\`u aumenta $\beta$ ovvero il caso di errore in cui non rifiuto l'ipotesi nulla quando invece dovrei rifiutarla.
+\frac{acc + \frac{Z_{1-\frac{a}{2}}^2 }{2 \cdot N} + Z_{1-\frac{a}{2}} \cdot \sqrt{\frac{acc}{N} - \frac{acc^2}{N} + \frac{Z_{1-\frac{a}{2}}^2}{4 \cdot N^2}}}{\bigl(1 + \frac{Z_{1-\frac{a}{2}^2}}{N}\bigr)} \Biggr] \]
+\textbf{NB}: se prendessi diversi test set indipendenti l'uno dall'altro è ovvio che vengono diversi intervalli di confidenza. Però in questi casi fissato $\alpha$ posso stabilire statisticamente quali intervalli siano più significativi di altri. Più si  riduce $\alpha$ più aumenta $\beta$ ovvero il caso di errore in cui non viene rifiutata l'ipotesi nulla quando invece dovrei rifiutarla.
 
 Dato un modello con acc=0.8 sul test set di $100$ record, fissiamo l'intervallo di confidenza per l'accuratezza a $0.95\%$. L'andamento dell'intervallo è il seguente:
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.5 \linewidth]{classification/pict/inter_confidence.png}
-	\caption{esempio andamento dell'intervallo di confidenza}
+	\caption{Andamento dell'intervallo di confidenza}
 \end{figure}
 
 \subsubsection{Different test set}
-Supponiamo il caso in cui ho 2 modelli e vengono valutati per forza su due test set diversi (per tanti motivi pu\`o succedere):
+Supponiamo il caso in cui sono presenti 2 modelli e vengono valutati su due test set diversi (è una cosa molto comune e che può accadere per numerevoli ragioni):
 \begin{itemize}
 	\item $M_1$ valutato su test set $D_1$ contenente $n_1$ record con tasso di errore $e_1$
 	\item $M_2$ valutato su test set $D_2$ contenente $n_2$ record con tasso di errore $e_2$
 \end{itemize}
-I due test set devono essere assunti \textit{indipendenti}. Il nostro obiettivo \`e testare se la \textbf{differenza} tra i due errori \`e statisticamente significativa.
-
-Assumiamo che $n_1$ e $n_2$ siano sufficientemente grandi, allora i tassi di errore $e_1$ ed $e_2$ possono essere approssimati usando distribuzioni \textit{normali}.
-
-La differenza osservata \`e denotata come: 
+I due test set devono essere assunti \textit{indipendenti}. Il nostro obiettivo è testare se la \textbf{differenza} tra i due errori è statisticamente significativa.
+Assumendo che $n_1$ e $n_2$ siano sufficientemente grandi, allora i tassi di errore $e_1$ ed $e_2$ possono essere approssimati usando distribuzioni \textit{normali}. \\
+La differenza osservata è denotata come: 
 \[d = e_1 - e_2\]
-sono distribuiti secondo una \textbf{normale} con 
+Sono distribuiti secondo una \textbf{normale} con 
 \[\mu = d_t \qquad \sigma^2 = \sigma^2_d\] 
-
-La varianza di d pu\`o essere stimanata come segue: 
+La varianza di $d$ può essere stimata come segue: 
 \[\sigma^2 \cong \hat{\sigma}_d^2 = \frac{e_1 \cdot (1-e_1)}{n_1} + \frac{e_2 \cdot (1-e_2)}{n_2}\]
-
-L'intervallo di confidenza per la differenza $d_t$ \`e: 
+L'intervallo di confidenza per la differenza $d_t$ è: 
 
 \[ \bigl( d - z_{1-\alpha/2} \cdot \hat{\sigma}_d, d + z_{1-\alpha/2} \cdot \hat{\sigma}_d \bigr) \]
-
 Ci possono essere sostanzialmente 3 casi:
 \begin{enumerate}
-	\item \[0 \in \bigl( d - z_{1-\alpha/2} \cdot \hat{\sigma}_d, d + z_{1-\alpha/2} \cdot \hat{\sigma}_d \bigr)\] allora concludiamo che la differenza osservata \textbf{non \`e statisticamente significativa} ad un livello $\alpha$, i modelli non sono significativamente differenti 
-	\item \[d + z_{1-\alpha/2} \cdot \hat{\sigma}_d < 0\] se il limite superiore della confidenza \`e negativo allora il modello \textbf{$M_1$ \`e migliore del modello $M_2$} a un livello $\alpha/2$
-	\item \[d - z_{1-\alpha/2} \cdot \hat{\sigma}_d > 0\] se il limite superiore della confidenza \`e positivo allora il modello \textbf{$M_2$ \`e migliore del modello $M_1$} a un livello $\alpha/2$
+	\item \[0 \in \bigl( d - z_{1-\alpha/2} \cdot \hat{\sigma}_d, d + z_{1-\alpha/2} \cdot \hat{\sigma}_d \bigr)\] 
+	In questo caso si conclude che la differenza osservata \textbf{non è statisticamente significativa} ad un livello $\alpha$, i modelli non sono significativamente differenti 
+	\item \[d + z_{1-\alpha/2} \cdot \hat{\sigma}_d < 0\] 
+	Se il limite superiore della confidenza è negativo allora il modello \textbf{$M_1$ è migliore del modello $M_2$} a un livello $\alpha/2$
+	\item \[d - z_{1-\alpha/2} \cdot \hat{\sigma}_d > 0\] 
+	Se il limite inferiore della confidenza è positivo allora il modello \textbf{$M_2$ è migliore del modello $M_1$} a un livello $\alpha/2$
 \end{enumerate}
 
-Buona norma fare il test di ipotesi \textbf{solo} se prima mi faccio la domanda se sono o meno differenti, non continuare a condurre test a casaccio o a tappeto perch\`e altrimenti si rischia di raggiungere degli assurdi. Bisogna farsi la domanda e poi eseguire tutta la procedura sulla coppia di modelli, in quanto vi \`e un \textbf{problema dei confronti multipli} devo adattarli tutti allo stesso livello di $\alpha$ altrimenti non sono confrontabili le differenze. \\
+\`E buona norma fare il test di ipotesi \textbf{solo} se prima mi faccio la domanda se siano o meno differenti, non bisogna  condurre test a casaccio o a tappeto perché altrimenti si rischia di raggiungere dei risultati assurdi. Bisogna porsi la domanda e poi eseguire tutta la procedura sulla coppia di modelli, in quanto vi è un \textbf{problema dei confronti multipli} devo adattarli tutti allo stesso livello di $\alpha$ altrimenti le differenze non sono confrontabili.
 
 \subsubsection{Same test set}
-Nel caso in cui ho lo \textbf{stesso test set} posso svolgere un test pi\`u \textbf{potente} ovvero posso valutare il caso di errore di secondo tipo: affermo che la differenza tra i due classificatori non \`e significativa quando in realt\`a lo \`e ($\beta$). 
+Nel caso in cui sia possibile utilizzare lo \textbf{stesso test set} si può svolgere un test più \textbf{potente}; ovvero, si può valutare il caso di errore di secondo tipo: si afferma che la differenza tra i due classificatori non è significativa quando in realtà lo è ($\beta$). 
 
 Si confrontano $M_1$ ed $M_2$ usando il \textit{k-fold cross validation}.
-
 Ho il dataset $D$ partizionato in $K$ subset disgiunti con circa lo stesso numero di record. 
 \[D_1, D_2, ..., D_K\]
-
-Applichiamo le tecniche di classificazione per costruire i modelli $M_1$ e $M_2$ dalle $k-1$ partizioni e li testiamo con la partizione rimanente. Il passaggio deve essere ripetuto $K$ volte, ogni volta usando una differente partizione per il test set. Ottengo:
+Si applicano le tecniche di classificazione per costruire i modelli $M_1$ e $M_2$ dalle $k-1$ partizioni e si testano con la partizione rimanente. Il passaggio deve essere ripetuto $K$ volte, ogni volta usando una differente partizione per il test set. Si ottiene:
 \begin{itemize}
 	\item $M_{1k}$ \textbf{inducer} per il modello $M_1$ ottenuto alla k-esima iterazione con $e_{1k}$ errore
 	\item $M_{2k}$ \textbf{inducer} per il modello $M_2$ ottenuto alla k-esima iterazione con $e_{2k}$ errore
 \end{itemize}
-
 La differenza tra gli errori durante la k-esima iterazione è:
 \[d_k = e_{1k} - e_{2k}\]
-Per K sufficientemente grande, allora $d_k$ \`e distribuito \textit{normalmente} con: 
+Per K sufficientemente grande, allora $d_k$ è distribuito \textit{normalmente} con: 
 \[\mu = d_t^{cv} \quad \sigma = \sigma^{cv}\]
-
-dove la varianza osservata \`e stimata secondo la seguente formula: 
+Dove la varianza osservata è stimata utilizzando la seguente formula: 
 
 \[ \hat{\sigma}^2_{d^{cv}} = \frac{\sum_{k=1}^{K}(d_k - \bar{d})^2}{K \cdot (K-1)} \qquad \bar{d} = \frac{1}{K} \sum_{k=1}^K d_k \]
-
 Usiamo una distribuzione T di Student per calcolare l'intervallo di confidenza per il valore della vera media $d_t^{cv}$
 
 \[\biggl( \hat{d} - t_{1-\frac{\alpha}{2}}^{K-1} \cdot \hat{\sigma}_{d^{cv}}
 ,
 \hat{d} + t_{1-\frac{\alpha}{2}}^{K-1} \cdot \hat{\sigma}_{d^{cv}} \biggr)\]
-
-dove 
+Dove 
 \[t_{1-\frac{\alpha}{2}}^{K-1}\]
-
-è ottenuta dalla tavola di probabilità, il quantile associato alla confidenza $1-\alpha$ e $K-1$ gradi di libertà.\\
-
-Ovviamente valgono \textbf{le stesse considerazioni} fatte precedentemente sull'intervallo di confidenza per la differenza tra due classificatori. 
-
-Se l'intervallo di confidenza contiene il valore 0, concludiamo che la differenza osservata \textit{non è statisticamente significativa} al livello $\alpha$ (confidenza $1-\alpha$). 
+\`E ottenuta dalla tavola di probabilità, il quantile associato alla confidenza $1-\alpha$ e $K-1$ gradi di libertà.\\
+Ovviamente valgono \textbf{le stesse considerazioni} fatte precedentemente sull'intervallo di confidenza per la differenza tra due classificatori: se l'intervallo di confidenza contiene il valore 0, concludiamo che la differenza osservata \textit{non è statisticamente significativa} al livello $\alpha$ (confidenza $1-\alpha$). 
 
 \subsection{Class Imbalance Problem (*)}
-Consideriamo di nuovo il dataset dei Churner. In particolare sappiamo che il $14.5\%$ sono dei churner. Un modello di classificazione che etichetta i record come non churner avrà per forza un'alta accuracy in quanto è la classe più frequente nel dataset. 
+Consideriamo di nuovo il dataset dei Churner. In particolare è noto che il $14.5\%$ sono dei churner. Un modello di classificazione che etichetta i record come non churner avrà per forza un'alta accuracy in quanto è la classe più frequente nel dataset. 
 
 \begin{defn}
-	Il modello più inutile è quello che risponde sempre con la classe più frequente, ovvero la \textbf{ZeroR Rule} (nel nostro caso la classe "no churner").	
+	Si definisce la \textbf{ZeroR Rule}	il modello che risponde sempre con la classe più frequente, risultando, quindi, il modello più inutile.	
 \end{defn}
-La misura di \textit{Accuracy} tratta classi equamente importanti, non è adatta ad analizzzare \textbf{dataset sbilanciati},  dove la classe più rara è considerata \textit{più interessante} di quella più frequente. Per la classificazione binaria si distingue:
+La misura di \textit{accuracy} tratta classi equamente importanti, non è adatta ad analizzzare \textbf{dataset sbilanciati},  dove la classe più rara è considerata \textit{più interessante} di quella più frequente. Per la classificazione binaria si distingue:
 \begin{itemize}
-	\item la \textbf{classe positiva} ovvero la classe più rara (o meno frequente)
-	\item la \textbf{classe negativa} ovvero la classe più frequente
+	\item La \textbf{classe positiva} ovvero la classe più rara (o meno frequente)
+	\item La \textbf{classe negativa} ovvero la classe più frequente
 \end{itemize}
 Consideriamo la \textbf{matrice di confusione}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.25 \linewidth]{classification/pict/matrconf.png}
-	\caption{matrice di confusione binaria}
+	\caption{Matrice di confusione binaria}
 \end{figure}
 Dalla matrice calcoliamo i seguenti indicatori:
-\begin{table}[H]
-	\centering
-	\begin{tabular}{p{10cm}c}
-		\textbf{TNR, specificit\`a} (\textit{tasso veri negativi}): \\ \quad frazione di record negativi correttamente predetti dal modello & $TNR = \frac{TN}{TN + FP}$\\
-		\textbf{TPR, sensitivit\`a} (\textit{tasso veri positivi}):\\ \quad frazione dei record positivi correttamente predetti dal modello & $TPR = \frac{TP}{TP + FN}$\\
-		\textbf{FPR, tasso falsi positivi}:\\ \quad frazione dei record negativi predetti come classe positiva dal modello & $FPR = \frac{FP}{TN + FP}$\\
-		\textbf{FNR, tasso falsi negativi}:\\ \quad frazione dei record positivi predetti come classe negativa dal modello & $TNR = \frac{FN}{TP + FN}$\\
-	\end{tabular}
-\end{table}
+\begin{itemize}
+	\item 		\textbf{TNR, specificità} (\textit{tasso veri negativi}):  frazione di record negativi correttamente predetti dal modello  \[TNR = \frac{TN}{TN + FP}\]
+	\item	\textbf{TPR, sensitività} (\textit{tasso veri positivi}): frazione dei record positivi correttamente predetti dal modello \[TPR = \frac{TP}{TP + FN}\]
+	\item \textbf{FPR, tasso falsi positivi}: frazione dei record negativi predetti come classe positiva dal modello \[FPR = \frac{FP}{TN + FP}\]
+	\item \textbf{FNR, tasso falsi negativi}: frazione dei record positivi predetti come classe negativa dal modello \[TNR = \frac{FN}{TP + FN}\]
+\end{itemize}
 Le metriche che si calcolano nella ricerca di una classe più importante delle altre sono la \textbf{Precision} e il \textbf{Recall}.
-
 \begin{defn}
 	La \textbf{Precision} determina la frazione di record che effettivamente si rivela essere positiva nel gruppo che il classificatore definisce come classe positiva. 
 	\[p = \frac{TP}{TP+FP}\]
 \end{defn}
-Si prende il punto di vista del classificatore. Valuto quanti di quelli positivi ha valutato come effettivamente positivi. Più \textit{alta} è la precisione più è \textit{basso} il numero di falsi positivi commessi.
+Si prende il punto di vista del classificatore. Valuto quanti di quelli positivi ha valutato come effettivamente positivi. Più è \textit{alta}  la precisione più è \textit{basso} il numero di falsi positivi commessi.
 
 \begin{defn}
-	Il \textbf{Recall} misura la frazione di record positivi correttamente predetti dal modello di classificazione.
+	L'indice \textbf{Recall} misura la frazione di record positivi correttamente predetti dal modello di classificazione; in particolare, è definito come:
 	\[r = \frac{TP}{TP+FN}\]
 \end{defn}
-In questo caso si prende il punto di vista della realt\`a. Al denominatore ho quelli effettivamente positivi, al numeratore ho quelli che il classificatore ritiene positivi. Un \textit{alto} Recall signfica \textit{pochi} record positivi \textit{erroneamente} classificati come classe negativa. Infatti, il Recall è equivalente al $TPR$.
-
-\underline{In pratica}: \`E la capacit\`a del classificatore di richiamare i risultati positivi (quanti dei positivi \`e riuscito ad aspirare). \\
+In questo caso si prende il punto di vista della realtà. Al denominatore si hanno quelli effettivamente positivi, al numeratore ho quelli che il classificatore ritiene positivi. Un \textit{alto} Recall signfica \textit{pochi} record positivi \textit{erroneamente} classificati come classe negativa. Infatti, il Recall è equivalente al $TPR$.
 
 Vediamo un esempio sul problema del churn:
 \begin{figure}[H]
 	\hspace{-0.2cm}
 	\includegraphics[height=0.6 \linewidth]{classification/pict/esPrecisionRecall_merge.png}
-	\caption{esempio calcolo precision e recall}
+	\caption{Esempio calcolo precision e recall}
 \end{figure}
-Vi \`e un \textit{legame molto stretto tra questi due indici}, posso avere una recall molto alta ma allora probabilmente avrò una precisione bassa. Oppure potrò puntare ad avere una precisione alta ma in quei casi probabilmente avrò una recall bassa.
+Vi è un \textit{legame molto stretto tra questi due indici}, si può avere un recall molto alto ma allora probabilmente avrò una precision bassa. Oppure si può puntare ad avere una precisione alta ma in quei casi probabilmente si avrà una recall bassa.
 
-\underline{NB} queste due misure per convenzione sono calcolate sulla classe positiva (quella meno frequente) non \`e per\`o detto che non vadano utilizzate su quella negativa. Inoltre \textit{non} \`e sempre detto che queste quantit\`a siano sempre calcolabili (possibile divisione $0/0$).
+\textit{Queste due misure per convenzione sono calcolate sulla classe positiva (quella meno frequente) non \`e per\`o detto che non vadano utilizzate su quella negativa. Inoltre \textit{non} \`e sempre detto che queste quantit\`a siano sempre calcolabili (possibile divisione $0/0$).}
 
 Siccome queste due misure sono legate (pensa alla problema della coperta corta). Si utilizza una misura che le riassume.
 \begin{defn}
-	La \textbf{$F_1$ mesure} misura la media armonica tra \textbf{Recall} e \textbf{Precision}. 
+	Si definisce \textbf{$F_1$ mesure}  la media armonica tra \textbf{Recall} e \textbf{Precision}. 
 	\[ F_1 = \frac{2 \cdot r \cdot p}{r + p}\]
-	Un alto valore di $F_1$ implica alti valori di recall e precision.
-
 \end{defn}	
+Per come è definita un alto valore di $F_1$ implica alti valori di recall e precision.
 Esiste una generalizzazione sotto il nome di \textbf{$F_\beta$ mesure} per esaminare il tradeoff tra Precision e Recall:
 	\[ F_\beta = \frac{(\beta^2 + 1) \cdot r \cdot p}{r + \beta^2 \cdot p} \]
 \begin{itemize}
-	\item $F_\beta$ con $\beta = 0$ \`e la Precisione
-	\item $F_\beta$ con $\beta = \infty$ \`e la Precisione	
+	\item $F_\beta$ con $\beta = 0$ è la Precisione
+	\item $F_\beta$ con $\beta = \infty$ è la Precisione	
 \end{itemize}
 
 
 \subsection{Counting the cost (*)}
 
 \subsubsection{Matrice di costo}
-Se pensiamo al nostro problema del churner, l'azienda ha interesse ad evitare quello che si prevede, ovvero che il cliente se ne vada, in sostanza cerco di prevedere chi vuole andarsene e cerco di evitare che questa previsione sia effettiva applicando politiche di dissuasione. L'azienda pu\`o spendere un tot budget per invertire questo fenomeno, devo fare il meglio per identificare i possibili churner e attuare \textbf{solo} su di loro le politiche di dissuasione (se lo facessi per tutti i clienti non avrebbe senso per quanto riguarda i costi).
-
-Bisogna convincere il proprio interlocutore che il modello da me sviluppato sia migliore rispetto al modello che storicamente hanno utilizzato. La misura più utilizzata per questo è l'accuracy legata alla matrice di confusione. In aggiunta, però, bisogna associarci la \textbf{matrice di costo}. 
+Se pensiamo al nostro problema del churner, l'azienda ha interesse ad evitare quello che si prevede, ovvero che il cliente se ne vada, in sostanza si cerca di prevedere chi vuole andarsene e si cerca di evitare che questa previsione sia effettiva applicando politiche di dissuasione. L'azienda può spendere un tot budget per invertire questo fenomeno, bisogna fare il meglio per identificare i possibili churner e attuare \textbf{solo} su di loro le politiche di dissuasione (se lo facessi per tutti i clienti non avrebbe senso per quanto riguarda i costi).
+\\Bisogna convincere il proprio interlocutore che il modello sviluppato sia migliore rispetto al modello che storicamente hanno utilizzato. La misura più utilizzata per questo è l'accuracy legata alla matrice di confusione. In aggiunta, però, bisogna associarci la \textbf{matrice di costo}. 
 
 \begin{defn}
 	La \textbf{Matrice di Costo} stabilisce in base a falsi positivi e negativi quanto costo (in soldi/lavoro) sostiene l'azienda per classificare un certo soggetto (es. come churner o non churner). 
-	
-	Il costo è così calcolato:
-	\begin{figure}[H]
-		\centering
-		\includegraphics[height=0.55 \linewidth]{classification/pict/matr_costo.png}
-		\caption{legame tra matrice di confusione (sn) e matrice di costo (dx)}
-	\end{figure}
-	\[Cost = C_{--} \cdot TN + C_{-+} \cdot FP + C_{+-} \cdot FN + C_{++} \cdot TP\]
 \end{defn}
-\textbf{NB} se matrice di costo \`e simmetrica allora il costo corrisponde all'accuratezza.\\
-
-Per comprenderlo vediamo il seguente \textbf{esempio}. Confrontiamo le performance di accuracy e costo tra lo \textit{Standard Mailout Procedure} (\textbf{SMP}), procedura già utilizzata per dissuadere i clienti, con il modello nuovo di classificazione \textbf{M} da noi costruito:
+	Il costo è così calcolato:
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.55 \linewidth]{classification/pict/matr_costo.png}
+	\caption{Legame tra matrice di confusione (sn) e matrice di costo (dx)}
+\end{figure}
+\[Cost = C_{--} \cdot TN + C_{-+} \cdot FP + C_{+-} \cdot FN + C_{++} \cdot TP\]
+\textbf{NB} se matrice di costo è simmetrica allora il costo corrisponde all'accuratezza; per comprenderlo, vediamo il seguente esempio. Confrontiamo le performance di accuracy e costo tra lo \textit{Standard Mailout Procedure} (\textbf{SMP}), procedura già utilizzata per dissuadere i clienti, con il modello nuovo di classificazione \textbf{M} da noi costruito:
 
 \begin{figure}[H]
 	\hspace{-0.3cm}
 	\includegraphics[height=0.3 \linewidth]{classification/pict/esConfMatr.png}
-	\caption{matrici di confusione: a sinistra SMP, a destra il modello M}
+	\caption{Matrici di confusione: a sinistra SMP, a destra il modello M}
 \end{figure}
-Ora però bisogna associarci la \textbf{matrice di costo} per le rilevazioni e ne risulta:
+Ora, però, bisogna associarci la \textbf{matrice di costo} per le rilevazioni e ne risulta:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.2 \linewidth]{classification/pict/esMatrCosto.png}
-	\caption{matrice di costo churner}
+	\caption{Matrice di costo churner}
 \end{figure}
-Come si può denotare nonostante il nostro modello abbia una misura di \textbf{accuratezza} migliore, ha un \textbf{costo} (in termini di soldi) superiore rispetto al modello storicamente utilizzato dall'azienda. Pertanto, in questo caso, preferirà la vecchia procedura SMP piuttosto che la nostra soluzione.\\
+Come si può notar,e nonostante il nostro modello abbia una misura di \textbf{accuratezza} migliore, ha un \textbf{costo} (in termini di soldi) superiore rispetto al modello storicamente utilizzato dall'azienda. Pertanto, in questo caso, si preferirà la vecchia procedura SMP piuttosto che la nostra soluzione.
+\`E importante notare però che ci sono situazioni nelle quali perdere un cliente è più grave che perderne un altro. Devo capire se sto utilizzando la matrice dei costi vera, oppure, se è solo rappresentativa. Se essa non è certa posso ragionare in un altro modo.
 
-\`E importante notare per\`o che ci sono situazioni nelle quali perdere un cliente \`e pi\`u grave che perderne un altro. Devo capire se sto utilizzando la matrice dei costi vera oppure se \`e solo rappresentativa. Se essa non \`e certa posso ragionare in un altro modo.
 \subsubsection{Cumulative Gains} 
-Supponiamo la nostra popolazione di 1.334 clienti di cui 500 sono possibili churners. Per esperienza accumulata sappiamo che il $15\%$ dei clienti è un churner, quindi:
-
-$1334*0.15 = 200$ churner sul totale
-
-$500*0.15 = 75$ churner sui potenziali churners
+Supponiamo che ci sia una popolazione di 1.334 clienti di cui 500 sono possibili churners. Per esperienza accumulata sappiamo che il $15\%$ dei clienti è un churner, quindi:
+\\$1334*0.15 = 200$ churner sul totale;
+\\$500*0.15 = 75$ churner sui potenziali churners.
 \\\\
-Se consideriamo positiva la classe dei churner e negativa quella dei non churner e proviamo un campionamento casuale su di essi avremmo questo risultato:
+Se si considerasse positiva la classe dei churner e negativa quella dei non churner e si provasse un campionamento casuale su di essi si avrebbe questo risultato:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.1 \linewidth]{classification/pict/esChurnerRandom.png}
 \end{figure}
 
-Abbiamo sviluppato inoltre un modello di classificazione, che se applicato, identifica sui potenziali churner il $60\%$ di chi effettivamente se ne va: 
+Il modello di classificazione sviluppato, se applicato, identifica sui potenziali churner il $60\%$ di chi effettivamente se ne va: 
 
-$200*0.6 = 120$ churners corretamente identificati
+$200*0.6 = 120$ churners corretamente identificati.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.1 \linewidth]{classification/pict/esChurnerModel.png}
 \end{figure}
-
 Pertanto possiamo affermare che il nostro modello sia molto meglio della \textit{zeroRule}, ovvero il campionamento casuale. 
 
 \begin{defn}
-	Per calcolare l'incremento di performance tra due modelli si utilizza il \textbf{Lift Factor}, si intende il rapporto tra il modello $M$ rispetto al campionamento casuale:
+	Si definisce \textbf{Lift Factor} il rapporto tra il modello $M$ rispetto al campionamento casuale:
 	
 	\[Lift = \frac{performace(M)}{performance(zeroRule)}\]
 \end{defn}
+Questo coefficiente è usato per calcolare l'incremento di performance tra due modelli.
 Nel nostro caso: $0.6/0.375 = 1.6$\\
 
-\textbf{NB}: considera che il nostro classificatore \`e bravo ad identificare i casi semplici ma rischia di sbagliare di molto in quelli complessi. Man mano che lo forzo a rispondere lui tenderà a rispondere in modo sempre pi\`u random.
+\textbf{NB}: si considera che il nostro classificatore è bravo ad identificare i casi semplici ma rischia di sbagliare di molto in quelli complessi. Man mano che viene forzato a rispondere lui tenderà a rispondere in modo sempre più random.
 
-Ora posso sfruttare il \textit{Lift factor} per comprendere il livello di \textbf{profittabilit\`a} una volta che si conoscono i costi coinvolti. Nel nostro caso bisogna avere un sottinsieme di customers che hanno \textit{alta proporzione} di record positivi, \textit{maggiore} rispetto al dataset di partenza.
+Si può ora sfruttare il \textit{Lift factor} per comprendere il livello di \textbf{profittabilità} una volta che i costi coinvolti sono noti. In questo caso bisogna avere un sottoinsieme di customers che hanno \textit{alta proporzione} di record positivi, \textit{maggiore} rispetto al dataset di partenza.
 
 \begin{enumerate}
-	\item \textbf{ordinare} gli output con probabilit\`a di riconoscimento corretto \textbf{prob(y)} in ordine decrescente
-	\item \textbf{estrarre} un primo sottoinsieme (partendo dall'alto) e calcolo il \textit{lift factor}, per forza di cose sarà alto
-	\item considerare allora un sottoinsieme più grande (sempre partendo dal primo valore) e calcolo il \textit{lift factor}, ci aspettiamo un valore minore rispetto al precedente
-	\item \textbf{ripetere} il punto 3 finchè si includono tutti i record
+	\item \textbf{Ordinare} gli output con probabilità di riconoscimento corretto \textbf{prob(y)} in ordine decrescente
+	\item \textbf{Estrarre} un primo sottoinsieme (partendo dall'alto) e calcolare il \textit{lift factor}, per forza di cose sarà alto
+	\item \textbf{Considerare} allora un sottoinsieme più grande (sempre partendo dal primo valore) e calcolare il \textit{lift factor}, ci si aspetta un valore minore rispetto al precedente
+	\item \textbf{Ripetere} il punto 3 finché si includono tutti i record
 \end{enumerate} 
 
 Nell'esempio in figura due passaggi del procedimento 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.6 \linewidth]{classification/pict/liftFactor.png}
-	\caption{calcolo \textbf{lift factor} primo sottoinsieme (sinistra) e secondo sottoinsieme (destra)}
+	\caption{Calcolo del \textbf{lift factor} primo sottoinsieme (sinistra) e secondo sottoinsieme (destra)}
 \end{figure}
 
 \begin{defn}
@@ -927,67 +888,66 @@ Nell'esempio in figura due passaggi del procedimento
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.6 \linewidth]{classification/pict/cumulative_gains.png}
-	\caption{cumulative gains evidenziando un punto di alto valore aggiunto}
+	\caption{Cumulative gains evidenziando un punto di alto valore aggiunto}
 \end{figure}
 
-\textbf{NB}: la retta {\color{ao(english)}verde} calcola la cumulative gain per un modello che risponde in maniera \textit{casuale}, sull'asse x \`e la \textit{recall}, i positivi riconosciuti correttamente (ripetendo il test ad ogni step scelto)
+\textbf{NB}: La retta {\color{ao(english)}verde} calcola la cumulative gain per un modello che risponde in maniera \textit{casuale}, sull'asse x è la \textit{recall}, i positivi riconosciuti correttamente (ripetendo il test ad ogni step scelto)
+
 \subsubsection{Lift Chart}
 La curva \textit{Cumulative Gains} può essere mappata direttamente nella \textbf{Lift Chart}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.45 \linewidth]{classification/pict/lift_chart.png}
-	\caption{da cumulative gain a lift chart}
+	\caption{Da cumulative gain a lift chart}
 \end{figure}
 
-Queste valutazioni ci fanno comprendere \textit{quando} il nostro classificatore perde efficacia. Naturalmente pi\`u il campione \`e piccolo meglio funziona, in quanto uso record con \textbf{prob(y)} di riconoscimento corretto molto alta, bisogna comprendere per\`o il punto di massima accuratezza in rapporto alla percentuale di istanze.
+Queste valutazioni permettono di comprendere \textit{quando} il classificatore perde efficacia. Naturalmente più il campione è piccolo meglio funziona, in quanto si usa record con \textbf{prob(y)} di riconoscimento corretto molto alta, bisogna comprendere però il punto di massima accuratezza in rapporto alla percentuale di istanze.
 
 \subsubsection{Curva ROC}
+
 \begin{defn}
-	\`E chiamata \textbf{ROC} e sta per Receiver Operating Characteristic curve, ed è una tecnica grafica per la valutazione di modelli di classificazione.
+	\`E chiamata \textbf{ROC} e sta per Receiver Operating Characteristic curve la tecnica grafica per la valutazione di modelli di classificazione.
 \end{defn} 
-\noindent
-Assomiglia molto alla cumulative gains ma sugli assi ho:
+Assomiglia molto alla cumulative gains ma sugli assi sono presenti:
 \begin{itemize}
-	\item \textbf{asse x} ho la percentuale dei record falsi positivi sopportabili (\textbf{FPR})
-	\item \textbf{asse y} ho la percentuale dei record veri positivi (\textbf{TPR})
+	\item \textbf{asse x:} la percentuale dei record falsi positivi sopportabili (\textbf{FPR})
+	\item \textbf{asse y:} la percentuale dei record veri positivi (\textbf{TPR})
 \end{itemize}
-Entrambi i valori espressi in \textit{percentuale sul totale}. 
+Entrambi i valori sono espressi in \textit{percentuale sul totale}. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.6 \linewidth]{classification/pict/roc.png}
-	\caption{curva ROC}
+	\caption{Curva ROC}
 \end{figure}
-Nell'esempio in figura vengono utilizzati particolari sottoinsiemi di dati, questa dipendenza può essere ridotta applicando la Cross-validation. La curva ROC rappresenta la performance di un classificatore senza guardare la distribuzione della classe o il costo dell'errore.\\
-\\
-Serve a confrontare diversi classificatori per cercare di comprendere dove un classificatore \`e pi\`u o meno efficace, esempio sotto:
+\textit{Nell'esempio in figura vengono utilizzati particolari sottoinsiemi di dati, questa dipendenza può essere ridotta applicando la Cross-validation. La curva ROC rappresenta la performance di un classificatore senza guardare la distribuzione della classe o il costo dell'errore; serve, quindi, a confrontare diversi classificatori per cercare di comprendere dove un classificatore \`e pi\`u o meno efficace}; un esempio è il seguente:
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.6 \linewidth]{classification/pict/roc_confronto.png}
-	\caption{confronto ROC tra due modelli}
+	\caption{Confronto ROC tra due modelli}
 \end{figure}
 
-Un modello \`e \textbf{preferibile} ad un altro se \`e disposto a sopportare un certo numero di falsi positivi e valuto quanto veri positivi ci sono. 
+Un modello è \textbf{preferibile} ad un altro se è disposto a sopportare un certo numero di falsi positivi.
 
 
 \subsection{Feature Selection (*)}
-Quasi sempre non ha senso utilizzare tutti gli attributi per generare il modello che si vuole sviluppare. Quindi si procede con la selezione delle feature.
-La \textbf{feature selection} \`e un compito importantissimo ed \`e legato gi\`a alla risoluzione del problema. Analizzare le relazioni tra le variabili in modo \textit{preliminare} potrebbe gi\`a aiutare di molto nella ricerca della soluzione migliore al problema. 
+Quasi sempre non ha senso utilizzare tutti gli attributi per generare il modello che si vuole sviluppare; Si procede, quindi,  con la selezione delle feature.
+La \textbf{feature selection} è un compito importantissimo ed è fortemente legato alla risoluzione del problema. Analizzare le relazioni tra le variabili in modo \textit{preliminare} potrebbe aiutare di molto nella ricerca della soluzione migliore al problema. 
 \begin{defn}
-Il processo di \textbf{feature selection} tenta di scoprire quali attributi sono:
+La \textbf{feature selection} è il processo che tenta di scoprire quali attributi sono:
 \begin{itemize}
-	\item \textbf{ridondanti} ovvero quelli dei quali l'informazione \`e gi\`a contenuta in altri attributi, la rilevanza va sempre valutata in base ai dati a disposizione
-	\item \textbf{irrilevanti} contengono informazioni non utili per risolvere il problema di data mining.
+	\item \textit{Ridondanti} ovvero quelli dei quali l'informazione è già contenuta in altri attributi, la rilevanza va sempre valutata in base ai dati a disposizione
+	\item \textit{Irrilevanti} contengono informazioni non utili per risolvere il problema di data mining.
 \end{itemize}
 \end{defn}
 
 Vi sono diversi \textbf{approcci} per rilevare questi attributi:
 \begin{itemize}
-	\item \textbf{Brute-force}: provo tutti i modelli per ogni combinazione di parametri usati nel modello di Classificazione. Ma la computazione di questi casi \`e troppo grossa, vi sono: \[\sum_{n=1}^{10}\binom{10}{n}\] possibili combinazioni
-	\item \textbf{Embedded}: attributi scelto in base alla capacit\`a del modello della classificazione
-	\item \textbf{Filter}: attributi selezionati pima del classificatore in base a quelli che si ritengono pi\`u rilevanti e meno rilevanti (analisi di funzione obiettivo)
-	\item \textbf{Wrapper}: gli attributi che si scelgono in base al modello di classificazione scelto, quelli che sono rilevanti per un modello non lo sono per un altro (dipende dall'ipotesi che ho fatto)
+	\item \textit{Brute-force:} si provano tutti i modelli per ogni combinazione di parametri usati nel modello di Classificazione. La computazione di questi casi è troppo grossa, vi sono: \[\sum_{n=1}^{10}\binom{10}{n}\] possibili combinazioni
+	\item \textit{Embedded:} gli attributi sono scelti in base alla capacità del modello della classificazione
+	\item \textbf{Filter}: gli attributi sono selezionati prima del classificatore in base a quelli che si ritengono più rilevanti e meno rilevanti (analisi di funzione obiettivo)
+	\item \textit{Wrapper}: gli attributi si scelgono in base al modello di classificazione scelto, quelli che sono rilevanti per un modello non lo sono per un altro (dipende dall'ipotesi che ho fatto)
 \end{itemize}
 Politica Filter \& Wrapper a confronto
 \begin{figure}[H]
@@ -995,46 +955,45 @@ Politica Filter \& Wrapper a confronto
 	\includegraphics[height=0.5 \linewidth]{classification/pict/filter_wrapper.png}
 	\caption{Filter - Wrapper, due differenti approcci per feature selection}
 \end{figure}
-\textbf{NB} non va bene fare feature selection su tutti i dati e poi trainare solo su un sottoinsieme!! altrimenti si hanno risultati non comparabili\\
+\textit{Non va bene fare feature selection su tutti i dati e poi trainare solo su un sottoinsieme!! altrimenti si hanno risultati non comparabili}
 
 \subsubsection{Filter} 
 Nel caso di attributi \textbf{Uni-variati}: 
 \begin{enumerate}
-	\item si sceglie una \textit{misura di associazione} tra gli attributi candidato e quello di classe
-	\item si \textit{ordinano} gli attributi in base alla misura di associazione
-	\item si \textit{selezionano} le prime $R$ migliori posizioni come attributi di input per il classificatore
+	\item Si sceglie una \textit{misura di associazione} tra gli attributi candidato e quello di classe
+	\item Si \textit{ordinano} gli attributi in base alla misura di associazione
+	\item Si \textit{selezionano} le prime $R$ migliori posizioni come attributi di input per il classificatore
 \end{enumerate}
-Solitamente seguendo questa procedura si identificano correttamente gli \textit{attributi irrilevanti}, per\`o non funziona bene nella ricerca di \textit{attributi ridondanti}.\\
-\\
+Solitamente seguendo questa procedura si identificano correttamente gli \textit{attributi irrilevanti}; non è detto, però, che funzioni bene nella ricerca di \textit{attributi ridondanti}.
 Nel caso di attributi \textbf{Multi-variati}:
 \begin{itemize}
-	\item identificano congiuntamente \textit{attributi rilevanti} e \textit{irrilevanti}
-	\item un buon sottoinsieme di attributi deve contenere attributi fortemente associati con l'attributo di classe ma essere incorrelati tra di loro
+	\item Si identificano congiuntamente \textit{attributi rilevanti} e \textit{irrilevanti}
+	\item Un buon sottoinsieme di attributi deve contenere attributi fortemente associati con l'attributo di classe ma essere incorrelati tra di loro
 \end{itemize}
 Le tecniche più utilizzate sono:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.35 \linewidth]{classification/pict/feature_tecniques.png}
-	\caption{tecniche uni-multi variate per filtrare le features}
+	\caption{Tecniche uni-multi variate per filtrare le features}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.22 \linewidth]{classification/pict/filter_uni_multi.png}
-	\caption{vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
+	\caption{Vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
 \end{figure}
 \noindent
-Vantaggi per la feature selection sono:
+I \textbf{vantaggi} per la feature selection sono:
 \begin{itemize}
-	\item riduzione del costo di collezione di dati
-	\item riduzione dei tempi di inferenza del classificatore relativo all'attributo di classe
-	\item classificatore pi\`u interpretabile
-	\item aumento dell'accuratezza
+	\item Riduzione del costo di collezione di dati
+	\item Riduzione dei tempi di inferenza del classificatore relativo all'attributo di classe
+	\item Classificatore pi\`u interpretabile
+	\item Aumento dell'accuratezza
 \end{itemize}
-Motivazioni:
+Le \textbf{motivazioni} per cui questo approccio viene utilizzato sono:
 \begin{itemize}
-	\item evitare l'overfitting
-	\item sviluppo di un miglior cost-effective classificatore
-	\item migliorare la comprensione del processo di generazione dati
+	\item Evitare l'overfitting
+	\item Sviluppo di un miglior cost-effective classificatore
+	\item Migliorare la comprensione del processo di generazione dati
 \end{itemize}
 
 Flowchart da seguire:
@@ -1044,16 +1003,15 @@ Flowchart da seguire:
 	\caption{flowchart per la feature selection}
 \end{figure}
 
-È spesso possibile creare, dagli attributi originali, un nuovo insieme di attributi che cattura informazioni rilevanti nel dataset in modo più efficace. Inoltre il numero di nuovi attributi puo essere più picolo rispetto al numero di attributi originali.\\
-
+È spesso possibile creare, dagli attributi originali, un nuovo insieme di attributi che cattura informazioni rilevanti nel dataset in modo più efficace; inoltre, il numero di nuovi attributi può essere più piccolo rispetto al numero di attributi originali.\\
 Le metodologie per la creazione di nuovi attributi (features) sono:
 \begin{itemize}
-	\item \textbf{feature extraction}: una ampia gamma di modelli possono essere applicati in domini specifici come per classificazione di immagini/segnali
-	\item \textbf{mappare dati in un uovo spazio}: vedere gli attributi in modo normalizzato o secondo un'altra scala pi\`u facilmente trattabile (es. SVM) può migliorare di molto le performance
-	\item \textbf{feature construction}: generare feature nuove pi\`u comode per un certo modello di classificatore rispetto a quelle originali attraverso trasformazioni, es. logaritmi di somme ecc.. (non \`e detto che i dati originali siano i pi\`u utili per la classificazione)
+	\item \textbf{Feature extraction}: una ampia gamma di modelli possono essere applicati in domini specifici come per classificazione di immagini/segnali
+	\item \textbf{Mappare dati in un uovo spazio}: vedere gli attributi in modo normalizzato o secondo un'altra scala più facilmente trattabile (es. SVM) può migliorare di molto le performance
+	\item \textbf{Feature construction}: generare feature nuove più comode per un certo modello di classificatore rispetto a quelle originali attraverso trasformazioni, es. logaritmi di somme ecc.. (non \`e detto che i dati originali siano i pi\`u utili per la classificazione)
 \end{itemize}
 \subsubsection{Regularization}
-Alcuni modelli di Machine Learning ammettono iper-parametri. Una rete neurale \`e dimostrato che architetturarla bene permette  di approssimare qualsiasi problema. Non \`e per\`o esente da overfitting anzi visto che non \`e sempre chiaro il funzionamento \`e pi\`u difficile valutarle. Voglio sceglere quella allocazione di parametri per ridurre il pi\`o possibile l'errore quadratico del modello, quindi l'iperparametro $\lambda$ detto di regolarizzazione:
+Alcuni modelli di Machine Learning ammettono iper-parametri. \`E dimostrato che una buona scelta dell'architettura di una rete neurale  permette  di approssimare qualsiasi problema. Non è però esente da overfitting, anzi, visto che non è sempre chiaro il funzionamento, è più difficile valutare quando sia presente. Si cerca di scegliere quella allocazione di parametri che riduce il più possibile l'errore quadratico del modello, quindi l'iperparametro $\lambda$ detto di regolarizzazione:
 
 \[E(\textbf{w},\lambda) = \frac{1}{m} \sum_{i=1}^{m}(y_i - \hat{y}_i)^2 + \frac{\lambda}{2} \sum_{j=1}{K} w_i^2 \]
 
@@ -1062,62 +1020,57 @@ $K$: numero di parametri liberi (weights + thresholds) della rete neurale
 $\lambda$: parametro di regolamentazione\\
 La prima parte della formula riguarda il fitting della funzione, la seconda parte \`e la flessibilit\`a alla quale posso accedere.\\
 
-\textbf{NB}: NON usare il training set per ottimizzare il parametro di regolarizzazione $\lambda$. Si andrebbe ad overfittare il modello. Se utilizzo il test set per ottimizzare il parametro lambda allora ho bruciato il dataset e devo rifare il modello, l'obiettivo \`e sempre quello di riconoscere dati mai visti, per questo si adottano schemi di divisione de dataset diversi. 
+\textit{Non si deve usare il training set per ottimizzare il parametro di regolarizzazione $\lambda$. Si andrebbe ad overfittare il modello. Se viene utilizzato il test set per ottimizzare il parametro lambda allora si è bruciato il dataset e devo rifare il modello, l'obiettivo è sempre quello di riconoscere dati mai visti, per questo si adottano schemi di divisione de dataset diversi.}
 
 \subsubsection{Schema division}
 Lo schema di divisione del dataset ottimale potrebbe essere questo:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{classification/pict/schema_dataset.png}
-	\caption{diversi schemi di divisione del dataset}
+	\caption{Diversi schemi di divisione del dataset}
 \end{figure}
 
 \begin{itemize}
-	\item train dataset viene utilizzato per trainare il modello (sui parametri w)
-	\item il parametro $\lambda$ viene ottimizzato usando il validation set
-	\item il test set viene usato per fornire una stima delle performance senza bias
-	\item può essere fatto tramite holdout, iterated holdout e cross-validation
+	\item Il train dataset viene utilizzato per trainare il modello (sui parametri w)
+	\item Il parametro $\lambda$ viene ottimizzato usando il validation set
+	\item Il test set viene usato per fornire una stima delle performance senza bias
+	\item Può essere fatto tramite holdout, iterated holdout e cross-validation
 \end{itemize}
-\noindent
-Quando uso i \textbf{Filter} per la feature selection solitamente si usa uno schema \textbf{Train/Test}
+Quando viene usato l'approccio \textbf{Filter} per la feature selection solitamente si usa uno schema \textbf{Train/Test}
 \begin{itemize}
-	\item relevanza e/o ridondanza sono stimate usando il Train set
-	\item una volta selezionati gli attributi il Train set viene usato per allenare il classificatore
-	\item le stime delle performance sono ottenute applicando il classificatore al Test set
+	\item Rilevanza e/o ridondanza sono stimate usando il Train set
+	\item Dopo aver selezionato gli attributi il Train set viene usato per allenare il classificatore
+	\item Le stime delle performance sono ottenute applicando il classificatore al Test set
 \end{itemize}
-\noindent
-Quando uso i \textbf{Wrappers} per la feature selection solitamente si usa uno schema \textbf{Train/Validation/Test}
+Quando viene applicato l'approccio \textbf{Wrapper} per la feature selection solitamente si usa uno schema \textbf{Train/Validation/Test}
 \begin{itemize}
-	\item il Validation set viene usato per ottimizzare le performance quando uso diversi attributi per il modello (i wrapper)
+	\item Il Validation set viene usato per ottimizzare le performance quando vengono usati diversi attributi per il modello (i wrapper)
 	\item Selezionare sottoinsiemi ottimali di attributi è lo stesso che selezionare il valore ottimo del parametro regolarizzato $\lambda$
-	\item una volta selezionati gli attributi, il Train set e il Validation set vengono uniti e usati per addestrare il classificatore (tipicamente lo stesso tipo di classificatore usato per la feature selection)
-	\item le stime delle performance sono ottenute applicando il classificatore al Test set
+	\item Una volta selezionati gli attributi, il Train set e il Validation set vengono uniti e usati per addestrare il classificatore (tipicamente lo stesso tipo di classificatore usato per la feature selection)
+	\item Le stime delle performance sono ottenute applicando il classificatore al Test set
 \end{itemize}
 
 \subsection{Classificazione NON binaria}
-Nei problemi reali la classificazione avviene su pi\`u valori non solo binari.
+Nei problemi reali la classificazione avviene su più valori non solo binari.
 \begin{defn}
-	Un problema di classificazione \textbf{Non binaria} è un problema di classificazione che possono essere:
+	Un problema di classificazione \textbf{Non binaria} è un problema di classificazione che si divide in:
 	\begin{itemize}
 		\item \textbf{Multi-classe}: esattamente una classe si realizza
-		\item \textbf{Multi-etichetta}: pi\`u di una classe pu\`o verificarsi
+		\item \textbf{Multi-etichetta}: più di una classe può verificarsi
 	\end{itemize}
 \end{defn}
 Vi possono essere anche problemi non di classe ma di \textbf{ranking} in cui i valori assunti dalla variabile di classe sono ordinati.
 Per la risoluzione di questi problemi solitamente si adotta una logica \textbf{One-Vs-All}.
 
 \subsubsection{One-Vs-All}
-L'idea \`e quella di trasformare un problema multi-classe in tanti attributi di classe binari. 
+L'idea è quella di trasformare un problema multi-classe in tanti attributi di classe binari. 
+In questa modalità si verifica se il set corrente verifica o meno ciascuna delle caratteristiche da valutare. 
 
-In questa modalit\`a si verifica se il set corrente verifica o meno ciascuna delle caratteristiche da valutare. 
-
-Ricorda che non sempre binarizzare \`e necessario, in particolare per quanto riguarda i naive bayes non serve, invece per un decision tree s\`i. 
-
-Nel \textbf{One-vs-all} creo un numero di \textit{classificatori binari} diverso in base al numero di modalit\`a dell'attributo di classe. Inoltre bisogna normalizzare poi gli output dei classificatori. 
-
+\textit{Bisogna ricordare che non sempre binarizzare è necessario, in particolare per quanto riguarda i naive bayes non serve, invece per un decision tree sì.} 
+\\Nel \textbf{One-vs-all} si crea un numero di \textit{classificatori binari} diverso in base al numero di modalità dell'attributo di classe; bisogna, inoltre, normalizzare poi gli output dei classificatori. 
 Nel modello \textit{Multi-class} bisogna raccogliere i valori risultanti dai classificatori e fissare un threshold sopra il quale considero signficiativo il risultato (potenzialmente pi\`u di una classe supera il threshold).
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.4 \linewidth]{classification/pict/es_no_binary_classification.png}
-	\caption{esempio di classificatori binari}
+	\caption{Esempio di classificatori binari}
 \end{figure} 
