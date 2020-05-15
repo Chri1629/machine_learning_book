@@ -11,7 +11,7 @@ Tipicamente le tecniche di machine learning si dividono nelle seguenti tre macro
 	\item \textit{Apprendimento rinforzato:} E' quello più utile in questa epoca; il suo funzionamento è basato sui premi.
 \end{enumerate}
 
-In questo corso ci concentreremo sui primi due tipi di apprendimento.
+In questo corso ci si concentrerà sui primi due tipi di apprendimento.
 
 L' \textit{apprendimento supervisionato} si divide a sua volta nelle seguenti due categorie:
 \begin{itemize}
@@ -25,7 +25,7 @@ L' \textit{apprendimento non supervisionato} si divide a sua volta in:
 	\item Associativa: Quando il problema consiste nel scoprire pattern che descrivono bene caratteristiche associate ad un certo fenomeno.
 \end{itemize}
 
-Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però essa è addirittura deleteria.  Se infatti provassi a vedere la correlazione tra il numero di omicidi in America e il numero di fondi investiti sulla ricerca scientifica vedrei che statisticamente sono strettamente correlate. Questo è un no-sense ed è il classico esempio di \textit{correlazione spuria.}
+Per alcuni compiti la correlazione statistica va benissimo, in alcuni casi però essa è addirittura deleteria.  Se infatti si provasse a vedere la correlazione tra il numero di omicidi in America e il numero di fondi investiti sulla ricerca scientifica si vedrebbe che statisticamente sono strettamente correlate. Questo è un no-sense ed è il classico esempio di \textit{correlazione spuria.}
 A confermare questa visione in cui il modello per una certa trattazione dati è fondamentale è il famoso paradosso di Simpson. \\
 \textbf{Paradosso di Simpson:} Utilizzare i dati senza un modello valido non porta alla scoperta della verità.
 
@@ -35,13 +35,13 @@ A confermare questa visione in cui il modello per una certa trattazione dati è 
 Il primo passo fondamentale è quello di prendere confidenza coi dati. E' quindi molto importante capire la natura intrinseca dei dati che abbiamo a disposizione per risolvere in modo efficace un problema, in particolare, questi sono solitamente organizzati in strutture che chiamiamo \textbf{dataset}. Per le analisi con le tecniche di Machine Learning esse non sono altro che tabelle fatte da righe e da colonne.
 
 \begin{defn}
-	Definiamo \textbf{attributi} le colonne del dataset
+	Se definiscono \textbf{attributi} le colonne del dataset
 \end{defn}
 \begin{defn}
-	Definiamo \textbf{istanze} le righe del dataset
+	Si definiscono \textbf{istanze} le righe del dataset
 \end{defn}
 
-Ogni attributo è caratterizzato dal fatto di avere un \textit{tipo}, la sua conoscenza è fondamentale perché ci permette di sapere le proprietà che questo possiede.
+Ogni attributo è caratterizzato dal fatto di avere un \textit{tipo}, la sua conoscenza è fondamentale perché  permette di sapere le proprietà che questo possiede.
 In particolare, gli attributi si dividono in due grandi gruppi:
 \begin{itemize}
 	\item \textit{Categorici:}
@@ -164,7 +164,7 @@ E' molto utile visualizzare i dati quando bisogna lavorarci, questo fondamentalm
 	\item Ci permette di visualizzare i risultati di una lavorazione fatta sui dati.
 \end{itemize}
 
-Di seguito proponiamo un rapido elenco dei grafici più utili e descriviamone le varie caratteristiche.
+Di seguito viene proposto un rapido elenco dei grafici più utili e se ne descrivono le varie caratteristiche.
 
 I dati possono essere organizzati in istogrammi caratterizzati dalla presenza di bin(indicano la larghezza in cui i dati sono organizzati). A seconda dell'ampiezza che uso posso ottenere due disegni molto diversi come mostrato in figura.
 
@@ -198,9 +198,9 @@ Un altro modo di rappresentare i dati particolarmente utile è il \textbf{grafic
 
 \subsection{Missing replacement(*)}
 
-E' la parte dell'analisi dati che si occupa di studiare come sostituire i valori mancanti di certi attributi in un dataset. Essendo un problema di così larga portata possiamo capire bene che una trattazione esaustiva riempirebbe le ore di un intero corso, tuttavia ne forniamo le basi per essere in grado di poter effettuare una analisi dati efficace. 
+E' la parte dell'analisi dati che si occupa di studiare come sostituire i valori mancanti di certi attributi in un dataset. Essendo un problema di così larga portata si può capire bene che una trattazione esaustiva riempirebbe le ore di un intero corso, tuttavia vengono fornite le basi per essere in grado di poter effettuare una analisi dati efficace. 
 
-Le motivazioni principali del perché un database presenta delle mancanze sono le seguenti:
+Le motivazioni principali del perché un database presenti delle mancanze sono le seguenti:
 \begin{itemize}
 	\item Tale valore non è stato possibile misurarlo.
 	\item Non si conosce con esattezza tale valore.
@@ -208,7 +208,7 @@ Le motivazioni principali del perché un database presenta delle mancanze sono l
 	\item Quel determinato attributo fino ad un certo punto dell'analisi non è mai stato considerato importante e quindi non è mai stato registrato.
 \end{itemize}
 
-Ci sono diversi metodi che ci permettono di riempire quel valore mancante, di seguito diamo una rapida trattazione dei più usati:
+Ci sono diversi metodi che consentono di riempire quel valore mancante, di seguito viene fornita una rapida trattazione dei più usati:
 
 \begin{itemize}
 	\item \textbf{Record removal:} è il metodo più drastico e consistere nell'eliminare tutta l'istanza che contiene quel valore. Non viene usato frequentemente perché si rischia di perdere valori che possono essere fondamentali per l'analisi dati. \\ \textit{In particolare se la probabilità che un attributo abbia un valore nullo è: p(NULL) ed è un record con $m$ attributi allora la probabilità di non avere dati nulli in quel record diventa: 
@@ -227,7 +227,7 @@ E' ora chiaro che il confine tra l'esplorazione dati e la modellizzazione degli 
 
 \subsection{Data Preprocessing(*)}
 
-Il preprocessing è una fase dell'analisi dati che consiste nel \textbf{rendere i dati più fruibili per una analisi dati.} Elenchiamo di seguito le tecniche più utilizzate nella data preprocessing.
+Il preprocessing è una fase dell'analisi dati che consiste nel \textbf{rendere i dati più fruibili per una analisi dati.} Di seguito le tecniche più utilizzate nella data preprocessing.
 
 \subsubsection{Aggregation}
 \textit{L'aggregazione consiste nel combinare due o più record in un unico oggetto.}
@@ -241,7 +241,7 @@ Ci sono diversi vantaggi ottenibili nell'aggregare i dati, in particolare:
 
 
 \subsubsection{Sampling}
-In molti casi avere una quantità enorme di dati può essere deleterio dal punto di vista computazionale, questo perché bisognerebbe usare algoritmi più semplificati in modo che la computazione possa essere svolta su un maggior numero di dati. Ciò che dobbiamo preferire è invece usare un algoritmo migliore su un dataset ridotto. Per questo entra in gioco il concetto di \textbf{campionamento.}
+In molti casi avere una quantità enorme di dati può essere deleterio dal punto di vista computazionale, questo perché bisognerebbe usare algoritmi più semplificati in modo che la computazione possa essere svolta su un maggior numero di dati. Ciò che va preferito è invece usare un algoritmo migliore su un dataset ridotto. Per questo entra in gioco il concetto di \textbf{campionamento.}
 
 Il problema si traduce nella seguente domanda: \textit{quando un campione è rappresentativo?}
 
@@ -249,7 +249,7 @@ Il problema si traduce nella seguente domanda: \textit{quando un campione è rap
 	Un campione si dice \textbf{rappresentativo} quando ha approssimativamente le stesse proprietà del dataset di partenza.
 \end{defn}
 
-Dobbiamo quindi trovare uno schema che ci permetta di scegliere \textit{con grande probabilità} dei campioni rappresentativi. In questo caso il problema si riduce a trovare le appropriate:
+Si deve, quindi, trovare uno schema che ci permetta di scegliere \textit{con grande probabilità} dei campioni rappresentativi. In questo caso il problema si riduce a trovare le appropriate:
 \begin{itemize}
 	\item Dimensioni del campione.
 	\item Tecniche di campionamento.
@@ -258,16 +258,16 @@ Esistono moltissime tecniche di campionamento e di seguito  mostriamo le più ba
 
 \begin{itemize}
 	\item \textbf{Simple Random Sampling:} Ogni record del dataset ha la stessa probabilità di essere incluso nel campione. Tale record può essere rimosso o meno dal dataset di partenza. Quando i campioni sono molto piccoli rispetto al dataset di partenza la rimozione o meno genera due campioni che sono molto simili.	
-	Questo metodo fallisce quando il datset consiste di attributi qualitativi in modo che i possibili valori che possono avere hanno frequenze fortemente diverse.
+	Questo metodo fallisce quando il dataset consiste di attributi qualitativi in modo che i possibili valori che possono avere hanno frequenze fortemente diverse.
 	
 	\item \textbf{Stratified Sampling:} Vengono presi record in modo che all'interno del campione vengano rispettate le proporzioni tra gli attributi presenti nel dataset di partenza.
 \end{itemize}
 
-Una volta scelta la tecnica di campionamento dobbiamo occuparci di scegliere la grandezza del campione. Tenere un campione di grande ampiezza aumenta la probabilità che un campione sia rappresentativo, di contro elimina la maggior parte dei vantaggi computazionali di avere un campionamento. Avere un campione troppo piccolo invece manda in contro al rischio di eliminare pattern potenzialmente importanti o addirittura di mantenere pattern erronei. La giusta dimensione del campionamento va scelta in base al nostro dataset di riferimento effettuando delle prove.
+Una volta scelta la tecnica di campionamento bisogna occuparsi di scegliere la grandezza del campione. Tenere un campione di grande ampiezza aumenta la probabilità che un campione sia rappresentativo, di contro elimina la maggior parte dei vantaggi computazionali di avere un campionamento. Avere un campione troppo piccolo invece manda in contro al rischio di eliminare pattern potenzialmente importanti o addirittura di mantenere pattern erronei. La giusta dimensione del campionamento va scelta in base al nostro dataset di riferimento effettuando delle prove.
 
 \subsubsection{Dimensionality reduction}
 
-In diversi casi capiterà di dover analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi vantaggi:
+In diversi casi capiterà di dover analizzare dataset caratterizzati da un gran numero di attributi. Diminuirne il numero porta a diversi \textbf{vantaggi:}
 
 \begin{itemize}
 	\item Molti algoritmi lavorano meglio se la dimensionalità è minore.
@@ -277,7 +277,7 @@ In diversi casi capiterà di dover analizzare dataset caratterizzati da un gran 
 \end{itemize}
 
 Contrariamente a ciò che ci si aspetterebbe \textit{avere una dimensionalità maggiore dei dati non implica un aumento delle performance.}
-Mostriamo questo dato con il sgeuente grafico.
+Mostriamo questo dato con il seguente grafico.
 
 \begin{figure}[H]
 	\centering
@@ -294,7 +294,7 @@ La \textbf{Principal Component Analysis (PCA)} trova nuovi attributi in modo che
 	\item Catturino il \textit{massimo ammontare di variabilità} nei dati.
 \end{itemize}
 
-In particolare la \textbf{Singular Value Decomposition (SVD)} è una tecnica di algebra lineare correlata alla PCA ed è largamente usata per ridurre la dimensionalità dei dataset.
+In particolare, la \textbf{Singular Value Decomposition (SVD)} è una tecnica di algebra lineare correlata alla PCA ed è largamente usata per ridurre la dimensionalità dei dataset.
 
 \begin{defn}
 	Si definisce \textbf{binarizzazione} la tecnica di trasformazione di attributi continui e categorici in uno o più attributi binari.
@@ -310,7 +310,7 @@ Per binarizzare un attributo si associano $k$ possibili valori a $k$ valori inte
  	\item \textbf{Supervisionata.}
  	\item \textbf{Non-supervisionata.}
  \end{itemize}
-La \textit{discritezzizazione supervisionata} utilizza ulteriori informazioni (attributi di classe) per discretizzare gli attributi. Questa tecnica divide i punti in modo che qualche misura di \textit{purità} sia massimizzata. La misura di purità più spesso applicata è l'\textbf{entropia.}
+La \textit{discretizzazione supervisionata} utilizza ulteriori informazioni (attributi di classe) per discretizzare gli attributi. Questa tecnica divide i punti in modo che qualche misura di \textit{purità} sia massimizzata. La misura di purità più spesso applicata è l'\textbf{entropia.}
  	
  	\[e_{i} = - \sum_{k = 1}^{K}p_{ki}\log_{2}p_{ki}\]
  	
