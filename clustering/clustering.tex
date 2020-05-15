@@ -33,7 +33,6 @@ Formare un insieme di cluster è chiamato in gergo tecnico \textit{clustering.} 
 
 Di seguito una rapida definizione di tutte:
 
-\textbf{ARRIVATO QUAAAAAAAAAAAA}
 \begin{defn}
 	Un clustering si dice \textbf{partizionale} se vi è una divisione del dataset in insiemi non sovrapposti tali che un elemento appartiene ad un solo insieme.
 \end{defn}
@@ -56,7 +55,7 @@ Di seguito una rapida definizione di tutte:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{clustering/pict/fuzzy.png}
-	\caption{Custering con modello fuzzy}
+	\caption{Clustering con modello fuzzy}
 \end{figure}
 \begin{defn}
 	Un clustering si dice \textbf{completo} se ogni oggetto è assegnato ad un cluster (non ci sono oggetti liberi).
@@ -67,7 +66,7 @@ Di seguito una rapida definizione di tutte:
 \end{defn}
 
 \subsubsection{Differenti nozioni di cluster}
-I cluster naturali sono cluster che si dicano esistano per davvero anche se questo  è molto difficile che ciò accada. Per visualizzare le differenze tra i tipi diversi di dati sfruttiamo dati come punti a due dimensioni.
+I cluster naturali sono cluster che si dicano esistano per davvero anche se è molto difficile che ciò accada. Per visualizzare le differenze tra i tipi diversi di dati si sfruttano dati come punti a due dimensioni. Le categorie in cui sono divisi gli algoritmi di clustering sono le seguenti:
 \begin{itemize}
 	\item \textbf{Well separated Cluster:} dato un cluster, ogni oggetto è più vicino ad ogni oggetto del cluster a cui appartiene piuttosto che a qualsiasi altro oggetto di ogni altro cluster. Un cluster così ben formato permette di avere separazioni molto nette, questo tipo di cosa succede però molto raramente in realtà.
 	\item \textbf{Prototpe-based cluster} dato un cluster, ogni oggetto di quel cluster è più vicino al prototipo che definisce il cluster rispetto ad ogni prototipo di un altro cluster. Il prototipo \`e solitamente il \textit{centroide} del cluster. Il \textit{prototipo} di un cluster corrisponde all'individuo meglio rappresentato dal cluster (può essere anche fittizio). Cluster fatti in questo modo tendon ad essere globulari.
@@ -78,21 +77,22 @@ I cluster naturali sono cluster che si dicano esistano per davvero anche se ques
 
 \subsubsection{Componenti di un'analisi di clustering}
 
-Per prima cosa  avviene la \textit{feature selection} che assicura la trattenuta degli attributi del dataset degni di significato. Successivamente avviene la fase di  \textit{feature extraction} che serve a produrre feature che potrebbero andare meglio per scoprire la struttura dei dati, questa pratica potrebbe tuttavia generare features di difficile comprensione.
+La prima fase di un'analisi di clustering consiste nella \textit{feature selection} che assicura la trattenuta degli attributi del dataset degni di significato. Successivamente avviene la fase di  \textit{feature extraction} che serve a produrre feature che potrebbero andare meglio per scoprire la struttura dei dati, questa pratica potrebbe tuttavia generare features di difficile comprensione.
 Bisognerebbe usare come feature ideali quelle che permettono di distinguere i pattern degli elementi che appartengono ai diversi cluster, immuni al rumore e facili da interpretare.
 
-Il secondo passo è quello di \textit{determinare la misura di prossimità e costruire la funzione di merito.} Una volta che abbiamo determinato una misura di prossimità il problema di clustering si traduce in un problema di ottimizzazione con una specifica funzione.
+Il secondo passo è quello di \textit{determinare la misura di prossimità e costruire la funzione di merito.} Una volta che abbiamo determinato una misura di prossimità il problema di clustering si traduce in un problema di ottimizzazione di una specifica funzione.
 
-Bisogna ricordare sempre che diversi algoritmi di dati permettono di avere conclusioni anche totalmente diverse, questo è il motivo per cui in principio non bisogna prediligere alcun algoritmo ma confrontare i risultati ottenuti e trarne conclusioni.
+Bisogna ricordare sempre che diversi algoritmi di clustering portano ad avere conclusioni anche totalmente diverse, questo è il motivo per cui in principio non bisogna prediligere alcun algoritmo ma confrontare i risultati ottenuti e trarne conclusioni.
 
 
 \subsection{Proximity(*)}
 
-La proximity è uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. Questa influenza quindi in modo pesante la soluzione di un problema di clustering. Bisogna fare una scelta della misura con cui si approssima la similarità degli elementi appartenenti allo stesso cluster.
-\subsubsection{Introduzione}
-\textit{La analisi dei cluster affonda le sue radici nel concetto di cosa sia simile e cosa sia dissimile,} quando cerchiamo di esprimere questo concetto  in termini formali diventa abbastanza difficile. Questo avviene perché la similitudine dipende fortemente dal contesto analizzato.
+La proximity è uno strumento fondamentale per valutare il funzionamento di un algoritmo di clustering. Questa influenza, quindi, in modo pesante la soluzione di un problema di clustering. Bisogna fare una scelta della misura con cui si approssima la similarità degli elementi appartenenti allo stesso cluster.
 
-In generale la similarità è nulla se i due oggetti sono totalmente differenti sotto la caratteristica che stiamo valutando ed è uguale a 1 se sono completamente uguali, è comune però trovare misure di similitudine che hanno come valori:  $[0,\inf]$. Useremo il termine \textbf{proximity} per indicare sia la similarità che la dissimilarità. 
+\subsubsection{Introduzione}
+\textit{La analisi dei cluster affonda le sue radici nel concetto di cosa sia simile e cosa sia dissimile,} l'analisi di questo concetto  in termini formali diventa abbastanza difficile. Questo avviene perché la similitudine dipende fortemente dal contesto analizzato.
+
+\textit{In generale la similarità è nulla se i due oggetti sono totalmente differenti sotto la caratteristica che stiamo valutando ed è uguale a 1 se sono completamente uguali, è comune però trovare misure di similitudine che hanno come valori:  $[0,\inf]$.} Useremo il termine \textbf{proximity} per indicare sia la similarità che la dissimilarità. 
 
 \begin{figure}[H]
 	\centering
@@ -100,111 +100,107 @@ In generale la similarità è nulla se i due oggetti sono totalmente differenti 
 	\caption{Relazione tra similarità e dissimilarità}
 \end{figure}
 
-Non c'è ortogonalità tra la scelta della misura e l'esito che otterrò. Nasce per questo motivo l'esigenza di poter passare da una misura all'altra, in particolare per trasformare una misura di similarità dall'intervallo $[0,\inf]$ all'intervallo $[0,1]$ si opera la seguente trasformazione:
+Non c'è ortogonalità tra la scelta della misura e l'esito che otterrò; nasce, per questo motivo, l'esigenza di poter passare da una misura all'altra, in particolare, per trasformare una misura di similarità dall'intervallo $[0,\inf]$ all'intervallo $[0,1]$ si opera la seguente trasformazione:
 
 \[s' = \frac{s - \min{s}}{\max{s} - \min{s}} \qquad d' = \frac{d - \min{d}}{\max{d} - \min{d}} \] 
 
-Ci sono diversi problemi che nascono quando cambiamo l'intervallo in cui si trova il valore. Per farlo devo usare una trasformazione \textit{non-lineare}. Posso usare però una cosa del genere:
+Ci sono diversi problemi che nascono quando viene cambiato l'intervallo in cui si trova il valore. Per farlo bisogna usare una trasformazione \textit{non-lineare}. Possono essere usati, però,  funzioni del genere:
 
 \[ d' = \frac{d}{1+d}\]
 
-Con questa trasformazione grandi valori della dissimilarità $d$ vengono compressi in valori vicini a 1. Il fatto di distorcere o meno le distanze dipende dal compito che voglio svolgere.
-
-Ci sono diversi problemi che nascono quando trasformiamo una similarità in dissimilarità e viceversa. Per farlo devo usare una trasformazione \textit{non-lineare}. Posso usare però una cosa del genere:
+Con questa trasformazione grandi valori della dissimilarità $d$ vengono compressi in valori vicini a 1. Il fatto di distorcere o meno le distanze dipende dal compito che bisogna svolgere.
+Ci sono diversi problematiche che nascono quando si trasforma una similarità in dissimilarità e viceversa. Per farlo bisogna usare una trasformazione \textit{non-lineare}. Si può usare, però, una cosa del genere:
 
 \[ se \quad s,d = [0, 1]  \quad allora  \quad s =  1-d\]
 
-In generale si può usare qualsiasi funzione monotona decrescente per trasformare la similarità in dissimilarità.
+\textit{In generale si può usare qualsiasi funzione monotona decrescente per trasformare la similarità in dissimilarità.}
 
 \begin{defn}
-	Si definisce prossimità tra due record come la funzione di prossimità tra i corrispondenti attributi dei due record.	
+	Si definisce \textbf{prossimità} tra due record come la funzione di prossimità tra i corrispondenti attributi dei due record.	
 \end{defn}
 
-Consideriamo in prima analisi la misura di prossimità tra due record aventi un solo attributo ed estendiamo successivamente questa analisi a record con più di un attributo.
+Si consideri in prima analisi la misura di prossimità tra due record aventi un solo attributo ed estendiamo successivamente questa analisi a record con più di un attributo.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{clustering/pict/proximity_one.png}
 	\caption{Tabella per misurare la prossimità di record con un solo attributo in funzione del tipo di attributo}
 \end{figure}
 
-Consideriamo due record riferiti al medesimo attributo nominale qualitativo, tutto ciò che possiamo dire è se i due record hanno  lo stesso valore o meno.
+Si considerino due record riferiti al medesimo attributo nominale qualitativo, tutto ciò che si può dire è se i due record abbiano lo stesso valore o meno.
 Per quanto riguarda gli attributi binari la dissimilarità esclude la similarità con valori 0 e 1. 
 
-Se ho attributi categorici ordinali assegno un valore intero agli stessi in base alla scala utilizzata e calcolo la dissimilarità come rapporto tra la differenza dei due record e la scala totale di valori di utilizzo. Naturalmente va notato che sto utilizzando una scala linerare, questa è ovviamente un'assunzione molto forte che però bisogna tenere in conto in quanto qualsiasi scala di valori scelta è fatta basandosi su assunzioni.
+Se si hanno attributi categorici ordinali bisogna assegnare un valore intero agli stessi in base alla scala utilizzata e si calcola la dissimilarità come rapporto tra la differenza dei due record e la scala totale di valori di utilizzo. Naturalmente va notato che si sta utilizzando una scala linerare, questa è ovviamente un'assunzione molto forte di cui però bisogna tenere in conto in quanto qualsiasi scala di valori scelta è fatta basandosi su assunzioni.
 
-Come notiamo dalla tabella è molto più facile definire la prossimità tra due attributi numerici, essa è infatti definita come \textit{la differenza in modulo tra i due valori.}
+Come si nota dalla tabella è molto più facile definire la prossimità tra due attributi numerici, essa è infatti definita come \textit{la differenza in modulo tra i due valori.}
 \subsubsection{Misure della distanza}
 
-Quando ho degli attributi numerici posso definire altre misure di distanza nel seguente modo:
+Quando si hanno degli attributi numerici possono essere definite altre misure di distanza nel seguente modo:
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{clustering/pict/distanze_minkowski.png}
 	\caption{Misure di distanza a partire dalla distanza di Minkowski}
 \end{figure}
-Ricordiamo che le proprietà che una funzione deve soddisfare per essere definita distanza sono le seguenti:
-La misura deve essere
+Le proprietà che una funzione deve soddisfare per essere definita distanza sono le seguenti:
 \begin{itemize}
 	\item Non negatività: $d(x,y) \geq 0 \quad \forall x,y \quad d(x,y) = 0 \quad if \quad x = y$
 	\item Simmetria $d(x,y) = d(y,x) \quad \forall x,y$
 	\item Disuguaglianza triangolare $d(x,z) \leq d(x,y) + d(y,z) \quad \forall x,y,z$
 \end{itemize}
 
-La similarità \textit{non rispetta la disuguaglianza triangolare} ma solitamente verifica le proprietà di simmetria e non negatività.
+ \textit{La similarità generalmente non rispetta la disuguaglianza triangolare ma solitamente verifica le proprietà di simmetria e non negatività.}
 
-Forniamo ora qualche esempio di misura di prossimità:
+Di seguito qualche esempio di misura di prossimità:
 \begin{defn}
 	 Si definisce \textbf{Simple matching coefficient} la seguente espressione: \[ SMC(x,y) = \frac{\#maching\_attributes}{\#attributes} =  \frac{f_{11}+ f_{00}}{f_{11}+ f_{00} + f_{01}+ f_{10}} \]
 \end{defn}
 Questa è una misura che ha senso per attributi \textit{simmetrici binari}, ossia per attributi che possono assumere solo i valori 0 o 1 in circa egual quantità.
- Questa misura è invece scomoda se non possiamo affermare se gli 0 siano veramente degli 0, per il valore 1 invece è chiaro. In questo caso si utilizza un'altra misura che è derivata da questa misura, ossia si usa l'assunzione per cui l'osservazione di un evento (identificata con 1), abbia peso maggiore della non osservazione di un evento (rappresentata con 0). Si definisce quindi il \textbf{coefficiente di Jaccard}
+ Questa misura è invece scomoda se non si può affermare se gli 0 siano veramente degli 0, per il valore 1 invece è chiaro. In questo caso si utilizza un'altra misura che è derivata da questa misura, ossia si usa l'assunzione per cui l'osservazione di un evento (identificata con 1), abbia peso maggiore della non osservazione di un evento (rappresentata con 0). Si definisce quindi il coefficiente di Jaccard nel seguente modo:
 
 \begin{defn}
 	Si definisce \textbf{Jaccard Coefficient} la seguente espressione:    \[ J(x,y) = \frac{\#maching\_attributes}{\#attributes\_except00} = \frac{f_{11}}{f_{11}+ f_{01}+ f_{10}}\]
 \end{defn}
 
 
-Questa è ovviamente una misura distorta rispetto agli 1 (infatti è un tipo di misura che va bene con attributi \textit{asimmetrici}) che mi permette però di focalizzare la mia attenzione sulla presenza di questi ultimi. 
-Definiamo quindi un nuovo indice:
+Questa è ovviamente una misura distorta rispetto agli 1 (infatti è un tipo di misura che va bene con attributi \textit{asimmetrici}) che permette, però, di focalizzare la attenzione sulla presenza di questi ultimi. Di seguito la definizione di un nuovo indice:
 
 \begin{defn}
 	Si definisce \textbf{Extended Jaccard Coefficient} la seguente espressione: \[ EJ(x,y) = \frac{x \cdot y}{||x||^2 + ||y||^2 - x \cdot y}\]
 \end{defn}
 
- Questa misura è distorta per trattare dati sparsi, quindi tanti elementi in cui ho 0 e solo poche diverse da 0, questo si usa ad esempio nell'analisi del linguaggio naturale. Penso ad esempio ai tweet, una parola che c'è in una frase ha una rilevanza maggiore rispetto ad una parola non presente nella stessa frase.
+ Questa misura è distorta per trattare dati sparsi, quindi tanti elementi in cui sono presenti 0 e solo poche diverse da 0, questo si usa ad esempio nell'analisi del linguaggio naturale. Si pensi ad esempio ai tweet, una parola presente in una frase ha una rilevanza maggiore rispetto ad una parola non presente nella stessa frase.
 
 \subsubsection{Altre misure di prossimità}
-Esplicitiamo  ulteriori misure di prossimità.
+Di seguito vengono proposte ulteriori misure di prossimità.
 \begin{defn}
 	Si definisce \textbf{cosine similarity.} la seguente espressione:   \[ cos(x,y) = \frac{x \cdot y }{||x|| \cdot ||y||  } \]
 \end{defn}
 
- Viene usata quando tutti gli attributi sono di natura numerica, e si ignorano i match di natura 00. Il vantaggio di questa misura rispetto a quella di Jaccard è che in grado di trattare anche attributi non binari. E' molto utile quindi per comparare record sparsi ed è molto usata in \textit{Information Retrieval} dove i documenti (rappresentati come conteggi di vettori) devono essere comparati.
-
+ Questa misura viene usata quando tutti gli attributi sono di natura numerica, e si ignorano i match di natura 00. Il vantaggio di questa misura rispetto a quella di Jaccard è che in grado di trattare anche attributi non binari. E' molto utile quindi per comparare record sparsi ed è molto usata in \textit{Information Retrieval} dove i documenti (rappresentati come conteggi di vettori) devono essere comparati.
 
 \begin{defn}
 	Si definisce \textbf{Correlazione} la seguente espressione:    \[ corr(x,y) = \frac{cov(x,y)}{std(x)std(y)}\]
 \end{defn}
 Questa è la stessa correlazione di Pearson ma non legata alle variabili aleatorie.
 
-Elenchiamo ora diverse problematiche legate alle misure di prossimità:
+Di seguito diverse \textbf{problematiche} legate alle misure di prossimità:
 \begin{itemize}
 	\item Come si trattano attibuti su scale di ampiezza diverse e/o correlati?
 	
-	Per risolvere il primo problema faccio la seguente cosa: normalizzo i valori, se ciò non venisse fatto le distanze Euclidee tra i due valori risulterebbero totalmente distorte a favore del valore maggiore. 
+	Per risolvere il primo problema viene fatta la seguente cosa: si normalizzano i valori, se ciò non venisse fatto le distanze Euclidee tra i due valori risulterebbero totalmente distorte a favore del valore maggiore. 
 	
-	Quando gli attributi sono fortemente correlati invece il trucco sta nel fatto che la misura di similarità è molto simile al grado di correlazione tra questi attributi, in tal caso utilizziamo la distanza di Mahalnobis:
+	Quando gli attributi sono fortemente correlati invece il trucco sta nel fatto che la misura di similarità è molto simile al grado di correlazione tra questi attributi, in tal caso si utilizza la distanza di Mahalanobis:
 	
 	\[Mahal(x,y) = (x- y)\Sigma^{-1}(x- y)^{T}\]
 	
 	Ovviamente questa è una distanza che va usata solo se tutti gli attributi sono numerici.
 	\item Come si calcola la prossimità tra record composti da attributi di tipo diverso?
 	
-	 Per risolvere questo problema mi occupo di valutare tutte le misure di prossimità enunciate in precedenza stando coerenti col tipo di attributo trattato.  
-	Dopo averlo fatto uso una varibile indicatrice $\delta_{k}$ per ogni attributo k come segue:
+	 Per risolvere questo problema si valutano tutte le misure di prossimità enunciate in precedenza stando coerenti col tipo di attributo trattato.  
+	Dopo averlo fatto si usa una variabile indicatrice $\delta_{k}$ per ogni attributo k come segue:
 	
 	$\delta_{k}$ vale:
 	\begin{itemize}
-		\item 0  se il k-esimo attributo è asimmetrico ed entrambi i valori hanno \\  valore 0,  o almeno uno dei record presenta un missing value
+		\item 0  se il k-esimo attributo è asimmetrico ed entrambi i valori hanno  valore 0,  o almeno uno dei record presenta un missing value
 		\item 1 altrimenti.
 	\end{itemize} 
 
@@ -213,18 +209,18 @@ Elenchiamo ora diverse problematiche legate alle misure di prossimità:
 	\[similarity(x,y) = \frac{\sum_{k=1}^{n}\delta_{k}s_{k}(x,y)}{\sum_{k=1}^{n}\delta_{k}}\]
 	\item Come si tratta la prossimità quando gli attributi hanno diversa rilevanza, ossia quando gli attributi contribuiscono secondo pesi diversi all'analisi? 
 	
-	Per risolvere quest'ultimo problema procedo esattamente nel modo precedente assegnando però dei pesi, le formule risolutive diventano quindi:
+	Per risolvere quest'ultimo problema si procede esattamente nel modo precedente assegnando però dei pesi, le formule risolutive diventano quindi:
 	\[similarity(x,y) = \frac{\sum_{k=1}^{n}w_{k}\delta_{k}s_{k}(x,y)}{\sum_{k=1}^{n}\delta_{k}}\]
 \end{itemize}
 
-Come è facilmente intuibile risulta molto complesso sostenere tutta questa specificità. Per farlo cerchiamo di ricondurci alla seguente scelta:
+Come è facilmente intuibile risulta molto complesso sostenere tutta questa specificità. Per farlo si cerca di ricondursi alla seguente scelta:
 \begin{itemize}
 	\item Dati densi e continui: distanze metriche  come quella euclidea sono buone rappresentazioni.
 	\item Dati sparsi, binari asimmetrici: misure della distanza che ignorano i match 00 come cosine, Jaccard e Extended Jaccard.
 \end{itemize}
 
 \subsection{Clustering Algorithms}
-Passiamo ora a parlare degli algoritmi di Clustering veri e propri:
+Di seguito la trattazione degli algoritmi di Clustering veri e propri:
 \subsubsection{Prototype Based}
 
 L'approccio ai  \textit{Prototype-Based Clustering} si basa sull'assunzione che ogni cluster possa essere ben rappresentato da un unico punto chiamato \textbf{prototipo.} Ogni oggetto è quindi collocato nel cluster del prototipo a cui è più vicino.
@@ -245,41 +241,41 @@ Esistono diversi tipi di algoritmi basati sul prototipo a seconda delle seguenti
 
 \paragraph{K-medie}
 
-Partiamo ora della descrizione di uno dei primi algoritmi basati sul prototipo. In questo caso il prototipo prende il nome di \textit{centroide,} questo valore solitamente è identificato dal vettore media dei valori degli attributi delle osservazioni di quel determinato cluster. Non siamo vincolati a ragionare in due dimensioni, il cluster generalmente è applicato ad oggetti in uno spazio continuo n-dimensionale.
+Di seguito viene proposta la descrizione di uno dei primi algoritmi basati sul prototipo. In questo caso il prototipo prende il nome di \textit{centroide;} questo valore solitamente è identificato dal vettore media dei valori degli attributi delle osservazioni di quel determinato cluster. Non c'è vincolo a ragionare in due dimensioni, il cluster generalmente è applicato ad oggetti in uno spazio continuo n-dimensionale.
 
-Forniamo ora una descrizione schematica dell'algoritmo:
+Di seguito una descrizione schematica dell'algoritmo:
 \begin{itemize}
 	\item Scegliere per $k = 0$ quali sono i centroidi facendo in modo che non si "pestino i piedi".
 	\item \textbf{Ripetere:}
 	\begin{itemize}
-		\item Formo k cluster in modo da assegnare ad ogni record il suo centroide più vicino. E' ovviamente un meccanismo esclusivo.
-		\item Calcolo il nuovo centroide per ogni cluster .
+		\item Formare k cluster in modo da assegnare ad ogni record il suo centroide più vicino. E' ovviamente un meccanismo esclusivo.
+		\item Calcolare il nuovo centroide per ogni cluster .
 		\item \textbf{Finché} il centroide non cambia più.		 
 	\end{itemize}
 	
 	
 \end{itemize}
 
-Come notiamo va esplicitato il numero di cluster prima dell'esecuzione dell'algoritmo,  valori di partenza differenti possono fornire risultati molto diversi. La scelta del numero di cluster è dunque un ambito da tenere fortemente in considerazione.
+Come si nota facilmente, bisogna esplicitare il numero di cluster prima dell'esecuzione dell'algoritmo; valori di partenza differenti possono fornire risultati molto diversi. La scelta del numero di cluster è dunque un ambito da tenere fortemente in considerazione.
 
-L'algoritmo delle K-medie non è vincolato ad utilizzare la distanza Euclidea ma possiamo utilizzare le diverse misure di prossimità utilizzate in precedenza. In particolare:
+L'algoritmo delle K-medie non è vincolato ad utilizzare la distanza Euclidea ma possono essere utilizzate le diverse misure di prossimità utilizzate in precedenza. In particolare:
 
 \begin{itemize}
-	\item \textbf{Manhattan:} in questo caso utilizziamo le mediane come centroidi, l'obiettivo è quindi \textit{minimizzare la somma delle $L_{i}$ distanze dei record rispetto al centroide del cluster a cui appartiene.}
-	\item \textbf{Squared Euclidea:} in questo caso utilizziamo le medie come centroidi, l'obiettivo è quindi \textit{minimizzare la somma delle $L_{i}$ distanze dei record rispetto al centroide del cluster a cui appartiene.}
-	\item \textbf{Cosine:} in questo caso utilizziamo le medie come centroidi, l'obiettivo è quindi \textit{massimizzare la somma delle cosine similarity dei record rispetto al centroide del cluster a cui appartiene.}
+	\item \textbf{Manhattan:} in questo caso si utilizzano le mediane come centroidi, l'obiettivo è quindi \textit{minimizzare la somma delle $L_{i}$ distanze dei record rispetto al centroide del cluster a cui appartiene.}
+	\item \textbf{Squared Euclidea:} in questo caso si utilizzano le medie come centroidi, l'obiettivo è quindi \textit{minimizzare la somma delle $L_{i}$ distanze dei record rispetto al centroide del cluster a cui appartiene.}
+	\item \textbf{Cosine:} in questo caso vengono utilizzate le medie come centroidi, l'obiettivo è quindi \textit{massimizzare la somma delle cosine similarity dei record rispetto al centroide del cluster a cui appartiene.}
 \end{itemize}
 
 
-Elenchiamo tutta una serie di problematiche relative all'utilizzo dell'algoritmo delle K-medie come algoritmo di clustering.
+Di seguito tutta una serie di \textbf{problematiche} relative all'utilizzo dell'algoritmo delle K-medie come algoritmo di clustering.
 \begin{itemize}
-	\item\textit{Scelta dei centroidi iniziali:} è una fase fondamentale e influenza in modo pesante le performance dell'algoritmo in generale. Se optiamo infatti per una scelta random dei centroidi iniziali possiamo avere cluster molto diversi. Vi sono diverse alternative per ovviare a questo problema quali il clustering gerarchico.
-	\item \textit{Complessità spaziale e temporale:} questi sono due punti a favore del K-medie. In particolare occupa pochissimo spazio in quanto vengono salvate solo le posizioni dei centroidi. Inoltre si tratta di un algoritmo abbastanza rapido in quanto è lineare rispetto al numero di istanze considerate. 
-	\item \textit{Cluster vuoti:} bisogna tenere in considerazione che può capitare che. un cluster sia vuoto per scelta sbagliata di centroidi iniziale (magari randomica).
+	\item\textit{Scelta dei centroidi iniziali:} è una fase fondamentale e influenza in modo pesante le performance dell'algoritmo in generale. Se si opta infatti per una scelta random dei centroidi iniziali si possono avere cluster molto diversi. Vi sono diverse alternative per ovviare a questo problema quali il clustering gerarchico.
+	\item \textit{Complessità spaziale e temporale:} questi sono due punti a favore del K-medie. In particolare occupa pochissimo spazio in quanto vengono salvate solo le posizioni dei centroidi; inoltre, si tratta di un algoritmo abbastanza rapido in quanto è lineare rispetto al numero di istanze considerate. 
+	\item \textit{Cluster vuoti:} bisogna tenere in considerazione che può capitare che un cluster sia vuoto per scelta sbagliata di centroidi iniziali (magari randomica).
 	\item \textit{Presenza di outlier:} Questi elementi creano grossi problemi nel calcolo della media delle osservazioni di un cluster. Risulta efficiente però nella ricerca di outlier in quanto verranno identificati come cluster di singleton. Risulta spesso utile rimuoverli.
 \end{itemize}
 
-Elenchiamo ora una serie di limiti riferiti alla ricerca dei cluster con l'algoritmo delle k-medie:
+Di seguito una serie di \textbf{limiti} riferiti alla ricerca dei cluster con l'algoritmo delle k-medie:
 \begin{itemize}
 	\item Diffiicoltà  a ricercare cluster di non forma sferica. 
 \begin{figure}[H]
@@ -325,9 +321,9 @@ Elenchiamo ora una serie di limiti riferiti alla ricerca dei cluster con l'algor
 		\end{minipage}
 	\end{figure}
 \end{itemize}
-Come possiamo notare queste tre problematiche ci portano a considerare cluster notevolmenti differenti. Esiste un modo di risolvere parzialmente queste problematiche: \textit{accettare un clustering che rompe i cluster naturali in un numero variabile di sottocluster.}
+Come si può notare queste tre problematiche  portano a considerare cluster notevolmente differenti. Esiste un modo di risolvere parzialmente queste problematiche: \textit{accettare un clustering che rompe i cluster naturali in un numero variabile di sottocluster.}
 
-Forniamo un rapido elenco che riassume punti di forza e debolezze dell'algoritmo delle k-medie:
+Di seguito un rapido elenco che riassume \textbf{punti di forza e debolezze} dell'algoritmo delle k-medie:
 \begin{itemize}
 	\item Semplice e si applica a tanti tipi di dati.
 	\item Abbastanza efficiente anche se vengono ripetute molte cose.
@@ -349,7 +345,7 @@ Se gli elementi sono distribuiti in gruppi ben separati il clustering è semplic
 \end{figure}
 Per ovviare al problema ogni osservazione viene considerata come appartenente ad ogni cluster ma con un peso diverso che indica il grado con cui un oggetto appartiene ad un ogni cluster. In particolare $w_{ij}$ è il \textit{peso} con cui l'$i$-esimo oggetto appartiee al $j$-esimo cluster.
 
-Assumiamo di avere un dataset di $m$ oggetti/record, dove ogni oggetto è associato ad un numero dato di attributi continui.
+Si assuma di avere un dataset di $m$ oggetti/record, dove ogni oggetto è associato ad un numero dato di attributi continui.
 
 \begin{defn}
 	Si definisce \textbf{Fuzzy pseudo-partition} l'assegnazione dei valori dei pesi $w_{ij}$ con i seguenti vincoli:
@@ -357,7 +353,7 @@ Assumiamo di avere un dataset di $m$ oggetti/record, dove ogni oggetto è associ
 	\[0 < \sum_{i = 1}^{K}w_{ij} <  m \quad j=1,2,...,K\]
 \end{defn} 
 
-Ovviamente per come sono definiti i cluster \textit{non ammetto cluster a dimensione nulla.} Il Fuzzy C-means \textit{produce dunque un clustering che risalta l'indicazione del grado per cui un oggetto appartiene ad ogni cluster.} Per come è definito ha gli stessi punti di forza e debolezze dell'algoritmo delle k-medie sebbene sia computazionalmente più pesante.
+Ovviamente per come sono definiti i cluster \textit{non vengono ammessi cluster a dimensione nulla.} Il Fuzzy C-means \textit{produce dunque un clustering che risalta l'indicazione del grado per cui un oggetto appartiene ad ogni cluster.} Per come è definito ha gli stessi punti di forza e debolezze dell'algoritmo delle k-medie sebbene sia computazionalmente più pesante.
 
 \paragraph{Modelli a mistura}
 I modelli a mistura considerano i dati come insiemi di osservazioni da una mistura di diverse distribuzioni di probabilità.  In sostanza si possono considerare le misture come distribuite secondo delle normali con uguale varianza ma medie diverse (curve di livello). 
@@ -368,17 +364,14 @@ I modelli a mistura considerano i dati come insiemi di osservazioni da una mistu
 	\caption{Curve di livello nei modelli a mistura.}
 \end{figure}
 
-Supponiamo di avere uno spazio a 3 componenti, il processo di generazione delle curve di livello è il seguente:
-Supponiamo spazio di 3 componenti, processo di generazione:
+Si supponga di avere uno spazio a 3 componenti, il processo di generazione delle curve di livello è il seguente:
 \begin{enumerate}
-	\item Seleziono una delle 3 componenti.
-	\item Estraggo un campione dalla componente selezionata.
-	\item Ripeto 1 e 2 m volte per ottenere il dataset
+	\item Selezione di  una delle 3 componenti.
+	\item Estrazione di un campione dalla componente selezionata.
+	\item Ripetere 1 e 2 m volte per ottenere il dataset.
 \end{enumerate} 
 
-Definisco inoltre le seguenti grandezze:
-
-
+Vengono inoltre le seguenti grandezze:
 
 \begin{itemize}
 	\item $p(\bar{x}|\Theta) = \sum_{j=1}^{K} w_j p(\bar{x}|\theta_j)$: probabilità associata all'oggetto x.
@@ -386,7 +379,6 @@ Definisco inoltre le seguenti grandezze:
 	\item $p(\bar{x}|\theta_j)$: probabilità di estrarre x dalla j-esima componente.
 	\item $\theta_j$: parametri associati a j.
 \end{itemize}
-
 Il processo consiste nel partire dai dati e ridurli nelle misture significative.
 Esiste un classe di algoritmi utilizzata per la risoluzione di questo problema che è l'\textbf{Expectation Maximization}. Si tratta di algoritmi che sono diversi in base alla loro applicazione. 
 
@@ -395,26 +387,26 @@ Esiste un classe di algoritmi utilizzata per la risoluzione di questo problema c
 	\includegraphics[height=0.3 \linewidth]{clustering/pict/expectation_maximization.png}
 	\caption{Risultato auspicabile.}
 \end{figure}
-Questa classe di algoritmi presenta però diversi svantaggi:
+Questa classe di algoritmi presenta però diversi \textbf{svantaggi:}
 
 \begin{itemize}
 	\item L'apprendimento risulta essere molto lento.
 	\item Non è pratico per i modelli con un gran numero di componenti.
-	\item Non funziona bene quando i cluster conengono  poche osservazioni.
+	\item Non funziona bene quando i cluster contengono  poche osservazioni.
 	\item Non funziona bene quando gli oggetti sono co-lineari.
 \end{itemize}
 
-Questi algoritmi presentano però anche una serie di vantaggi non indifferenti rispetto a quelli delle k-medie:
+Questi algoritmi presentano però anche una serie di \textbf{vantaggi} non indifferenti rispetto a quelli delle k-medie:
 \begin{itemize}
 	\item Sono più generali rispetto alle k-medie e alle fuzzy perché usano distribuzioni di vario tipo, possono trovare cluster di diversa grandezza e di forma ellittica.
 	\item Disciplina il metodo di eliminazione delle complessità associate ad alcuni tipi di dati.
 \end{itemize}
 
 \paragraph{Mappe di Kohonen o SOMs}
-E' una struttura feedforward per algoritmi di clustering, in particolare viene imposta un'organizzazione topografica dei \textit{neuroni} (centroidi). Durante il processo di training la SOM usa ogni oggetto per aggiornare il centroide più vicino e i centroidi che sono più vicini nell'ordinamento topografico.
+E' una struttura feedforward per algoritmi di clustering; in particolare, viene imposta un'organizzazione topografica dei \textit{neuroni} (centroidi). Durante il processo di training la SOM usa ogni oggetto per aggiornare il centroide più vicino e i centroidi che sono più vicini nell'ordinamento topografico.
 La differenza principale tra gli algoritmi precedenti è che i centroidi in questo caso \textit{hanno una predeterminata relazione di ordinamento topografico.}
 
-In particolare si ha che i centroidi che sono più vicini l'uno all'altro nella griglia sono più strettamente correlati rispetto ai centroidi che sono lontani.
+In particolare, si ha che i centroidi che sono più vicini l'uno all'altro nella griglia sono più strettamente correlati rispetto ai centroidi che sono lontani.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3 \linewidth]{clustering/pict/som.png}
@@ -423,9 +415,9 @@ In particolare si ha che i centroidi che sono più vicini l'uno all'altro nella 
 
 A causa di questo vincolo i centroidi di una griglia bidimensionale possono essere visti come giacenti su una \textit{superficie bidimensionale che prova ad adattare i dati multidimensionali il meglio possibile.}
 
-Riassumiamo ora i passaggi 	con cui una SOM crea i cluster:
+Si riassumono di seguito i passaggi con cui una SOM crea i cluster:
 \begin{enumerate}
-	\item \textit{Inizializzazione:} seleziono i centroidi assocaiti a ciascun neurone
+	\item \textit{Inizializzazione:} vengono selezionati i centroidi associati a ciascun neurone
 	\item \textit{Competizione:} i neuroni competono tra loro per ottenere l'istanza. Ogni neurone fa un'offerta diversa per vincere quell'oggetto e la proposta è proporzionale alla distanza del neurone rispetto all'istanza considerata. Viene poi proclamato il vincitore e gli viene assegnata l'istanza (in base a una misura di performance).
 	\item \textit{Collaborazione:} una volta che un neurone vince distribuisce il suo vantaggio ai vicini (processo di premi-punizioni) aggiustando i centroidi.
 	\item \textit{Aggiornamento:} il centroide del vincitore e dei vicini vengono aggiornati usando l'istanza corrente.
@@ -435,23 +427,22 @@ Il punto di forza maggiore di questo algoritmo è l'\textit{Interpretabilità:} 
 
 Questo algoritmo soffre però anche di alcune limitazioni abbastanza importanti:
 \begin{itemize}
-	\item L'utente deve  scegliere un gran numero di parametri quali:funzione di vicinato, tipo di griglia e numero di centroidi. Questa scelta influenza molto le performance.
+	\item L'utente deve  scegliere un gran numero di parametri quali: funzione di vicinato, tipo di griglia e numero di centroidi. Questa scelta influenza molto le performance.
 	\item Non sempre un raggruppamento identifica un singolo cluster naturale (solitamente dopo viene applcato un k-medie sui centroidi trovati).
 	\item Mancanza di una specifica funzione oggetto: questo rende molto difficile paragonare i risultati.
 	\item \textit{Non è garantita la convergenza.}
 \end{itemize}
 
 \subsubsection{Clustering Gerarchico}
-Passiamo ora alla descrizione della seconda classe di algoritmi di clustering.
-In particolare un clustering gerarchico può essere:
+Di seguito la descrizione della seconda classe di algoritmi di clustering. In particolare, un clustering gerarchico può essere:
 \begin{itemize}
 	\item \textit{Agglomerativo}: si considerano inizialmente tutti gli oggetti come cluster individuali, ad ogni step vengono unite le coppie di step più vicine. Un processo di questo tipo richiede la definizione di prossimità tra i cluster.
 	 
-	\item \textit{Divisivo}: parte da un cluster unico che include tutti gli oggetti e passo passo divide il cluster in cluster di singleton (oggetti individuali). Abbiamo bisogno di decidere quale cluster splittare ad ogni passo e come splittare.
+	\item \textit{Divisivo}: parte da un cluster unico che include tutti gli oggetti e passo passo divide il cluster in cluster di singleton (oggetti individuali). C'è la necessità di decidere quale cluster splittare ad ogni passo e come splittare.
 \end{itemize}
 
-\paragraph{Clustering gerarchico agglomerativo} Concentriamo la nostra attenzione su questo tipo di clustering perché sono i più comuni. 
-La soluzione che si ottiene è il \textit{dendrogramma} del clustering effettuato. Il dendogramma serve a visualizzare sia le relazioni tra i cluster e i sottocluster sia l'ordine in cui sono stati divisi o agglomerati i vari cluster. Questo tipo di algoritmo è computazionalmente molto pesante.
+\paragraph{Clustering gerarchico agglomerativo} Si concentra l'attenzione su questo tipo di clustering perché sono i più comuni. 
+La soluzione che si ottiene è il \textit{dendogramma} del clustering effettuato. Il dendogramma serve a visualizzare sia le relazioni tra i cluster e i sotto-cluster sia l'ordine in cui sono stati divisi o agglomerati i vari cluster. Questo tipo di algoritmo è computazionalmente molto pesante.
 
 \begin{figure}[H]
 	\centering
@@ -459,7 +450,7 @@ La soluzione che si ottiene è il \textit{dendrogramma} del clustering effettuat
 	\caption{Clustering gerarchico sotto forma di dendrogramma}
 \end{figure}
 
-Diamo ora un rapido riassunto dei passaggi dell'algoritmo:
+Di seguito un rapido riassunto dei passaggi dell'algoritmo:
 
 \begin{enumerate}
 	\item Calcolare la matrice di prossimità (se necessario).
@@ -497,26 +488,26 @@ Si pone ora il problema di calcolare la prossimità tra due cluster . Ci sono in
 \end{minipage}
 \end{figure}
 
-Le caratteristiche chiave di questi algoritmi sono le seguenti:
+Le \textbf{caratteristiche} chiave di questi algoritmi sono le seguenti:
 \begin{itemize}
 	\item \textit{Mancanza di una funzione globale di oggetto:} per questo motivo non può risolvere problemi di ottimizzazione globale.
 	\item \textit{Abilità di gestire cluster di diverse dimensioni:} può gestire cluster con dimensioni differenti, i cluster possono anche essere pesati o meno.
 	\item \textit{Le decisioni di unione sono definitive:} non si può tornare indietro rispetto alla decisione (approccio greedy).
 \end{itemize}
 
-Le problematiche più importanti sono invece:
+Le \textbf{problematiche} più importanti sono invece:
 \begin{itemize}
 	\item Computazionalmente molto pesante e richiede molto spazio.
-	\item Decisioni di unione di cluster sono subottimali quindi creano rumore soprattutto per dati documentali. 
+	\item Decisioni di unione di cluster sono sub-ottimali quindi creano rumore soprattutto per dati documentali. 
 \end{itemize}
 
 \subsubsection{Density-Based Clustering}
-Passiamo ora alla descrizione della classe di algoritmi basati sulla densità. In particolare le tecniche di clustering basate sulla densità si occupano di \textit{trovare regioni con un'alta densità di oggetti circondati da regioni con una bassa densità di oggetti.}
+Di seguito la descrizione della classe di algoritmi basati sulla densità. In particolare le tecniche di clustering basate sulla densità si occupano di \textit{trovare regioni con un'alta densità di oggetti circondati da regioni con una bassa densità di oggetti.}
 Passiamo ora a parlare di un algoritmo specifico, il \textit{DBSCAN.}
 
-\paragraph{DBSCAN} E' un semplice ma efficace  algoritmo density-based che mostra un gran numero di concetti fondamentali tipici dell'approccio density based. Ci sono diversi metodi per definire la densità, in particolare noi descriviamo il metodo center-based.
+\paragraph{DBSCAN} E' un semplice ma efficace  algoritmo density-based che mostra un gran numero di concetti fondamentali tipici dell'approccio density-based. Ci sono diversi metodi per definire la densità, in particolare noi descriviamo il metodo center-based.
 \begin{defn}
-	Si definisce \textbf{densità} il numero di oggetti presenti all'interno di un raggio fissato (Eps) rispetto ad un oggetto.
+	Si definisce \textbf{densità} il numero di oggetti presenti all'interno di un raggio fissato ($\epsilon$) rispetto ad un oggetto.
 \end{defn} 
 
 Come facilmente intuibile la densità può variare fortemente al variare del raggio.
@@ -528,12 +519,12 @@ Come facilmente intuibile la densità può variare fortemente al variare del rag
 
 Definita la densità in questo modo, i punti vengono classificati in tre tipologie diverse:
 \begin{itemize}
-	\item \textit{Core point}: stanno all'interno della regione ad elevata densità. In particolare un punto viene definito così se il numero di punti nel suo vicinato eccede un certo valore di soglia (MinPts) pre impostato dall'utente. 
+	\item \textit{Core point}: stanno all'interno della regione ad elevata densità. In particolare, un punto viene definito così se il numero di punti nel suo vicinato eccede un certo valore di soglia (MinPts) pre-impostato dall'utente. 
 	\item \textit{Border point} : un punto che include nel suo vicinato un core point, quindi lui si considera un vicino di core point.
 	\item \textit{Noise point}: non è né un core point né un border point.
 \end{itemize}
 
-Come negli altri casi presentiamo i passaggi dell'algoritmo in maniera schematica:
+Come negli altri casi di seguito i passaggi dell'algoritmo in maniera schematica:
 \begin{enumerate}
 	\item Etichettare tutti i core, border, noise point.
 	\item Eliminare i noise point.
@@ -542,10 +533,10 @@ Come negli altri casi presentiamo i passaggi dell'algoritmo in maniera schematic
 	\item Assegnare  ciascun border point al cluster associato al core point più prossimo.
 \end{enumerate}
 
-Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} è fondamentale in quanto impatta fortemente sull'esecuzione di tutto l'algoritmo. Mostriamo ora invece quali sono le \textbf{differenze principali tra l'algoritmo DBSCAN e l'algoritmo K-means:}
+Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} è fondamentale in quanto impatta fortemente sull'esecuzione di tutto l'algoritmo. Di seguito, invece,  quali sono le \textbf{differenze} principali tra l'algoritmo DBSCAN e l'algoritmo K-means:
 \begin{itemize}
 	\item DBSCAN e K-Means assegnano gli oggetti ad un singolo cluster, l'algoritmo delle k-medie però assegna tutti gli oggetti mentre il DBSCAN può omettere il rumore.
-	\item DBSCAN può trattare cluster di diverse dimensioni e forme e non è affetto da rumori o outliers.. K-medie hanno difficoltà con i cluster non globulari oppure di forme diverse. Entrambi gli algoritmi performano male quando i cluster hanno significative differenze di densità.
+	\item DBSCAN può trattare cluster di diverse dimensioni e forme e non è affetto da rumori o outliers. K-medie hanno difficoltà con i cluster non globulari oppure di forme diverse. Entrambi gli algoritmi performano male quando i cluster hanno significative differenze di densità.
 	\item L'algoritmo delle K-medie può essere usato per dato che hanno centroidi ben definiti come la media o la mediana. L'algoritmo DBSCAN invece richiede una definizione di densità che è basata sulla nozione tradizionale di distanza Euclidea.
 	\item L'algoritmo delle K-medie può essere applicato a dati sparsi e a multi-dimensionali come ad esempio i dati documentali. Il DBSCAN in questi casi invece non performa per niente bene in quanto la definizione di densità Euclidea non funziona bene per dati multi-dimensionali.
 	\item DBSCAN non fa assunzioni riguardo la distribuzione dei dati. L'algoritmo delle K-medie invece è equivalente ad approccio statistico di clustering che assume che tutti i cluster vengono da una distribuzione Gaussiana sferica con diverse medie ma con la stessa matrice di covarianza.
@@ -557,14 +548,14 @@ Come detto in precedenza la scelta dei parametri \textit{MinPts} e \textit{Eps} 
 	\item DBSCAN determina automaticamente il numero di cluster mentre nell'algoritmo delle k-medie esso deve essere esplicitato in principio come parametro.
 \end{itemize}
 
-Vi sono altri algoritmi di density-based che non tratteremo in questo momento quali: \textit{grid-based clustering}, \textit{subspace clustering}, \textit{kernel density function}.
+Vi sono altri algoritmi di density-based che non verranno trattati in questo momento quali: \textit{grid-based clustering}, \textit{subspace clustering}, \textit{kernel density function}.
 
 \subsubsection{Graph-based Clustering Algorithm}
 Gli algoritmi di clustering gerarchico usano una visione dei dati basata sui \textit{grafi,} in cui i dati sono rappresentati come \textit{nodi} e la prossimità tra due istanze è rappresentata dal peso del \textit{ponte} che c'è tra i rispettivi nodi. Sono stati esplorati algoritmi di clustering graph-based che esplorano diverse caratteristiche e proprietà dei grafi. Gli approcci chiave sono i seguenti:
 \begin{itemize}
 	\item \textit{Sparsificare il grafo di prossimità:} tagliare, rimuovere certi archi che non superano la verifica di una certa condizione. (Es. tutti gli archi che non superano una certa soglia, oppure un concetto di vicinato). 
-	\item\textit{Definire una misura di similarità} tra due oggetti basati sul numero di oggetti vicini che condividono. Questo approccio aiuta a diminuire i problemi che nascono con cluster di dimensioni diverse e con densità diverse. 
-	\item \textit{Definire oggetti core e costruire cluster attoro ad essi:} Necessita l'introduzione di grafo di prossimità density-based.
+	\item\textit{Definire una misura di similarità:} tra due oggetti basati sul numero di oggetti vicini che condividono. Questo approccio aiuta a diminuire i problemi che nascono con cluster di dimensioni diverse e con densità diverse. 
+	\item \textit{Definire oggetti core e costruire cluster attorno ad essi:} Necessita l'introduzione di grafo di prossimità density-based.
 	\item \textit{Utilizzare l'informazione nel grafo di prossimità} per fornire una maggiore valutazione per cui due cluster dovrebbero essere uniti. 
 \end{itemize}
 
@@ -574,10 +565,10 @@ Gli algoritmi di clustering gerarchico usano una visione dei dati basata sui \te
 	\caption{Correlazione tra matrice di prossimità e grafo di prossimità.}
 \end{figure}
 
-Come possiamo notare ogni oggetto a un certo livello di similarità con \textit{ogni} altro oggetto, per la maggior parte del dataset gli oggetti sono molto più simili ad un basso numero di oggetti e molto poco simili ad un alto numero di oggetti. Un 'operazione utile è quella di sparsificare il grafo/matrice di prossimita ossia di settare alcuni dei valori di prossimità molto bassi a 0. Il "molto bassi" viene identificato da un valore soglia. Questo serve a \textit{rompere tutti i nodi che hanno una prossimità sotto una data soglia o a tenere solo i collegamenti ai k-nearest neighbours per ogni punto}
+Come si può notare, ogni oggetto a un certo livello di similarità con \textit{ogni} altro oggetto, per la maggior parte del dataset gli oggetti sono molto più simili ad un basso numero di oggetti e molto poco simili ad un alto numero di oggetti. Un 'operazione utile è quella di sparsificare il grafo/matrice di prossimità ossia di settare alcuni dei valori di prossimità molto bassi a 0. Il "molto bassi" viene identificato da un valore soglia. Questo serve a \textit{rompere tutti i nodi che hanno una prossimità sotto una data soglia o a tenere solo i collegamenti ai k-nearest neighbours per ogni punto}
 
 \begin{defn}
-	Definiamo quindi il \textbf{K-Nearest Neighbor} il numero di valori di archi che prendo come vicinato per ogni riga della matrice.
+	Definiamo quindi il \textbf{K-Nearest Neighbour} il numero di valori di archi che prendo come vicinato per ogni riga della matrice.
 \end{defn}
 Come facilmente intuibile ci sono diversi vantaggi nello sparsificare la matrice. In primo luogo \textit{la riduzione della dimensione dei dati,} settare dei valori a 0 infatti implica la non considerazione di quei collegamenti nell'algoritmo. In secondo luogo \textit{ l'algoritmo di clustering potrebbe lavorare meglio,} questo perché la sparsificazione potrebbe eliminare degli outlier  o quegli elementi che costituiscono soltanto del rumore. Un ultimo motivo altrettanto importante è che \textit{si possono trovare anche partizioni interessanti di quel grafo.}
 
@@ -593,13 +584,13 @@ La sparsificazione deve essere vista come lo step preliminare prima dell'uso del
 	\end{itemize}
 \end{defn}
 
-Quando parliamo di albero di supporto assumiamo che funzioni solo con le distanze o le dissimilarità.
+Quando si parla di albero di supporto si assume che funzioni solo con le distanze o le dissimilarità.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.30 \linewidth]{clustering/pict/mst.png}
 	\caption{Albero di supporto con relativa matrice.}
 \end{figure}
-Esplicitiamo ora l'algoritmo di costruzione:
+L'algoritmo di costruzione è il seguente:
 \begin{enumerate}
 	\item Calcolare il MST per grafo di dissimilarità.
 	\item \textbf{Ripetere}
@@ -612,16 +603,16 @@ Esplicitiamo ora l'algoritmo di costruzione:
 
 \paragraph{Opossum} è un algoritmo disegnato appositamente per clusterizzare dati multidimensionali e sparsi come i dati documentali o tipo il cestino della spesa. Si basa sullo stesso principio, ossia sulla sparsificazione del grafo. L'algoritmo nello specifico è il seguente:
 \begin{enumerate}
-	\item Caclola il grafo di similarità  sparsificato.
+	\item Calcola il grafo di similarità sparsificato.
 	\item Partiziona il grafo in k componenti distinte (cluster) usando METIS.
 \end{enumerate}
-Come notiamo la misura di similarità deve essere appropriata rispetto al tipo di dati che stiamo trattando. come ad esempio la misura di Jaccard o quella del coseno. E' un algoritmo molto veloce e semplice e tende a partizionare i dati in cluster di egual dimensione.
+Come notiamo, la misura di similarità deve essere appropriata rispetto al tipo di dati che stiamo trattando. come ad esempio la misura di Jaccard o quella del coseno.  \`E un algoritmo molto veloce e semplice e tende a partizionare i dati in cluster di egual dimensione.
 
-\paragraph{Chamaleon} E' un algoritmo di clustering agglomerativo che combina \textit{un iniziale partizionamento dei dati}, con un ulteriore schema di clustering gerarchico che usa la nozione di \textit{vicinanza e interconnettività.} L'idea chiave è che \textit{due cluester devono essere uniti solo se il cluster risultante è simile ai cluster di partenza.}
-L'algoritmo in particolare si articola nei seguenti passaggi:
+\paragraph{Chamaleon} \`E un algoritmo di clustering agglomerativo che combina \textit{un iniziale partizionamento dei dati}, con un ulteriore schema di clustering gerarchico che usa la nozione di \textit{vicinanza e interconnettività.} L'idea chiave è che \textit{due cluster devono essere uniti solo se il cluster risultante è simile ai cluster di partenza.}
+L'algoritmo  si articola nei seguenti passaggi:
 \begin{enumerate}
 	\item Costruire un grafo k-nearest neighbour.
-	\item Partizionare il grafo usando un algoritmo di partizionamento a multilivelli.
+	\item Partizionare il grafo usando un algoritmo di partizionamento a multi livelli.
 	\item \textbf{Ripetere}
 	\begin{itemize}
 		\item Unire i cluster che preservano maggiormente la somiglianza rispetto alla relativa vicinanza e interconnettività..
@@ -630,7 +621,7 @@ L'algoritmo in particolare si articola nei seguenti passaggi:
 	
 \end{enumerate}
 
-Questo algoritmo riesce a clusterizzare dati spaziali considerando anche il rumore e gli outlier, riesce inoltre a gestire anche cluster di diversa forma e di diversa densità. Questo algoritmo ha però problemi \textit{quando il processo di partizionamento non subisce la creazione di sotto cluster.}
+Questo algoritmo riesce a clusterizzare dati spaziali considerando anche il rumore e gli outlier, riesce, inoltre, a gestire anche cluster di diversa forma e di diversa densità. Questo algoritmo ha però problemi \textit{quando il processo di partizionamento non subisce la creazione di sotto cluster.}
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.18 \linewidth]{clustering/pict/chamaleon.png}
@@ -638,23 +629,23 @@ Questo algoritmo riesce a clusterizzare dati spaziali considerando anche il rumo
 \end{figure}
 
 \subsection{Clustering Evaluation(*)}
-La trattazione è sempre la solita, abbiamo un problema di clustering da risolvere. Quando risolviamo un problema di questo tipo l'efficienza di un algoritmo di clustering viene valutata tramite:
+La trattazione è sempre la solita, è presente un problema di clustering da risolvere. Quando si risolve un problema di questo tipo l'efficienza di un algoritmo di clustering viene valutata tramite:
 \begin{itemize}
 	\item Similarità.
 	\item Esclusività dei cluster o misure fuzzy di sovrapposizione.
 	\item Se i cluster sono completi o parziali.
 \end{itemize}
 
-Decidiamo di impostare un piano sperimentale, selezioniamo quindi  un certo numero di algoritmi di clustering e li proviamo per vedere quali funzionino meglio. Vorremmo avere quindi gli stessi metodi dei classificatori per capire quando un algoritmo di clustering possa essere considerato migliore di un altro. Purtroppo il concetto di clustering è molto più complesso visto che non conosciamo esattamente il risultato da ottenere.
-Le problematiche più grossi nella valutazione sono:
+Si decide di impostare un piano sperimentale, si selezionano successivamente un certo numero di algoritmi di clustering e ai testano per vedere quali funzionano meglio. L'obiettivo è avere quindi gli stessi metodi dei classificatori per capire quando un algoritmo di clustering possa essere considerato migliore di un altro. Purtroppo il concetto di clustering è molto più complesso visto che non si conoscono esattamente il risultato da ottenere.
+Le \textbf{problematiche} più grosse nella valutazione sono:
 \begin{itemize}
 	\item Determinare la tendenza dei cluster (che non siano fatti a caso).
 	\item Determinare il numero corretto di cluster (qualunque cosa significhi).
 \end{itemize} 
-Abbiamo tre diversi tipi di indici che servono a validare i nostri cluster:
+Si utilizzano tre diversi tipi di indici che servono a validare i nostri cluster:
 \begin{itemize}
 	\item \textit{Esterni o supervisionati}: misurano l'estensione per cui la struttura di clustering trovata combaci con qualche struttura esterna (presupponendo di avere una vaga idea di come i dati dovrebbero organizzarsi).
-	\item \textit{Interni o non supervisionati}: misurano la bontà di una struttura di clustering senza tener conto di informazioni esterne. In particolare essi possono essere:
+	\item \textit{Interni o non supervisionati}: misurano la bontà di una struttura di clustering senza tener conto di informazioni esterne. In particolare, essi possono essere:
 	\begin{itemize}
 		\item Misure di coesione: determinano la connessione tra elementi di un cluster
 		\item misure di separazione: quanto sono ben distiniti i cluster. 
@@ -663,9 +654,9 @@ Abbiamo tre diversi tipi di indici che servono a validare i nostri cluster:
 \end{itemize}
 \subsubsection{Esterni o supervisionati(*)}
 
-Supponiamo di avere un partizionamento $P = \{P_{1}, ..., P_{R}\}$ di R insiemi disgiunti con $m$ elementi. 
+Si supponga di avere un partizionamento $P = \{P_{1}, ..., P_{R}\}$ di R insiemi disgiunti con $m$ elementi. 
 
-Sia ora: $C = \{C_{1}, ..., C_{K}\}$, la partizione ottenuta con un algoritmo di clustering in $K$ cluster. Compariamo ora P con C per vedere quali siano i casi che si realizzano.
+Sia ora: $C = \{C_{1}, ..., C_{K}\}$, la partizione ottenuta con un algoritmo di clustering in $K$ cluster. Si compari il partizionamento P con C per vedere quali siano i casi che si realizzano.
 Ci sono ovviamente quattro casi che possono verificarsi:
 \begin{enumerate}
 	\item[a.]  x e y appartengono allo \underline{stesso} cluster di C e alla \underline{stessa} categoria di P
@@ -683,33 +674,32 @@ Ovviamente le coppie che possiamo formare sono:
 	\caption{Partizionamenti C e P e formazione delle coppie.}
 \end{figure}
 
-Definisco diverse misure di similarità:
+Si definiscono di seguito diverse misure di similarità:
 
 	 \begin{defn}
-		Definisco \textbf{Rand} il seguente indice:
+		Si definisce \textbf{Rand} il seguente indice:
 		 \[R = \frac{a + d}{M} \quad R \in [0,1]\]
 			\end{defn}
 		\begin{defn}
-			Definisco \textbf{Jaccard} il seguente indice:
+			Si definisce \textbf{Jaccard} il seguente indice:
 			\[J = \frac{a}{a + b + c} \quad J \in [0,1]\]
 		\end{defn}
 		\begin{defn}
-			Definisco \textbf{Fowlkes and Mallows} il seguente indice:
+			Si definisce \textbf{Fowlkes and Mallows} il seguente indice:
 			\[FM = \sqrt{\frac{a}{a + b} \times \frac{a}{a + c}} \quad FM \in [0,1]\]
 		\end{defn}
 		 \begin{defn}
-			Definisco \textbf{$\Gamma$ statistics} il seguente indice:
-			\[R = \frac{M \times a - (a+b)\times (a+c)}{\sqrt{(a+b)\times (a+c)\times(M-a-b)\times(M-a-c)}} \quad \Gamma \in [-1,1]\]
+			Si definisce \textbf{$\Gamma$ statistics} il seguente indice:
+			\[\Gamma = \frac{M \times a - (a+b)\times (a+c)}{\sqrt{(a+b)\times (a+c)\times(M-a-b)\times(M-a-c)}} \quad \Gamma \in [-1,1]\]
 		\end{defn}	
-
 Per come sono definiti, più è grande il valore che assumono questi indici più sono simili C e P.
 \subsubsection{Interni o non supervisionati(*)}
-Diversi indici di interni di validità del partizionamento dei cluster si basano sulla \textit{coesione} e sulla \textit{separazione}. La nostra idea è quella quindi di ottenere un valore di coesione alto e un valore di separazione basso.
-In generale valutiamo la validità totale di un cluster fatto da un insieme di K cluster come la media pesata delle validità di ogni singolo cluster.
+Diversi indici di interni di validità del partizionamento dei cluster si basano sulla \textit{coesione} e sulla \textit{separazione}. L' idea è quella di ottenere un valore di coesione alto e un valore di separazione basso.
+In generale, \textit{si valuta la validità totale di un cluster fatto da un insieme di K cluster come la media pesata delle validità di ogni singolo cluster.}
 
 \[ overall\_validity = \sum_{i = 1}^{K}w_{i} \cdot validity(C_{i})\]
 In cui la validità può essere la coesione, la separazione o una combinazione lineare di queste; i pesi invece variano in base alla misura di validità del clustering.
-Supponendo di avere dei cluster basati su grafi posso definire la coesione e la separazine in questo modo:
+Supponendo di avere dei cluster basati su grafi si può definire la coesione e la separazine in questo modo:
 
 \begin{defn}
 	Si definisce \textbf{coesione} la somma dei pesi dei ponti nel grafo di prossimità che connettono i punti all'interno del  cluster.
@@ -721,9 +711,7 @@ Per questo motivo la coesione e la similarità sono massimizzate quando vengono 
 	Si definisce \textbf{separazione} la somma dei pesi dei ponti nel grafo di prossimità che connettono i punti di un cluster ai punti di un altro cluster.
 	\[separation(C_{i}, C_{j}) = \sum_{x \in C_{i},y\in C_{j} }proximity(x,y) = \sum_{x \in C_{i},y\in C_{j} }similarity(x,y)   \]
 \end{defn}
-
 Per gli algoritmi di clustering basati sui prototipi invece le definizioni cambiano un pochino:
-
 \begin{defn}
 	Si definisce \textbf{coesione} la somma delle prossimità rispetto al prototipo all'interno del  cluster.
 	\[ cohesion(C_i) = \sum_{x \in C_i} proximity(x, c_i) = \sum_{x\in C_i} similarity(x, c_i)\]
@@ -732,14 +720,14 @@ Per gli algoritmi di clustering basati sui prototipi invece le definizioni cambi
 	Si definisce \textbf{separazione} la prossimità tra due prototipi di due cluster diversi.
 	\[separation(C_{i}, C_{j}) = proximity(c_{i}, c_{j}) = similarity(c_{i}, c_{j})   \]
 \end{defn}
-E' molto difficile dare una definizione sempre uguale dei pesi da fornire ai vari cluster nel momento in cui voglio operare una misura di validità, per semplificare il problema facciamo riferimento alla seguente tabella.
+E' molto difficile dare una definizione sempre uguale dei pesi da fornire ai vari cluster nel momento in cui si vuole operare una misura di validità, per semplificare il problema bisogna fare riferimento alla seguente tabella.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.250 \linewidth]{clustering/pict/pesi_validity.png}
 	\caption{Pesi da usare a seconda del tipo di algoritmo di clustering.}
 \end{figure}
-Durante questa trattazione ci siamo concentrati sulle misure di coesione e di separazione come valutazione totale di un gruppo di cluster, diverse di queste misure possono essere anche applicate per valutare i singoli cluster. Il nostro obiettivo è \textit{ordinare i cluster secondo il loro specifico valore di validità,} in particolare un cluster con un alto valore di coesione deve essere considerato migliore rispetto ad un cluster con un basso valore di coesione.
-Se abbiamo cluster non molto coesi potrebbe risultare utile separarli in dei cluster più fortemente coesi. Allo stesso modo se due cluster sono relativamente coesi ma non troppo ben separati potrebbe essere utile provare ad unirli.
+Durante questa trattazione ci si è concentrati sulle misure di coesione e di separazione come valutazione totale di un gruppo di cluster; diverse di queste misure possono essere anche applicate per valutare i singoli cluster. L' obiettivo è \textit{ordinare i cluster secondo il loro specifico valore di validità;} in particolare, un cluster con un alto valore di coesione deve essere considerato migliore rispetto ad un cluster con un basso valore di coesione.
+Se sono presenti cluster non molto coesi potrebbe risultare utile separarli in dei cluster più fortemente coesi. Allo stesso modo se due cluster sono relativamente coesi ma non troppo ben separati potrebbe essere utile provare ad unirli.
 
 \textit{Risulta quindi utile valutare un oggetto all'interno del cluster secondo la misura in cui quell'oggetto contribuisce alla coesione o alla separazione.} Graficamente si otterrebbe che gli oggetti che si trovano più "all'interno" del cluster dovrebbero contribuire in modo maggiore alla coesione, mentre quelli più esterni avranno un contributo minore. Proprio per questo motivo si definisce l'indice di Silhouette che combina coesione e separazione per l'i-esimo oggetto all'interno del cluster.
 \begin{defn}
@@ -753,10 +741,10 @@ Dove:
 	\item $b_{i}$ è il minimo delle distanze medie dell'oggetto i-esimo da tutti gli oggetti degli altri cluster.
 \end{itemize}
 
-\textit{Valori negativi} di questo coefficiente significano che la distanza media dei punti nello stesso cluster è maggiore della distanza media minima di quei punti rispetto ai punti di un altro cluster.  Per come è definito vogliamo quindi che il coefficiente assuma \textit{valori positivi} poiché il coefficiente assume il valore 1 quando $a_i = 0$.
+\textit{Valori negativi} di questo coefficiente significano che la distanza media dei punti nello stesso cluster è maggiore della distanza media minima di quei punti rispetto ai punti di un altro cluster.  Per come è definito sono preferibili \textit{valori positivi} poiché il coefficiente assume il valore 1 quando $a_i = 0$.
 
-Possiamo quindi calcolare il \textit{Coefficiente medio di silhouette} semplicemente calcolando la media dei coefficienti dei punti di un dato cluster. Una misura totale della bontà di un clustering può quindi essere il coefficiente medio di silhouette calcolato su tutti i punti.
-Per quanto riguarda il clustering gerarchico non si usa il coefficiente di silhouette ma il \textbf{Cophenetic Correlation Coefficient.}
+Si possono, quindi, calcolare il \textit{Coefficiente medio di silhouette} semplicemente calcolando la media dei coefficienti dei punti di un dato cluster. Una misura totale della bontà di un clustering può quindi essere il coefficiente medio di silhouette calcolato su tutti i punti.
+Per quanto riguarda il clustering gerarchico, non si usa il coefficiente di silhouette ma il \textbf{Cophenetic Correlation Coefficient.}
 
 Questo coefficiente misura il grado di similarità tra la matrice di prossimità (P) e la matrice Cophenetic (Q) i cui elementi registrano il livello di prossimità tra coppie di osservazioni raggruppate all'interno dello stesso cluster.
  Il valore varia da $[-1,1]$. Più il valore è vicino a 1 meglio l'algoritmo gerarchico si adatta ai nostri dati.
@@ -764,13 +752,13 @@ Questo coefficiente misura il grado di similarità tra la matrice di prossimità
 
  Sia gli indici interni che quelli esterni sono strettamente correlati ai metodi statistici, in particolare ai test di ipotesi. Il paradigma di validità è un processo schematico che ci porta a dire se ci sia struttura o meno nei nostri dati e si articola nel seguente modo:
  
- \paragraph{Identificare la struttura e il tipo di validazione} La struttura della nostra ricerca è basata sulla seguente ipotesi nulla:
+ \paragraph{Identificare la struttura e il tipo di validazione} La struttura della ricerca è basata sulla seguente ipotesi nulla:
  \textbf{Non c'è struttura nel dataset.}
- \paragraph{Determinare un indice di validazione} Cercare quale sia l'indice di validazione più appropriato per il nostro schema di clustering.
+ \paragraph{Determinare un indice di validazione} Cercare quale sia l'indice di validazione più appropriato per lo schema di clustering.
  \paragraph{Definire un'ipotesi nulla di non struttura} Il tipo di ipotesi che si va a fare dipende dal tipo di problema, può essere ad esempio :
  \begin{itemize}
  	\item \textit{Random Position} (i records si distribuiscono casualmente nello spazio n-dimensionale dei record). Viene usata per i dati razionali.
- 	\item \textit{Random Graph } non mi interessa la posizione ma che ci sia una certa struttura di similarità. Viene usata per prossimità ordinali tra coppie di dati.
+ 	\item \textit{Random Graph } non  interessa la posizione ma che ci sia una certa struttura di similarità. Viene usata per prossimità ordinali tra coppie di dati.
  	\item \textit{Random Label}: etichettare le osservazioni in modi differenti non cambia il tipo di coerenza che ottengo nel mio esperimento. Viene usata per tutti i tipi di dati.
  \end{itemize}
 \paragraph{Stabilire le fondamenta della distribuzione sotto l'ipotesi nulla} Può essere operata un'analisi Monte Carlo e BootStrapping.
@@ -778,7 +766,7 @@ Questo coefficiente misura il grado di similarità tra la matrice di prossimità
 \paragraph{Testare l'ipotesi nulla} Si vuole arrivare ovviamente a rigettare l'ipotesi nulla. Questo rigetto non implica che ci sia necessariamente struttura nei dati ma implica che sicuramente non c'è non-struttura. 
  
  \subsubsection{Selezione del numero di cluster(*)}
- Ha senso porsi il problema di scegliere il numero di cluster solo dopo che l'analisi precedente ci ha permesso di dedurre che è presente struttura adatta per un'analisi di clustering. In particolare si utilizzano i \textit{criteri relativi} che sono criteri che si concentrano sul confronto dei diversi risultati generati dai diversi algoritmi di clustering oppure sui risultati diversi prodotti dallo stesso algoritmo di clustering ma con parametri di input differenti.
+ Ha senso porsi il problema di scegliere il numero di cluster solo dopo che l'analisi precedente ha permesso di dedurre che è presente struttura adatta per un'analisi di clustering. In particolare, si utilizzano i \textit{criteri relativi} che sono criteri che si concentrano sul confronto dei diversi risultati generati dai diversi algoritmi di clustering oppure sui risultati diversi prodotti dallo stesso algoritmo di clustering ma con parametri di input differenti.
  Gli indici principali per calcolare il numero di cluster sono:
  \begin{itemize}
  	\item \textit{Calinski and Harabasz:} Il valore di K corrispondente al massimo è preso per essere l'ottimale numero di cluster.
@@ -793,8 +781,8 @@ Gli indici per gli algoritmi di cluster basati sulle misture probabilistiche son
  	\item \textit{Bayesian Information Criterion (BIC):}Il valore di K corrispondente al minimo è preso per essere l'ottimale numero di cluster.
  \end{itemize}
  
- Per un algoritmo di clustering che richiede come input un numero di cluster inserito dall'utente posso ottenere una sequenza di struttura di clustering iterando l'algoritmo di clustering $r$ volte dove $K$ spazia da $K_{min}$ a $K_{max}$.
- Forniamo ora  l'algoritmo che genera la sequenza delle strutture di clustering:
+ Per un algoritmo di clustering che richiede come input un numero di cluster inserito dall'utente  si possono ottenere una sequenza di struttura di clustering iterando l'algoritmo di clustering $r$ volte dove $K$ spazia da $K_{min}$ a $K_{max}$.
+ Di seguito ora  l'algoritmo che genera la sequenza delle strutture di clustering:
  \begin{itemize}
  	\item Scegliere un algoritmo di clustering e un indice di validazione.
  	\item \textbf{FOR $K_{min}$ to $K_{max}$:}
