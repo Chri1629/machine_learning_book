@@ -129,7 +129,7 @@ Si consideri in prima analisi la misura di prossimità tra due record aventi un 
 Si considerino due record riferiti al medesimo attributo nominale qualitativo, tutto ciò che si può dire è se i due record abbiano lo stesso valore o meno.
 Per quanto riguarda gli attributi binari la dissimilarità esclude la similarità con valori 0 e 1. 
 
-Se si hanno attributi categorici ordinali bisogna assegnare un valore intero agli stessi in base alla scala utilizzata e si calcola la dissimilarità come rapporto tra la differenza dei due record e la scala totale di valori di utilizzo. Naturalmente va notato che si sta utilizzando una scala linerare, questa è ovviamente un'assunzione molto forte di cui però bisogna tenere in conto in quanto qualsiasi scala di valori scelta è fatta basandosi su assunzioni.
+Se ho attributi categorici ordinali assegno un valore intero agli stessi in base alla scala utilizzata e calcolo la dissimilarità come rapporto tra la differenza dei due record e la scala totale di valori di utilizzo. Naturalmente va notato che sto utilizzando una scala lineare, questa è ovviamente un'assunzione molto forte che però bisogna tenere in conto in quanto qualsiasi scala di valori scelta è fatta basandosi su assunzioni.
 
 Come si nota dalla tabella è molto più facile definire la prossimità tra due attributi numerici, essa è infatti definita come \textit{la differenza in modulo tra i due valori.}
 \subsubsection{Misure della distanza}
@@ -279,44 +279,44 @@ Di seguito una serie di \textbf{limiti} riferiti alla ricerca dei cluster con l'
 \begin{itemize}
 	\item Diffiicoltà  a ricercare cluster di non forma sferica. 
 \begin{figure}[H]
-	\begin{minipage}[b]{0.30\textwidth}
+	\begin{minipage}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{clustering/pict/non_sferica_1.png}
+		\includegraphics[width=0.7\textwidth]{clustering/pict/non_sferica_1.png}
 		\caption{Cluster non sferico.}
 	\end{minipage}
 	\hfill
-	\begin{minipage}[b]{0.30\textwidth}
+	\begin{minipage}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{clustering/pict/non_sferica_2.png}
+		\includegraphics[width=0.7\textwidth]{clustering/pict/non_sferica_2.png}
 		\caption{Cluster sferico.}
 	\end{minipage}
 \end{figure}
 	
 	\item Difficoltà a trovare cluster con dimensioni diverse: questo problema nasce dal fatto che la distanza è fissata.
 	\begin{figure}[H]
-		\begin{minipage}[b]{0.30\textwidth}
+		\begin{minipage}[b]{0.5\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{clustering/pict/distanza_fissata_1.png}
+			\includegraphics[width=0.7\textwidth]{clustering/pict/distanza_fissata_1.png}
 			\caption{Distanza non fissata.}
 		\end{minipage}
 		\hfill
-		\begin{minipage}[b]{0.30\textwidth}
+		\begin{minipage}[b]{0.5\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{clustering/pict/distanza_fissata_2.png}
+			\includegraphics[width=0.7\textwidth]{clustering/pict/distanza_fissata_2.png}
 			\caption{Distanza fissata.}
 		\end{minipage}
 	\end{figure}
 	\item Difficoltà a indentificare cluster di diversa densità: questo prblema nasce dal fatto che i cluster possono avere dimensioni nettamente diverse.
 	\begin{figure}[H]
-		\begin{minipage}[b]{0.30\textwidth}
+		\begin{minipage}[b]{0.50\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{clustering/pict/densita_1.png}
+			\includegraphics[width=0.7\textwidth]{clustering/pict/densita_1.png}
 			\caption{Densità differenti.}
 		\end{minipage}
 		\hfill
-		\begin{minipage}[b]{0.30\textwidth}
+		\begin{minipage}[b]{0.50\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{clustering/pict/densita_2.png}
+			\includegraphics[width=0.7\textwidth]{clustering/pict/densita_2.png}
 			\caption{Densità simili.}
 		\end{minipage}
 	\end{figure}
@@ -470,20 +470,20 @@ Si pone ora il problema di calcolare la prossimità tra due cluster . Ci sono in
 	\item \textit{metodo di Ward}: assume che i cluster siano rappresentati dai centroidi. Misura la prossimità tra due cluster come l'incremento della somma di scarti quadratici che risulta dalla fusione di due cluster.
 \end{itemize}
 	\begin{figure}[H]
-	\begin{minipage}[b]{0.30\textwidth}
+	\begin{minipage}[b]{0.3\linewidth}
 		\centering
-		\includegraphics[width=\textwidth]{clustering/pict/sing_linkage.png}
+		\includegraphics[width=\linewidth]{clustering/pict/sing_linkage.png}
 		\caption{ \textit{Single}}
 	\end{minipage}
 	\hfill
-	\begin{minipage}[b]{0.30\textwidth}
+	\begin{minipage}[b]{0.3\linewidth}
 		\centering
-		\includegraphics[width=\textwidth]{clustering/pict/complete_linkage.png}
+		\includegraphics[width=\linewidth]{clustering/pict/complete_linkage.png}
 		\caption{\textit{Complete}}
 	\end{minipage}
-	\begin{minipage}[b]{0.30\textwidth}
+	\begin{minipage}[b]{0.3\linewidth}
 	\centering
-	\includegraphics[width=\textwidth]{clustering/pict/average_linkage.png}
+	\includegraphics[width=\linewidth]{clustering/pict/average_linkage.png}
 	\caption{\textit{Average}}
 \end{minipage}
 \end{figure}
@@ -799,6 +799,6 @@ Gli indici per gli algoritmi di cluster basati sulle misture probabilistiche son
  
  \begin{figure}[H]
  	\centering
- 	\includegraphics[height=0.250 \linewidth]{clustering/pict/cluster_validity.png}
+ 	\includegraphics[width=0.7 \linewidth]{clustering/pict/cluster_validity.png}
  	\caption{Scelta del numero di cluster a seconda dell'indice.}
  \end{figure}

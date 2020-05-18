@@ -9,8 +9,8 @@ Nel solito dataset dei churn vogliamo determinare se un cliente abbandonerà o m
 Lo scopo è di essere  in grado sia di prevedere quando un cliente abbandonerà un determinato servizio, che di capire \textbf{le motivazioni} che l'hanno spinto a farlo. Questo tipo di compiti può essere portato a termine con l'utilizzo di un modello di \textbf{classificazione}. Un modello di classificazione è un modello che sfrutta alcuni attributi del dataset (\textbf{attributi esplicativi}) per prevedere un valore di un altro attributo (\textbf{attributo di classe}).
 
 \begin{figure}[H]
-	\hspace{-0.5cm}
-	\includegraphics[height=0.2 \linewidth]{classification/pict/class_model.png}
+	\centering
+	\includegraphics[width= \linewidth]{classification/pict/class_model.png}
 	\caption{processo di classificazione}
 \end{figure}
 
@@ -193,8 +193,8 @@ se la retta esiste allora l'insieme delle istanze è \textit{linearmente separab
 Bisogna sostanzialmente trovare una retta che \textbf{massimizza il margine di errore}, l'\textit{optimal linear decision boundary}. 
 
 \begin{figure}[H]
-	\hspace{-0.5cm}
-	\includegraphics[height=0.45 \linewidth]{classification/pict/svm_boundary.png}
+	\centering
+	\includegraphics[width= \linewidth]{classification/pict/svm_boundary.png}
 	\caption{Boundary}
 \end{figure}
 
@@ -232,8 +232,8 @@ E' molto importante notare che vettori di supporto sono quelle osservazioni che 
 \textbf{Soluzione}: Si va a cercare una trasformazione che porti dallo spazio originale in uno spazio delle features in cui posso applicare una separazione lineare. Nel nuovo spazio sono in grado di separare il nuovo dataset in due diverse classi (vedi immagine che segue). 
 
 \begin{figure}[H]
-	\hspace{-0.5cm}
-	\includegraphics[height=0.45 \linewidth]{classification/pict/svm_nonlinear.png}
+	\centering
+	\includegraphics[width=0.9 \linewidth]{classification/pict/svm_nonlinear.png}
 	\caption{Applicazione di una separazione non lineare}
 \end{figure}
 
@@ -259,8 +259,8 @@ Il Multi-Layer Perceptron (MLP) è una tecnica di classificazione che si basa su
 \end{defn}
 
 \begin{figure}[H]
-	\hspace{-0.5cm}
-	\includegraphics[height=0.45 \linewidth]{classification/pict/mlp.png}
+	\centering
+	\includegraphics[width=0.8 \linewidth]{classification/pict/mlp.png}
 	\caption{Esmpio di MLP}
 \end{figure}
 
@@ -301,7 +301,7 @@ Determinare l'architettura della nostra rete è fondamentale per avere buone per
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.5 \linewidth]{classification/pict/mlp_esempio.png}
+	\includegraphics[width=0.9 \linewidth]{classification/pict/mlp_esempio.png}
 	\caption{Esempio MPL con 2 strati nascosti}
 \end{figure}
 
@@ -782,8 +782,9 @@ In questo caso si prende il punto di vista della realtà. Al denominatore si han
 
 Vediamo un esempio sul problema del churn:
 \begin{figure}[H]
-	\hspace{-0.2cm}
-	\includegraphics[height=0.6 \linewidth]{classification/pict/esPrecisionRecall_merge.png}
+	\centering
+	\includegraphics[width=\linewidth]
+	{classification/pict/esPrecisionRecall_merge.png}
 	\caption{Esempio calcolo precision e recall}
 \end{figure}
 Vi è un \textit{legame molto stretto tra questi due indici}, si può avere un recall molto alto ma allora probabilmente avrò una precision bassa. Oppure si può puntare ad avere una precisione alta ma in quei casi probabilmente si avrà una recall bassa.
@@ -799,8 +800,8 @@ Per come è definita un alto valore di $F_1$ implica alti valori di recall e pre
 Esiste una generalizzazione sotto il nome di \textbf{$F_\beta$ mesure} per esaminare il tradeoff tra Precision e Recall:
 	\[ F_\beta = \frac{(\beta^2 + 1) \cdot r \cdot p}{r + \beta^2 \cdot p} \]
 \begin{itemize}
-	\item $F_\beta$ con $\beta = 0$ è la Precisione
-	\item $F_\beta$ con $\beta = \infty$ è la Precisione	
+	\item $F_\beta$ con $\beta = 0$ è la Precision
+	\item $F_\beta$ con $\beta = \infty$ è la Recall
 \end{itemize}
 
 
@@ -823,8 +824,8 @@ Se pensiamo al nostro problema del churner, l'azienda ha interesse ad evitare qu
 \textbf{NB} se matrice di costo è simmetrica allora il costo corrisponde all'accuratezza; per comprenderlo, vediamo il seguente esempio. Confrontiamo le performance di accuracy e costo tra lo \textit{Standard Mailout Procedure} (\textbf{SMP}), procedura già utilizzata per dissuadere i clienti, con il modello nuovo di classificazione \textbf{M} da noi costruito:
 
 \begin{figure}[H]
-	\hspace{-0.3cm}
-	\includegraphics[height=0.3 \linewidth]{classification/pict/esConfMatr.png}
+	\centering
+	\includegraphics[width=\linewidth]{classification/pict/esConfMatr.png}
 	\caption{Matrici di confusione: a sinistra SMP, a destra il modello M}
 \end{figure}
 Ora, però, bisogna associarci la \textbf{matrice di costo} per le rilevazioni e ne risulta:
@@ -946,7 +947,7 @@ Vi sono diversi \textbf{approcci} per rilevare questi attributi:
 \begin{itemize}
 	\item \textit{Brute-force:} si provano tutti i modelli per ogni combinazione di parametri usati nel modello di Classificazione. La computazione di questi casi è troppo grossa, vi sono: \[\sum_{n=1}^{10}\binom{10}{n}\] possibili combinazioni
 	\item \textit{Embedded:} gli attributi sono scelti in base alla capacità del modello della classificazione
-	\item \textbf{Filter}: gli attributi sono selezionati prima del classificatore in base a quelli che si ritengono più rilevanti e meno rilevanti (analisi di funzione obiettivo)
+	\item \textit{Filter}: gli attributi sono selezionati prima del classificatore in base a quelli che si ritengono più rilevanti e meno rilevanti (analisi di funzione obiettivo)
 	\item \textit{Wrapper}: gli attributi si scelgono in base al modello di classificazione scelto, quelli che sono rilevanti per un modello non lo sono per un altro (dipende dall'ipotesi che ho fatto)
 \end{itemize}
 Politica Filter \& Wrapper a confronto
@@ -978,7 +979,7 @@ Le tecniche più utilizzate sono:
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.22 \linewidth]{classification/pict/filter_uni_multi.png}
+	\includegraphics[width=\linewidth] {classification/pict/filter_uni_multi.png}
 	\caption{Vantaggi e svantaggi tra tecniche uni-variate e multi-variate}
 \end{figure}
 \noindent
